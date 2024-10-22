@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List</title>
+</head>
+<body>
+    <table>
+        <tr th:each="list : ${selectList}">
+            <td th:text="${list.mngr_sn}"></td>
+            <td th:text="${list.mngr_id}"></td>
+            <td th:text="${list.mngr_nm}"></td>
+            <td th:text="${list.mngr_eml}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/admin/adminAdd}">등록</a>
+</body>
+</html>

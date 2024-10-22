@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>KB Innovation HUB Admin</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css" />
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <script th:src="@{/component/header.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
+    <script th:src="@{/js/feather.min.js}"></script>
+    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+    <script th:src="@{/js/bootstrap-clockpicker.min.js}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+    <script th:src="@{/js/admin.js}"></script>
+</head>
+
+<body>
+<div class="wrap">
+    <app-header></app-header>
+
+    <main class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="paper">
+                        <h2 class="h4">팝업 관리</h2>
+                        <div class="mt-4">
+                            <div class="col">
+                            </div>
+                            <div class="col">
+                                <div class="top-search d-flex mt-4">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <div class="button-wrap d-flex justify-content-end">
+                                            <a class="btn btn-primary" th:href="@{/popup/add/}">
+                                                <i data-feather="edit"></i> 신규 등록
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <table class="table text-center">
+                                <thead>
+                                <tr>
+                                    <th style="width:5%">NO</th>
+                                    <th style="width:25%">제목</th>
+                                    <th style="width:20%">시작일시</th>
+                                    <th style="width:20%">종료일시</th>
+                                    <th style="width:20%">관리</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="list : ${selectList}">
+                                    <td th:text="${list.popup_sn}"></td>
+                                    <td th:text="${list.mngr_ttl}"></td>
+                                    <td th:text="${list.bgng_ymd}"></td>
+                                    <td th:text="${list.end_ymd}"></td>
+                                    <td>
+                                        <a th:href="@{/popup/modify/{popupId}(popupId=${list.popup_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                        <button th:onclick="deleteAlert([[${list.popup_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 페이지네이션 -->
+                        <nav class="bottom-pagination" aria-label="navigation">
+                            <ul class="pagination">
+                                <!--
+                                    #클래스 가이드
+                                    1. 이전/다음 버튼 비활성화: li 태그에 "disabled" 클래스 추가
+                                    2. 활성화 상태: li태그에 "active" 클래스 및 "aria-current='page'" 추가
+                                 -->
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span data-feather="chevrons-left" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span data-feather="chevron-left" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                <li class="page-item active" aria-current="page"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                <li class="page-item"><a class="page-link" href="#">6</a></li>
+                                <li class="page-item"><a class="page-link" href="#">7</a></li>
+                                <li class="page-item"><a class="page-link" href="#">8</a></li>
+                                <li class="page-item"><a class="page-link" href="#">9</a></li>
+                                <li class="page-item"><a class="page-link" href="#">10</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span data-feather="chevron-right" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span data-feather="chevrons-right" aria-hidden="true"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script th:inline="javascript">
+
+    // 페이지 로드 시 실행
+    window.onload = function () {
+        // 페이지 로드 시 메시지 확인 및 알림 표시
+        // 수정 및 등록 시 띄울 알림창
+        const msg = /*[[${msg}]]*/ '';
+        if (msg) alert(msg);
+    }
+    // 삭제 성공/실패 알림창 띄우기
+    function deleteAlert(popup_sn) {
+        let result = confirm("정말 삭제 하시겠습니까?");
+        if(result) {
+            fetch('/popup/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `popupId=${encodeURIComponent(popup_sn)}`
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert("삭제에 성공하였습니다.");
+                    window.location.href = '/popup/';
+                } else {
+                    alert('삭제에 실패하였습니다.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+</script>
+</body>
+</html>
