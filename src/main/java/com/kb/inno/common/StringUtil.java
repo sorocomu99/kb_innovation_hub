@@ -1,6 +1,6 @@
 package com.kb.inno.common;
 
-import org.apache.commons.lang.StringUtils;
+import org.springframework.util.StringUtils;
 
 public class StringUtil extends StringUtils {
     public static String nullToZero(String value) {
