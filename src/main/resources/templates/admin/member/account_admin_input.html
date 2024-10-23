@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>KB Innovation HUB Admin</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css" />
+  <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+  <script th:src="@{/component/header.js}"></script>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
+  <script th:src="@{/js/feather.min.js}"></script>
+  <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
+  <script th:src="@{/js/bootstrap-clockpicker.min.js}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
+  <script th:src="@{/js/admin.js}"></script>
+</head>
+
+<body>
+<div class="wrap">
+  <app-header></app-header>
+
+  <main class="main">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="paper">
+            <h2 class="h4">관리자 계정 관리</h2>
+            <div class="mt-4">
+              <form>
+                <table class="table table-bordered align-middle">
+                  <tbody>
+                  <tr>
+                    <th class="bg-light" width="20%">아이디</th>
+                    <td>
+                      <!-- <span>admin</span> -->
+                      <input type="text" class="form-control w-auto" id="inputId" value="">
+                    </td>
+                  </tr>
+                  <tr></tr>
+                  <th class="bg-light" width="20%">이름</th>
+                  <td>
+                    <!-- <span>admin</span> -->
+                    <input type="text" class="form-control w-auto" id="inputName" value="">
+                  </td>
+                  </tr>
+                  <tr>
+                    <th class="bg-light" width="20%">비밀번호</th>
+                    <td>
+                      <input type="password" class="form-control w-auto" id="inputPassword">
+                      <p class="mt-2 mb-0">* 수정 희망시에만 입력하세요</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="bg-light" width="20%">비밀번호 확인</th>
+                    <td>
+                      <!--
+                          유효성 체크:
+                          1. input: is-invalid 클래스 추가
+                          2. 텍스트: input 하단에 'invalid-feedback' 이름으로 div 안에 텍스트 추가
+                      -->
+                      <input type="password" class="form-control w-auto is-invalid" id="inputPassword2">
+                      <div class="invalid-feedback">패스워드가 일치하지 않습니다.</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="bg-light" width="20%">이메일</th>
+                    <td>
+                      <input type="email" class="form-control w-auto" id="inputEmail">
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="button-container">
+                  <button type="submit" class="btn btn-primary">등록</button>
+                  <a onclick="history.back();" class="btn btn-outline-primary">목록</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
