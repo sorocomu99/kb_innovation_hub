@@ -23,9 +23,9 @@
 
 <body>
 <main class="form-signin">
-    <form action="/admin/login" method="post">
+    <form th:action="@{/admin/login}" method="post">
         <div class="logo mb-4 mx-auto">
-            <img src="../assets/images/logo.svg" alt="">
+            <img th:src="@{/images/logo.svg}" alt="">
         </div>
         <div class="form-floating">
             <!--

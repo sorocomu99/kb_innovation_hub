@@ -21,11 +21,19 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    // 관리자 계정 관리 리스트 조회
     @GetMapping("/list")
     public String adminList(Model model) {
         List<AdminDTO> selectList = adminService.selectList();
         model.addAttribute("selectList", selectList);
         return directory + "/account_admin";
+    }
+
+    // 관리자 계정 관리 신규 등록 페이지 이동
+    @GetMapping("/add")
+    public String adminAdd(Model model) {
+        AdminDTO adminDTO = new AdminDTO();
+        return directory + "/account_admin_input";
     }
 }
 

@@ -14,15 +14,19 @@ public class LoginController {
 
     private final LoginService loginService;
 
-    @GetMapping("")
+    private final AdminController adminController;
+    
+    // 로그인 페이지 이동
+    @GetMapping("/")
     public String login(Model model) {
         model.addAttribute("loginDTO", new LoginDTO());
         return "/admin/login";
     }
 
+    // 로그인
     @PostMapping("/login")
     public String login(@ModelAttribute("loginDTO") LoginDTO loginDTO, Model model) {
-        model.addAttribute("loginDTO", new LoginDTO());
-        return "/admin/member/account_admin";
+        // 로그인 로직 추가
+        return adminController.adminList(model);
     }
 }
