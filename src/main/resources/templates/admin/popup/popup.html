@@ -133,22 +133,20 @@
     function deleteAlert(popup_sn) {
         let result = confirm("정말 삭제 하시겠습니까?");
         if(result) {
-            fetch('/admin/popup/delete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `popupId=${encodeURIComponent(popup_sn)}`
-            })
-            .then(response => {
-                if (response.ok) {
+            $.ajax({
+                url: [[@{/admin/popup/delete}]], // 요청 URL
+                type: 'POST', // HTTP 메서드
+                    contentType: 'application/x-www-form-urlencoded', // 헤더 설정
+                    data: { popupId: popup_sn }, // 보내는 데이터
+                success: function(response) {
                     alert("삭제에 성공하였습니다.");
-                    window.location.href = '/admin/popup/list/';
-                } else {
+                    window.location.href = [[@{/admin/popup/list}]];
+                },
+                error: function(xhr, status, error) {
                     alert('삭제에 실패하였습니다.');
+                    console.error('Error:', error);
                 }
-            })
-            .catch(error => console.error('Error:', error));
+            });
         }
     }
 </script>
