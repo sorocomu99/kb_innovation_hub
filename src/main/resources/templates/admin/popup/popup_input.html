@@ -204,37 +204,38 @@
     // 서머노트 설정
     $('#summernote').summernote({
         height: 300, // 에디터 높이 설정
+
         callbacks : {
-            onImageUpload : function(files, editor, welEditable) {
-                // 다중 이미지 처리를 위해 for문을 사용했습니다.
-                // for (var i = 0; i < files.length; i++) {
-                //     uploadImage(files[i], this);
-                // }
-                uploadImage(files[0], this);
-            }
+            // onImageUpload : function(files, editor, welEditable) {
+            //     // 다중 이미지 처리를 위해 for문을 사용했습니다.
+            //     // for (var i = 0; i < files.length; i++) {
+            //     //     uploadImage(files[i], this);
+            //     // }
+            //     //uploadImage(files[0], this);
+            // }
         }
     });
 
     function uploadImage(file) {
-        let formData = new FormData();
-        formData.append('file', file);
-
-
-        $.ajax({
-            data : formData,
-            type : "POST",
-            url : '/admin/popup/uploadImage',
-            contentType : false,
-            processData : false,
-            enctype : 'multipart/form-data',
-            success : function(data) {
-                debugger;
-                $('#summernote').summernote('insertImage', "/images/upload/" + data);
-            }, error: function(xhr, status, error) {
-                console.error('Error uploading image:', error);
-                alert('이미지 업로드를 실패하였습니다.');
-            }
-        });
+        // let formData = new FormData();
+        // formData.append('file', file);
+        //
+        //
+        // $.ajax({
+        //     data : formData,
+        //     type : "POST",
+        //     url : '/admin/popup/uploadImage',
+        //     contentType : false,
+        //     processData : false,
+        //     enctype : 'multipart/form-data',
+        //     success : function(data) {
+        //         debugger;
+        //         $('#summernote').summernote('insertImage', "/upload/" + data);
+        //     }, error: function(xhr, status, error) {
+        //         console.error('Error uploading image:', error);
+        //         alert('이미지 업로드를 실패하였습니다.');
+        //     }
+        // });
     }
 
     // 팝업 내용 복사

@@ -53,10 +53,10 @@ public class PopupController {
     public String popupModify(@PathVariable int popupId, Model model) {
         PopupDTO popup = popupService.popupModify(popupId);
         model.addAttribute("popup", popup);
-        return "/popup/popup_input";
+        return "/admin/popup/popup_input";
     }
 
-    // 이미지 업로드 처리
+    // 이미지 업로드
     @PostMapping("/uploadImage")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file) throws IOException {
         try {
@@ -70,7 +70,7 @@ public class PopupController {
             String fileName = UUID.randomUUID().toString() + fileExtension;
 
             // 파일 경로 설정
-            Path path = Paths.get(System.getProperty("user.dir"), "src/main/resources/static/images/");
+            Path path = Paths.get(System.getProperty("user.dir"), "src/main/resources/static/");
             String savePath = path + "/upload/";
 
             // 디렉토리 없으면 생성
@@ -87,11 +87,11 @@ public class PopupController {
 //            Map<String, String> response = new HashMap<>();
 //            response.put("imageUrl", imageUrl);
 
-            return ResponseEntity.ok(fileName);
+            return ResponseEntity.ok().body(fileName);
 
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("업로드 에러");
+            return ResponseEntity.badRequest().build();
         }
     }
 

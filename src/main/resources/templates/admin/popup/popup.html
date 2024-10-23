@@ -66,7 +66,7 @@
                                     <td th:text="${list.bgng_ymd}"></td>
                                     <td th:text="${list.end_ymd}"></td>
                                     <td>
-                                        <a th:href="@{/popup/modify/{popupId}(popupId=${list.popup_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                        <a th:href="@{/admin/popup/modify/{popupId}(popupId=${list.popup_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
                                         <button th:onclick="deleteAlert([[${list.popup_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
                                     </td>
                                 </tr>
