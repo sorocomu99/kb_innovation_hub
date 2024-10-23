@@ -1,7 +1,5 @@
 package com.kb.inno.common;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
 
 public class StringUtil extends StringUtils {
