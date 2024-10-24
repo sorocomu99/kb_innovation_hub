@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,27 +32,28 @@
           <div class="paper">
             <h2 class="h4">관리자 계정 관리</h2>
             <div class="mt-4">
-              <form>
+              <form id="member_input_form" th:action="@{/admin/member/save}" method="post">
+                <input th:if="${member.mngr_sn != 0}" type="hidden" name="mngr_sn" th:value="${member.mngr_sn}"/>
                 <table class="table table-bordered align-middle">
                   <tbody>
                   <tr>
                     <th class="bg-light" width="20%">아이디</th>
                     <td>
                       <!-- <span>admin</span> -->
-                      <input type="text" class="form-control w-auto" id="inputId" value="">
+                      <input th:disabled="${member.mngr_id != null} ? 'disabled'" type="text" class="form-control w-auto" name="mngr_id" th:value="${member.mngr_id}">
                     </td>
                   </tr>
                   <tr></tr>
                   <th class="bg-light" width="20%">이름</th>
                   <td>
                     <!-- <span>admin</span> -->
-                    <input type="text" class="form-control w-auto" id="inputName" value="">
+                    <input type="text" class="form-control w-auto" name="mngr_nm" th:value="${member.mngr_nm}">
                   </td>
                   </tr>
                   <tr>
                     <th class="bg-light" width="20%">비밀번호</th>
                     <td>
-                      <input type="password" class="form-control w-auto" id="inputPassword">
+                      <input type="password" class="form-control w-auto" id="mngr_pswd" name="mngr_pswd">
                       <p class="mt-2 mb-0">* 수정 희망시에만 입력하세요</p>
                     </td>
                   </tr>
@@ -64,14 +65,14 @@
                           1. input: is-invalid 클래스 추가
                           2. 텍스트: input 하단에 'invalid-feedback' 이름으로 div 안에 텍스트 추가
                       -->
-                      <input type="password" class="form-control w-auto is-invalid" id="inputPassword2">
+                      <input type="password" class="form-control w-auto" id="mngr_pswd2">
                       <div class="invalid-feedback">패스워드가 일치하지 않습니다.</div>
                     </td>
                   </tr>
                   <tr>
                     <th class="bg-light" width="20%">이메일</th>
                     <td>
-                      <input type="email" class="form-control w-auto" id="inputEmail">
+                      <input type="email" class="form-control w-auto" name="mngr_eml" th:value="${member.mngr_eml}">
                     </td>
                   </tr>
                   </tbody>
@@ -88,5 +89,18 @@
     </div>
   </main>
 </div>
+<script th:inline="javascript">
+  // form 태그 submit 전에 실행
+  $("#member_input_form").on('submit', function () {
+    // 패스워드 내용 지우기(잘못 되었다는 메시지)
+    $("#mngr_pswd2").removeClass("is-invalid");
+    // 패스워드와 패스워드 확인이 다르면 실행
+    if($("#mngr_pswd").val() != $("#mngr_pswd2").val()) {
+      // 패스워드 내용 적용(잘못 되었다는 메시지)
+      $("#mngr_pswd2").addClass("is-invalid");
+      return false;
+    }
+  });
+</script>
 </body>
 </html>

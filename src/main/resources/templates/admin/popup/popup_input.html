@@ -153,16 +153,6 @@
     </div>
 </div>
 <script th:inline="javascript">
-    window.onload = function() {
-        // 서머 노트에 내용 추가
-        $('#summernote').summernote('code', [[${popup.popup_cn}]]);
-
-        // 페이지 로드 시 메시지 확인 및 알림 표시
-        // 수정 및 등록 시 띄울 알림창
-        const msg = /*[[${msg}]]*/ '';
-        if (msg) alert(msg);
-    }
-
     // 팝업 열기
     function openPopup1(){
         $('#popupContents').html($('#summernote').summernote('code'));
@@ -201,42 +191,50 @@
         inputEnd.value = after.getFullYear() + '-' + pad((after.getMonth() + 1)) + '-' + pad(after.getDate());
     }
 
-    // 서머노트 설정
-    $('#summernote').summernote({
-        height: 300, // 에디터 높이 설정
+    $( document ).ready(function() {
+        // 서머 노트에 내용 추가
+        $('#summernote').summernote('code', [[${popup.popup_cn}]]);
 
-        callbacks : {
-            // onImageUpload : function(files, editor, welEditable) {
-            //     // 다중 이미지 처리를 위해 for문을 사용했습니다.
-            //     // for (var i = 0; i < files.length; i++) {
-            //     //     uploadImage(files[i], this);
-            //     // }
-            //     //uploadImage(files[0], this);
-            // }
+        // 페이지 로드 시 메시지 확인 및 알림 표시
+        // 수정 및 등록 시 띄울 알림창
+        const msg = /*[[${msg}]]*/ '';
+        if (msg) alert(msg);
+
+        // 서머노트 설정
+        $('#summernote').summernote({
+            height: 300, // 에디터 높이 설정
+
+            callbacks : {
+                onImageUpload : function(files, editor, welEditable) {
+                    // 다중 이미지 처리를 위해 for문을 사용했습니다.
+                    // for (var i = 0; i < files.length; i++) {
+                    //     uploadImage(files[i], this);
+                    // }
+                    uploadImage(files[0], this);
+                }
+            }
+        });
+
+        function uploadImage(file) {
+            var formData = new FormData();
+            formData.append('file', file);
+
+            $.ajax({
+                data : formData,
+                type : "POST",
+                url : '/admin/popup/uploadImage',
+                contentType : false,
+                processData : false,
+                enctype : 'multipart/form-data',
+                success : function(data) {
+                    $('#summernote').summernote('insertImage', "/upload/" + data);
+                }, error: function(xhr, status, error) {
+                    console.error('Error uploading image:', error);
+                    alert('이미지 업로드를 실패하였습니다.');
+                }
+            });
         }
     });
-
-    function uploadImage(file) {
-        // let formData = new FormData();
-        // formData.append('file', file);
-        //
-        //
-        // $.ajax({
-        //     data : formData,
-        //     type : "POST",
-        //     url : '/admin/popup/uploadImage',
-        //     contentType : false,
-        //     processData : false,
-        //     enctype : 'multipart/form-data',
-        //     success : function(data) {
-        //         debugger;
-        //         $('#summernote').summernote('insertImage', "/upload/" + data);
-        //     }, error: function(xhr, status, error) {
-        //         console.error('Error uploading image:', error);
-        //         alert('이미지 업로드를 실패하였습니다.');
-        //     }
-        // });
-    }
 
     // 팝업 내용 복사
     $('#popup_input_form').on('submit', function (event) {
