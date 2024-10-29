@@ -66,8 +66,8 @@
                                     <td th:text="${list.mngr_nm}"></td>
                                     <td th:text="${list.mngr_eml}"></td>
                                     <td>
-                                        <a href="account_admin_input.html" class="btn btn-outline-dark btn-sm">수정</a>
-                                        <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                        <a th:href="@{/admin/member/modify/{memberId}(memberId=${list.mngr_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                        <button th:onclick="'deleteAlert(' + ${list.mngr_sn} +')'" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -79,5 +79,28 @@
         </div>
     </main>
 </div>
+<script th:inline="javascript">
+
+    // 삭제 성공/실패 알림창 띄우기
+    function deleteAlert(mngr_sn) {
+        let result = confirm("정말 삭제 하시겠습니까?");
+        if(result) {
+            $.ajax({
+                url: /*[[@{/admin/member/delete}]]*/,
+                type: 'POST', // HTTP 메서드
+                contentType: 'application/x-www-form-urlencoded',
+                data: { memberId: mngr_sn },
+                success: function(response) {
+                alert("삭제에 성공하였습니다.");
+                window.location.href = /*[[@{/admin/member/list}]]*/;
+            },
+            error: function(xhr, status, error) {
+                alert('삭제에 실패하였습니다.');
+                console.error('Error:', error);
+            }
+        });
+        }
+    }
+</script>
 </body>
 </html>

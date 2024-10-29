@@ -1,20 +1,21 @@
+/**
+ * 파일명     : PopupService.java
+ * 화면명     : 팝업 관리
+ * 설명       : 팝업 조회 및 등록, 수정, 삭제 처리
+ * 최초개발일 : 2024.10.24
+ * 최초개발자 : 양윤지
+ * ==========================================================
+ *   수정일            수정자           설명
+ * ==========================================================
+ */
 package com.kb.inno.admin.Service;
 
 import com.kb.inno.admin.DAO.PopupDAO;
 import com.kb.inno.admin.DTO.PopupDTO;
-import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -95,7 +96,7 @@ public class PopupService {
     }
     
     // 팝업 삭제
-    public int delete(String popupId) {
+    public int delete(int popupId) {
         int result = popupDAO.delete(popupId);
         return result;
     }

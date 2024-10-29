@@ -1,10 +1,19 @@
+/**
+ * 파일명     : PopupController.java
+ * 화면명     : 팝업 관리
+ * 설명       : 팝업 조회 및 등록, 수정, 삭제 처리
+ * 최초개발일 : 2024.10.24
+ * 최초개발자 : 양윤지
+ * ==========================================================
+ *   수정일            수정자           설명
+ * ==========================================================
+ */
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.PopupDTO;
 import com.kb.inno.admin.Service.PopupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -81,12 +88,8 @@ public class PopupController {
 
             // 파일 저장
             file.transferTo(new File(savePath, fileName));
-
-//            // 저장 파일 URL을 클라이언트에 반환
-//            String imageUrl = "/upload/images/" + fileName;
-//            Map<String, String> response = new HashMap<>();
-//            response.put("imageUrl", imageUrl);
-
+            
+            // fileName 반환
             return ResponseEntity.ok().body(fileName);
 
         } catch (IOException e) {
@@ -122,10 +125,7 @@ public class PopupController {
 
     // 팝업 삭제
     @PostMapping("/delete")
-    public String popupDelete(@RequestParam("popupId") String popupId) {
-        // 로그 추가
-        System.out.println("Deleting popup with ID: " + popupId);
-
+    public String popupDelete(@RequestParam("popupId") int popupId) {
         int result = popupService.delete(popupId);
         if (result == 1) {
             return "redirect:" + directory + "/list";

@@ -136,8 +136,8 @@
             $.ajax({
                 url: [[@{/admin/popup/delete}]], // 요청 URL
                 type: 'POST', // HTTP 메서드
-                    contentType: 'application/x-www-form-urlencoded', // 헤더 설정
-                    data: { popupId: popup_sn }, // 보내는 데이터
+                contentType: 'application/x-www-form-urlencoded', // 헤더 설정
+                data: { popupId: popup_sn }, // 보내는 데이터
                 success: function(response) {
                     alert("삭제에 성공하였습니다.");
                     window.location.href = [[@{/admin/popup/list}]];

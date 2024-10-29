@@ -2,6 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kb.inno.admin.DAO.PopupDAO">
+    <!-- 팝업 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.PopupDTO">
         SELECT POPUP_SN,
                MNGR_TTL,
@@ -19,24 +20,26 @@
           FROM KB_POPUP_INFO
          ORDER BY POPUP_SN DESC
     </select>
-
+    <!-- 팝업 등록 -->
     <insert id="popupAdd" parameterType="com.kb.inno.admin.DTO.PopupDTO">
-        INSERT INTO KBUSER.KB_POPUP_INFO VALUES(
-                                                   POPUP_SN_SEQ.NEXTVAL,
-                                                   #{mngr_ttl},
-                                                   #{bgng_ymd},
-                                                   #{bgng_hr},
-                                                   #{end_ymd},
-                                                   #{end_hr},
-                                                   #{popup_left_pstn},
-                                                   #{popup_top_pstn},
-                                                   #{popup_cn},
-                                                   #{frst_rgtr},
-                                                   SYSDATE,
-                                                   #{last_mdfr},
-                                                   SYSDATE
-                                               )
+        INSERT INTO KBUSER.KB_POPUP_INFO
+             VALUES (
+                       POPUP_SN_SEQ.NEXTVAL,
+                       #{mngr_ttl},
+                       #{bgng_ymd},
+                       #{bgng_hr},
+                       #{end_ymd},
+                       #{end_hr},
+                       #{popup_left_pstn},
+                       #{popup_top_pstn},
+                       #{popup_cn},
+                       #{frst_rgtr},
+                       SYSDATE,
+                       #{last_mdfr},
+                       SYSDATE
+                   )
     </insert>
+    <!-- 팝업 상세조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.PopupDTO">
         SELECT POPUP_SN,
                MNGR_TTL,
@@ -51,24 +54,26 @@
                FRST_REG_DT,
                LAST_MDFR,
                LAST_MDFCN_DT
-        FROM KB_POPUP_INFO
+          FROM KB_POPUP_INFO
          WHERE POPUP_SN = #{id}
     </select>
+    <!-- 팝업 수정 -->
     <update id="modify" parameterType="com.kb.inno.admin.DTO.PopupDTO">
         UPDATE KB_POPUP_INFO
-           SET MNGR_TTL = #{mngr_ttl},
-               BGNG_YMD = #{bgng_ymd},
-               BGNG_HR = #{bgng_hr},
-               END_YMD = #{end_ymd},
-               END_HR = #{end_hr},
+           SET MNGR_TTL        = #{mngr_ttl},
+               BGNG_YMD        = #{bgng_ymd},
+               BGNG_HR         = #{bgng_hr},
+               END_YMD         = #{end_ymd},
+               END_HR          = #{end_hr},
                POPUP_LEFT_PSTN = #{popup_left_pstn},
-               POPUP_TOP_PSTN = #{popup_top_pstn},
-               POPUP_CN = #{popup_cn},
-               LAST_MDFR = #{last_mdfr},
-               LAST_MDFCN_DT = SYSDATE
-        WHERE POPUP_SN = #{popup_sn}
+               POPUP_TOP_PSTN  = #{popup_top_pstn},
+               POPUP_CN        = #{popup_cn},
+               LAST_MDFR       = #{last_mdfr},
+               LAST_MDFCN_DT   = SYSDATE
+         WHERE POPUP_SN        = #{popup_sn}
     </update>
-    <delete id="delete" parameterType="String">
+    <!-- 팝업 삭제 -->
+    <delete id="delete" parameterType="int">
         DELETE
           FROM KB_POPUP_INFO
          WHERE POPUP_SN = #{popupId}

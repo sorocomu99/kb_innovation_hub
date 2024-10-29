@@ -1,8 +1,0 @@
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kb.inno.admin.DAO.AdminDAO">
-    <select id="selectList" resultType="com.kb.inno.admin.DTO.AdminDTO">
-        SELECT * FROM KBUSER.KB_MNGR_MBR_INFO
-    </select>
-</mapper>
