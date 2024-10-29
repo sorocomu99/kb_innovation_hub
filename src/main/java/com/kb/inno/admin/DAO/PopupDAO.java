@@ -24,7 +24,7 @@ public interface PopupDAO {
     // 팝업 추가
     int popupAdd(PopupDTO popupDTO);
     // 팝업 수정 페이지
-    PopupDTO select(int id);
+    PopupDTO select(int popupId);
     // 팝업 수정
     int modify(PopupDTO popupDTO);
     // 팝업 삭제

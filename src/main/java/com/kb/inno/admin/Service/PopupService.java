@@ -24,8 +24,7 @@ public class PopupService {
 
     // 팝업 리스트
     public List<PopupDTO> selectList() {
-        List<PopupDTO> list = popupDAO.selectList();
-        return list;
+        return popupDAO.selectList();
     }
     
     // 팝업 추가
@@ -52,13 +51,12 @@ public class PopupService {
         end_hr = end_hr.replace(":", "");
         popupDTO.setEnd_hr(end_hr);
 
-        int result = popupDAO.popupAdd(popupDTO);
-        return result;
+        return popupDAO.popupAdd(popupDTO);
     }
 
     // 팝업 조회 페이지
-    public PopupDTO popupModify(int id) {
-        PopupDTO popupDTO = popupDAO.select(id);
+    public PopupDTO select(int popupId) {
+        PopupDTO popupDTO = popupDAO.select(popupId);
 
         if(popupDTO == null) {
             return null;
@@ -90,14 +88,11 @@ public class PopupService {
         end_hr = end_hr.replace(":", "");
         popupDTO.setEnd_hr(end_hr);
 
-        int reuslt = popupDAO.modify(popupDTO);
-
-        return reuslt;
+        return popupDAO.modify(popupDTO);
     }
     
     // 팝업 삭제
     public int delete(int popupId) {
-        int result = popupDAO.delete(popupId);
-        return result;
+        return popupDAO.delete(popupId);
     }
 }

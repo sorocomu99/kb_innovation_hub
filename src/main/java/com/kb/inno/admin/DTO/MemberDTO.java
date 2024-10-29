@@ -16,14 +16,14 @@ import java.util.Date;
 
 @Data
 public class MemberDTO {
-    private int mngr_sn;
-    private String mngr_id;
-    private String mngr_nm;
-    private String mngr_pswd;
-    private String mngr_eml;
-    private Date last_cntn_dt;
-    private int frst_rgtr;
-    private Date frst_reg_dt;
-    private int last_mdfr;
-    private Date last_mdfcn_dt;
+    private int mngr_sn;        // 관리자 일련번호
+    private String mngr_id;     // 관리자 아이디
+    private String mngr_pswd;   // 관리자 비밀번호
+    private String mngr_nm;     // 관리자 명
+    private String mngr_eml;    // 관리자 이메일
+    private Date last_cntn_dt;  // 최종 접속 일시
+    private int frst_rgtr;      // 최초 등록자
+    private Date frst_reg_dt;   // 최초 등록 일시
+    private int last_mdfr;      // 최종 수정자
+    private Date last_mdfcn_dt; // 최종 수정 일시
 }

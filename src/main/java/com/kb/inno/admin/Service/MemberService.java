@@ -78,13 +78,11 @@ public class MemberService {
         // 최종 로그인 이력 값이 없어서 임시 값 대입 : 수정 요망
         memberDTO.setLast_cntn_dt(new Date());
 
-        int result = memberDAO.modify(memberDTO);
-
-        return result;
+        return memberDAO.modify(memberDTO);
     }
-
+    
+    // 관리자 계정 삭제
     public int delete(int memberId) {
-        int result = memberDAO.delete(memberId);
-        return result;
+        return memberDAO.delete(memberId);
     }
 }
