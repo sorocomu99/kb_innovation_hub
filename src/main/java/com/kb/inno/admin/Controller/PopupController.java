@@ -58,7 +58,7 @@ public class PopupController {
     // 팝업 수정 페이지 이동
     @GetMapping("/modify/{popupId}")
     public String popupModify(@PathVariable int popupId, Model model) {
-        PopupDTO popup = popupService.popupModify(popupId);
+        PopupDTO popup = popupService.select(popupId);
         model.addAttribute("popup", popup);
         return "/admin/popup/popup_input";
     }

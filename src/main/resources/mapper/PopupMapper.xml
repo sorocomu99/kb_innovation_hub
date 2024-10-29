@@ -74,7 +74,7 @@
              , LAST_MDFR
              , LAST_MDFCN_DT
           FROM KB_POPUP_INFO
-         WHERE POPUP_SN = #{id}
+         WHERE POPUP_SN = #{popupId}
     </select>
     <!-- 팝업 수정 -->
     <update id="modify" parameterType="com.kb.inno.admin.DTO.PopupDTO">
