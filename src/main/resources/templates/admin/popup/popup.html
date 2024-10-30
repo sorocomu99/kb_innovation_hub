@@ -121,14 +121,6 @@
     </main>
 </div>
 <script th:inline="javascript">
-
-    // 페이지 로드 시 실행
-    window.onload = function () {
-        // 페이지 로드 시 메시지 확인 및 알림 표시
-        // 수정 및 등록 시 띄울 알림창
-        const msg = /*[[${msg}]]*/ '';
-        if (msg) alert(msg);
-    }
     // 삭제 성공/실패 알림창 띄우기
     function deleteAlert(popup_sn) {
         let result = confirm("정말 삭제 하시겠습니까?");

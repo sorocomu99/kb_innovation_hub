@@ -36,7 +36,7 @@
                         <div class="mt-4">
                             <form id="popup_input_form" th:action="@{/admin/popup/save}" method="post">
                                 <table class="table table-bordered align-middle">
-                                    <input th:if="${popup.popup_sn != 0}" type="hidden" name="popup_sn" th:value="${popup?.popup_sn}"/>
+                                    <input th:if="${popup?.popup_sn != 0}" type="hidden" name="popup_sn" th:value="${popup?.popup_sn}"/>
                                     <tbody>
                                     <tr>
                                         <th class="bg-light" width="20%">시작일시</th>
@@ -123,10 +123,10 @@
                                     </tbody>
                                 </table>
                                 <div class="button-container">
-                                    <button th:if="${popup?.popup_sn == 0}" type="submit" class="btn btn-primary">등록하기</button>
-                                    <button th:if="${popup?.popup_sn != 0}" type="submit" class="btn btn-primary">수정하기</button>
+                                    <button th:if="${popup?.popup_sn == null}" type="submit" class="btn btn-primary" onclick="confirmMsg('insert')">등록하기</button>
+                                    <button th:if="${popup?.popup_sn != null}" type="submit" class="btn btn-primary" onclick="confirmMsg('update')">수정하기</button>
                                     <button type="button" class="btn btn-outline-primary" data-bs-toggle="passwordModal" data-bs-target="#exampleModal" onclick="openPopup1()">미리보기</button>
-                                    <a href="javascript:" class="btn btn-outline-primary" th:href="@{/admin/popup/list/}">목록보기</a>
+                                    <a href="javascript:" class="btn btn-outline-primary" th:href="@{/admin/popup/list}">목록보기</a>
                                 </div>
                             </form>
                         </div>
@@ -153,6 +153,14 @@
     </div>
 </div>
 <script th:inline="javascript">
+    // 페이지 로드 시 실행
+    window.onload = function () {
+        // 페이지 로드 시 메시지 확인 및 알림 표시
+        // 수정 및 등록 시 띄울 알림창
+        const msg = /*[[${msg}]]*/ '';
+        if (msg) alert(msg);
+    }
+
     // 팝업 열기
     function openPopup1(){
         $('#popupContents').html($('#summernote').summernote('code'));
@@ -191,56 +199,23 @@
         inputEnd.value = after.getFullYear() + '-' + pad((after.getMonth() + 1)) + '-' + pad(after.getDate());
     }
 
-    $('#summernote').summernote({
-        height: 300, // 에디터 높이 설정
-        callbacks : {
-            onImageUpload: function(files) {
-                uploadImage(files[0], this);
+    // 컨펌 메시지 띄우는 함수
+    function confirmMsg(type) {
+        let message = type == "insert" ? "등록 하시겠습니까?" : "수정 하시겠습니까?";
+        let result = confirm(message);
+        if(!result) {
+            return false;
+        } else {
+            var main_sn = $("input[name=popup_sn]").val();
+            // PK 값이 비어있으면 기본 값 0 세팅
+            if(main_sn == "") {
+                $("input[name=popup_sn]").val(0);
             }
+            // 폼 태그 서브밋 보내기
+            f=document.main_form;
+            f.submit();
         }
-    });
-
-    function uploadImage(file) {
-        var formData = new FormData();
-        formData.append('file', file);
-        $.ajax({
-            data : formData,
-            type : "POST",
-            url : '/admin/popup/uploadImage',
-            contentType : false,
-            processData : false,
-            enctype : 'multipart/form-data',
-            success : function(data) {
-                $('#summernote').summernote('insertImage', "/upload/" + data);
-            }, error: function(xhr, status, error) {
-                console.error('Error uploading image:', error);
-                alert('이미지 업로드를 실패하였습니다.');
-            }
-        });
     }
-
-    $(document).ready(function() {
-        // 서머 노트에 내용 추가
-        // $('#summernote').summernote('code', [[${popup.popup_cn}]] '');
-
-        // 페이지 로드 시 메시지 확인 및 알림 표시
-        // 수정 및 등록 시 띄울 알림창
-        const msg = /*[[${msg}]]*/ '';
-        if (msg) alert(msg);
-
-        // 팝업 내용 복사
-        $('#popup_input_form').on('submit', function (event) {
-            // 서머노트에 담긴 내용 textarea에 담기
-            $('#popup_cn').val($('#summernote').summernote('code'));
-            // 값에 따라 수정/등록 알림 출력
-            let confirmMsg = [[${popup.popup_sn}]] != 0 ? confirm("수정 하시겠습니까?") : confirm("등록 하시겠습니까?");
-            // 만약 확인을 눌렀다면
-            if(confirmMsg) {
-                // FormData 객체 생성
-                // let formData = new FormData(this); // 현재 폼의 데이터를 가져옴
-            }
-        });
-    });
 </script>
 </body>
 </html>
