@@ -35,7 +35,7 @@
             <h2 class="h4">메인 비주얼 등록</h2>
             <div class="mt-4">
               <form th:action="@{/admin/visual/save}" method="post" enctype="multipart/form-data">
-                <input th:if="${visual.main_sn != 0}" id="main_sn" type="hidden" name="main_sn" th:value="${visual.main_sn}"/>
+                <input th:if="${visual.main_sn != 0}" id="main_sn" type="hidden" name="main_sn" th:value="${visual?.main_sn}"/>
                 <table class="table table-bordered align-middle">
                   <tbody>
                   <tr>
@@ -43,7 +43,7 @@
                     <td>
                       <div class="d-flex align-items-center">
                         <input class="form-control w-auto" type="file" id="formFile" name="main_file" onchange="preview()">
-                        <button type="button" onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>
+<!--                        <button type="button" onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>-->
                       </div>
                       <img id="previewFrame" src="" width="200" class="img-fluid mt-2" style="display:none" />
                       <p class="mb-0 mt-2">
@@ -56,18 +56,18 @@
                     <th class="bg-light">텍스트</th>
                     <td>
                       <!-- <input type="text" class="form-control" value=""> -->
-                      <textarea class="form-control" id="formText" rows="2" name="main_cn" th:text="${visual.main_cn}"></textarea>
+                      <textarea class="form-control" id="formText" rows="2" name="main_cn" th:text="${visual?.main_cn}"></textarea>
                     </td>
                   </tr>
                   <tr>
                     <th class="bg-light">노출여부</th>
                     <td>
                       <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="expsr_yn" id="inlineRadio1" value="Y" th:checked="${visual.expsr_yn eq 'Y'}">
+                        <input class="form-check-input" type="radio" name="expsr_yn" id="inlineRadio1" value="Y" th:checked="${visual?.expsr_yn eq 'Y'}">
                         <label class="form-check-label" for="inlineRadio1">노출</label>
                       </div>
                       <div class="form-check form-check-inline">
-                        <input checked class="form-check-input" type="radio" name="expsr_yn" id="inlineRadio2" value="N" th:checked="${visual.expsr_yn eq 'N'}">
+                        <input checked class="form-check-input" type="radio" name="expsr_yn" id="inlineRadio2" value="N" th:checked="${visual?.expsr_yn eq 'N'}">
                         <label class="form-check-label" for="inlineRadio2">미노출</label>
                       </div>
                     </td>
@@ -76,7 +76,7 @@
                     <th class="bg-light">정렬</th>
                     <td>
                       <div class="d-flex">
-                        <input class="form-control" type="number" id="formIndex" name="sort_no" th:value="${visual.sort_no}" style="width:100px">
+                        <input class="form-control" type="number" id="formIndex" name="sort_no" th:value="${visual?.sort_no}" style="width:100px">
                         <p class="mb-0 mt-2 ms-3">* 숫자가 낮을수록 상위 노출됩니다.</p>
                       </div>
                     </td>

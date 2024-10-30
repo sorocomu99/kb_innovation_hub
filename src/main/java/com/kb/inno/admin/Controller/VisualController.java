@@ -46,8 +46,7 @@ public class VisualController {
 
     // 메인 비주얼 등록 페이지 이동
     @GetMapping("/add")
-    public String addVisual(Model model) {
-        model.addAttribute("visual", new VisualDTO());
+    public String addVisual() {
         return directory + "/main_input";
     }
 

@@ -50,8 +50,7 @@ public class PopupController {
     
     // 팝업 추가 페이지 이동
     @GetMapping("/add")
-    public String popupAdd(Model model) {
-        model.addAttribute("popup", new PopupDTO());
+    public String popupAdd() {
         return directory + "/popup_input";
     }
 
