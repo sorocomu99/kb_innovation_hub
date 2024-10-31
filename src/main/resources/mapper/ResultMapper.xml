@@ -20,6 +20,7 @@
     </select>
     <!-- 주요 성과 보고 관리 추가 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.ResultDTO">
+        /* 주요 성과 보고 관리 추가 */
         INSERT INTO KB_RSLT_INFO
         (
          RSLT_SN
@@ -51,6 +52,7 @@
     </insert>
     <!-- 주요 성과 보고 관리 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.ResultDTO">
+        /* 주요 성과 보고 관리 수정 */
         UPDATE KB_RSLT_INFO
            SET ENT_NOCS            = #{ent_nocs}
              , ENT_CRTR_YMD        = #{ent_crtr_ymd}
