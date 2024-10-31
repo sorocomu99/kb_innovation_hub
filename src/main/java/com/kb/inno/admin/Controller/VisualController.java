@@ -60,7 +60,7 @@ public class VisualController {
 
     // 메인 비주얼 등록, 수정
     @PostMapping("/save")
-    public String saveVisual(VisualDTO visualDTO, RedirectAttributes redirectAttributes) throws IOException {
+    public String saveVisual(VisualDTO visualDTO, RedirectAttributes redirectAttributes) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
         // 수정 요망 : 임시 아이디 값
         int loginId = 1;
@@ -71,7 +71,7 @@ public class VisualController {
         if (visualDTO.getMain_sn() == 0) {
             result = visualService.addVisual(visualDTO, loginId);
         } else {
-            // result = visualService.popupModify(visualDTO, file, loginId);
+            result = visualService.modifyVisual(visualDTO, loginId);
         }
 
         // 결과 메시지 설정
@@ -87,10 +87,7 @@ public class VisualController {
     // 메인 비주얼 삭제
     @PostMapping("/delete")
     public String deleteVisual(@RequestParam("visualId") int visualId) {
-        int result = visualService.deleteVisual(visualId);
-        if (result == 1) {
-            return "redirect:" + directory + "/list";
-        }
+        visualService.deleteVisual(visualId);
         return directory + "/main_input";
     }
 }

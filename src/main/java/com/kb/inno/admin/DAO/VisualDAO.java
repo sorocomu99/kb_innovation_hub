@@ -35,4 +35,6 @@ public interface VisualDAO {
     int deleteVisual(int visualId);
     // 메인 비주얼 파일 삭제
     int deleteFile(int fileId);
+    // 메인 비주얼 수정
+    int modifyVisual(VisualDTO visualDTO);
 }

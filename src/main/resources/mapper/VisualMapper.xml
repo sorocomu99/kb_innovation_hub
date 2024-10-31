@@ -107,4 +107,15 @@
           FROM KB_FILE_INFO
          WHERE FILE_SN = #{fileId}
     </delete>
+    <!-- 메인 비주얼 수정 -->
+    <update id="modifyVisual">
+        UPDATE KB_MAIN_INFO
+           SET MAIN_CN       = #{main_cn}
+             , EXPSR_YN      = #{expsr_yn}
+             , SORT_NO       = #{sort_no}
+             , ATCH_FILE_SN  = #{atch_file_sn}
+             , LAST_MDFR     = #{last_mdfr}
+             , LAST_MDFCN_DT = SYSDATE
+         WHERE MAIN_SN       = #{main_sn}
+    </update>
 </mapper>

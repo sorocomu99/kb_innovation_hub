@@ -94,14 +94,17 @@
       $.ajax({
         url: [[@{/admin/visual/delete}]], // 요청 URL
         type: 'POST', // HTTP 메서드
-                contentType: 'application/x-www-form-urlencoded', // 헤더 설정
-                data: { visualId: visual_sn }, // 보내는 데이터
+        contentType: 'application/x-www-form-urlencoded', // 헤더 설정
+        data: { visualId: visual_sn }, // 보내는 데이터
         success: function(response) {
-          alert("삭제에 성공하였습니다.");
-          window.location.href = [[@{/admin/visual/list}]];
+          if(response == 0) {
+            alert('삭제에 실패하였습니다.');
+          } else {
+            alert("삭제에 성공하였습니다.");
+            window.location.href = [[@{/admin/visual/list}]];
+          }
         },
         error: function(xhr, status, error) {
-          alert('삭제에 실패하였습니다.');
           console.error('Error:', error);
         }
       });
