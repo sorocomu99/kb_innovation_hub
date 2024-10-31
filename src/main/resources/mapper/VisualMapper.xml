@@ -13,6 +13,7 @@
              , IMG.FILE_NM AS MAIN_FILE_NAME
              , IMG.FILE_PATH AS MAIN_PATH
           FROM KB_MAIN_INFO VISUAL, KB_FILE_INFO IMG
+         WHERE VISUAL.ATCH_FILE_SN = IMG.FILE_SN
          ORDER BY MAIN_SN DESC
     </select>
     <!-- 메인 비주얼 파일 추가 -->
