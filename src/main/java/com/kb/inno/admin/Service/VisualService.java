@@ -199,10 +199,4 @@ public class VisualService {
 
         return visualDAO.modifyVisual(visualDTO);
     }
-
-    // 업로드 파일 삭제
-    public Boolean removeFile(String uploadPath, String fileName) {
-        File file = new File(uploadPath, fileName);
-        return file.delete();
-    }
 }
