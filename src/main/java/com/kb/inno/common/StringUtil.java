@@ -100,7 +100,7 @@ public class StringUtil extends StringUtils {
     }
 
     /**
-     * 숫자 0dl sjadjdhaus ""로 대치
+     * 숫자 0이 넘어오면 ""로 대치
      * @param num 대상 숫자
      * @return java.lang.String
      */

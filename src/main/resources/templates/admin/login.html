@@ -23,7 +23,7 @@
 
 <body>
 <main class="form-signin">
-    <form th:action="@{/admin/login}" method="post">
+    <form name="form1" method="post">
         <div class="logo mb-4 mx-auto">
             <img th:src="@{/images/logo.svg}" alt="">
         </div>
@@ -33,21 +33,21 @@
                 1. input: is-invalid 클래스 추가
                 2. 텍스트: input 하단에 'invalid-feedback' 이름으로 div 안에 텍스트 추가
             -->
-            <input type="text" class="form-control is-invalid" id="floatingInput" placeholder="아이디">
-            <label for="floatingInput">아이디</label>
+            <input type="text" class="form-control" id="mngr_id" name="mngr_id" placeholder="아이디">
+            <label for="mngr_id">아이디</label>
             <!-- 유효성 체크 -->
-            <div class="invalid-feedback">아이디가 일치하지 않습니다.</div>
+            <div class="invalid-feedback" id="idVal">아이디가 일치하지 않습니다.</div>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control is-invalid" id="floatingPassword" placeholder="비밀번호">
-            <label for="floatingPassword">비밀번호</label>
+            <input type="password" class="form-control" id="mngr_pswd" name="mngr_pswd" placeholder="비밀번호">
+            <label for="mngr_pswd">비밀번호</label>
             <!-- 유효성 체크 -->
-            <div class="invalid-feedback">패스워드가 일치하지 않습니다.</div>
+            <div class="invalid-feedback" id="pwVal">패스워드가 일치하지 않습니다.</div>
         </div>
         <div class="mt-3">
             <a class="text-dark text-decoration-none" href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">비밀번호 찾기</a>
         </div>
-        <button class="mt-4 w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+        <button class="mt-4 w-100 btn btn-lg btn-primary" id="loginBtn">로그인</button>
     </form>
 </main>
 
@@ -80,6 +80,57 @@
     </div>
 </div>
 
-<script src="../assets/js/admin.js"></script>
+<script th:inline="javascript">
+    $('#loginBtn').click(function() {
+        var mngr_id = $("#mngr_id").val();
+        var mngr_pswd = $("#mngr_pswd").val();
+
+        //$("#loginId").removeClass("is-invalid");
+        //$("#password").removeClass("is-invalid");
+
+        if (mngr_id == null || mngr_id == "") {
+            document.getElementById('idVal').innerHTML = '아이디를 입력하세요.';
+            $("#mngr_id").last().addClass("is-invalid");
+
+            return false;
+        }
+
+        if (mngr_pswd == null || mngr_pswd == "") {
+            document.getElementById('idVal').innerHTML = '비밀번호를 입력하세요.';
+            $("#mngr_pswd").last().addClass("is-invalid");
+
+            return false;
+        }
+
+        $.ajax({
+            url: '/admin/loginProc',
+            type: 'POST', // HTTP 메서드
+            data: { mngr_id: mngr_id, mngr_pswd:mngr_pswd },
+            dataType:'json',
+            contentType : "application/x-www-form-urlencoded; charset=UTF-8",
+            success: function(data) {
+                console.log(data.success);
+                if (data.success == "success") {
+                    alert(data.message);
+                    location.href = "/admin/member/list";
+                } else if (data.success == "fail") {
+                    alert(data.message);
+                    location.href = "/admin/";
+                }
+            },
+            error: function(xhr, status, error) {
+                alert("로그인에 실패하였습니다.\n아이디 및 비빌번호를 확인하세요.");
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    $( document ).ready(function() {
+        // 페이지 로드 시 메시지 확인 및 알림 표시
+        // 수정 및 등록 시 띄울 알림창
+        const msg = /*[[${msg}]]*/ '';
+        if (msg) alert(msg);
+    });
+</script>
 </body>
 </html>
