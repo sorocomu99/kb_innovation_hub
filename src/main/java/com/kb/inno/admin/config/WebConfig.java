@@ -1,3 +1,14 @@
+/**
+ * 파일명     : WebConfig.java
+ * 화면명     : 없음
+ * 설명       : 관리자 화면 접속시 URL 패턴 추가
+ * 최초개발일 : 2024.10.23
+ * 최초개발자 : 이훈희
+ * ==========================================================
+ *   수정일            수정자           설명
+ * ==========================================================
+ *
+ */
 package com.kb.inno.admin.config;
 
 import com.kb.inno.admin.interceptor.Interceptor;
@@ -19,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
         Interceptor interceptor = new Interceptor();
 
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/admin/**")
+                .addPathPatterns("/admin/popup/**", "/admin/member/**", "/admin/visual/**")
                 .excludePathPatterns("/css/**", "/images/**", "/js/**, /enov/component/**");
     }
 }
