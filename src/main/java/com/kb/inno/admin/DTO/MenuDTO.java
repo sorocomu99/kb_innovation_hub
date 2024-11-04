@@ -16,14 +16,14 @@ import java.util.Date;
 
 @Data
 public class MenuDTO {
-    private int menu_sn;
-    private String menu_nm;
-    private int menu_depth;
-    private int menu_up_sn;
-    private int menu_sort;
-    private String use_yn;
-    private int frst_rgtr;
-    private Date frst_reg_dt;
-    private int last_mdfr;
-    private Date last_mdfcn_dt;
+    private int menu_sn;        // 메뉴 일련번호
+    private String menu_nm;     // 메뉴명
+    private int menu_depth;     // 메뉴뎁스
+    private int menu_up_sn;     // 메뉴 상위 일련번호
+    private int menu_sort;      // 메뉴 정렬
+    private String use_yn;      // 사용 여부
+    private int frst_rgtr;      // 최초 등록자
+    private Date frst_reg_dt;   // 최초 등록 일시
+    private int last_mdfr;      // 최종 수정자
+    private Date last_mdfcn_dt; // 최종 수정 일시
 }
