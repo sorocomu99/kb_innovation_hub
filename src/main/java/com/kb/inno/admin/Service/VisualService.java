@@ -33,10 +33,8 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class VisualService {
-
-    // Logger
-    private final Logger log = LoggerFactory.getLogger(getClass());
 
     // DAO 연결
     private final VisualDAO visualDAO;

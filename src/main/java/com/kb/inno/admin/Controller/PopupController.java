@@ -10,6 +10,7 @@
  */
 package com.kb.inno.admin.Controller;
 
+import ch.qos.logback.core.util.FileUtil;
 import com.kb.inno.admin.DTO.PopupDTO;
 import com.kb.inno.admin.Service.PopupService;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +18,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -64,37 +67,35 @@ public class PopupController {
 
     // 이미지 업로드
     @PostMapping("/uploadImage")
-    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file) throws IOException {
-        try {
-            // 오리지널 파일 이름
-            String originalFileName = file.getOriginalFilename();
+    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file) {
+        // 오리지널 파일 이름
+        String originalFileName = file.getOriginalFilename();
 
-            // 파일 확장자 설정
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        // 파일 확장자 설정
+        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
 
-            // 파일 이름 설정
-            String fileName = UUID.randomUUID().toString() + fileExtension;
+        // 파일 이름 설정
+        String fileName = UUID.randomUUID().toString() + fileExtension;
 
-            // 파일 경로 설정
-            Path path = Paths.get(System.getProperty("user.dir"), "src/main/resources/static/");
-            String savePath = path + "/upload/";
+        // 파일 경로 설정
+        Path path = Paths.get(System.getProperty("user.dir"), "src/main/resources/static/").toAbsolutePath().normalize();
+        String savePath = path + "\\upload\\";
 
-            // 디렉토리 없으면 생성
-            File directory = new File(savePath);
-            if(!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            // 파일 저장
-            file.transferTo(new File(savePath, fileName));
-            
-            // fileName 반환
-            return ResponseEntity.ok().body(fileName);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+        // 디렉토리 없으면 생성
+        File directory = new File(savePath);
+        if(!directory.exists()) {
+            directory.mkdirs();
         }
+
+        // 파일 저장
+        try {
+            file.transferTo(new File(savePath, fileName));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // fileName 반환
+        return ResponseEntity.ok().body(fileName);
     }
 
     // 팝업 추가, 수정

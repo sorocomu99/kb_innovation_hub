@@ -130,14 +130,6 @@
     </div>
 </div>
 <script th:inline="javascript">
-    // 페이지 로드 시 실행
-    window.onload = function () {
-        // 페이지 로드 시 메시지 확인 및 알림 표시
-        // 수정 및 등록 시 띄울 알림창
-        const msg = /*[[${msg}]]*/ '';
-        if (msg) alert(msg);
-    }
-
     // 팝업 열기
     function openPopup1(){
         $('#popupContents').html($('#summernote').summernote('code'));
@@ -192,6 +184,45 @@
             f=document.main_form;
             f.submit();
         }
+    }
+
+    // 이미지 업로드 함수
+    function uploadImage(file) {
+        var formData = new FormData();
+        formData.append('file', file);
+
+        $.ajax({
+            data : formData,
+            type : "POST",
+            url : '/admin/popup/uploadImage',
+            contentType : false,
+            processData : false,
+            enctype : 'multipart/form-data',
+            success : function(data) {
+                $('#summernote').summernote('insertImage', "/upload/" + data);
+            }, error: function(xhr, status, error) {
+                console.error('Error uploading image:', error);
+                alert('이미지 업로드를 실패하였습니다.');
+            }
+        });
+    }
+
+    // 썸머노트 이미지 서버에 저장 후 가져와서 화면에 출력
+    $('#summernote').summernote({
+        height: 300, // 에디터 높이 설정
+        callbacks : {
+            onImageUpload: function(files) {
+                uploadImage(files[0], this);
+            }
+        }
+    });
+
+    // 페이지 로드 시 실행
+    window.onload = function () {
+        // 페이지 로드 시 메시지 확인 및 알림 표시
+        // 수정 및 등록 시 띄울 알림창
+        const msg = /*[[${msg}]]*/ '';
+        if (msg) alert(msg);
     }
 </script>
 </body>
