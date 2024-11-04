@@ -24,7 +24,7 @@ public interface VisualDAO {
     // 메인 비주얼 게시글 리스트 조회
     List<VisualDTO> selectList();
     // 메일 비주얼 파일 조회
-    FileDTO selectFile();
+    FileDTO selectFile(int file_sn);
     // 메인 비주얼 파일 추가
     int addFile(FileDTO fileDTO);
     // 메인 비주얼 게시글 추가

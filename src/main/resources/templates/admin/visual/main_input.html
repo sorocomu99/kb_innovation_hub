@@ -13,6 +13,8 @@
             <div class="mt-4">
               <form name="main_form" th:action="@{/admin/visual/save}" method="post" enctype="multipart/form-data">
                 <input th:if="${visual?.main_sn != 0}" id="main_sn" type="hidden" name="main_sn" th:value="${visual?.main_sn}"/>
+                <input type="hidden" name="atch_file_sn" th:value="${visual?.atch_file_sn}"/>
+                <input type="hidden" id="file_yn" name="file_yn" value="0"/>
                 <table class="table table-bordered align-middle">
                   <tbody>
                   <tr>
@@ -22,7 +24,7 @@
                         <input class="form-control w-auto" type="file" id="formFile" name="main_file" onchange="preview()">
 <!--                        <button type="button" onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>-->
                       </div>
-                      <img id="previewFrame" src="" width="200" class="img-fluid mt-2" style="display:none" />
+                      <img id="previewFrame" th:src="'/upload/' + ${visual?.main_file_name}" width="200" class="img-fluid mt-2" style="display:none" />
                       <p class="mb-0 mt-2">
                         * 권장 사이즈 : 1920x978px
                         <!-- 업로드 가능한 파일: <span class="fw-bold">mp4</span> / <span class="fw-bold text-danger">10MB 미만</span> -->
@@ -93,6 +95,7 @@
 
   function preview() {
     previewFrame.src = URL.createObjectURL(event.target.files[0]);
+    document.querySelector("#file_yn").value = 1;
     document.querySelector('#previewFrame').style.display = "block";
     document.querySelector('#deleteThumbnail').style.display = "block";
   }
@@ -110,7 +113,11 @@
       return false;
     } else {
       var main_sn = $("input[name=main_sn]").val();
+      var file_sn = $("input[name=atch_file_sn]").val();
       // PK 값이 비어있으면 기본 값 0 세팅
+      if(file_sn == "") {
+        $("input[name=atch_file_sn]").val(0);
+      }
       if(main_sn == "") {
         $("input[name=main_sn]").val(0);
       }

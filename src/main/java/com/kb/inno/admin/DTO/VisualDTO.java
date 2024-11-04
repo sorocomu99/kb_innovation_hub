@@ -31,4 +31,5 @@ public class VisualDTO {
     private String main_file_name;   // 메인 비주얼 파일명
     private String origin_file_name; // 메인 비주얼 오리지널 파일명
     private String main_path;        // 메인 비주얼 파일 경로
+    private int file_yn;             // 파일이 담겨있는 지 아닌지 확인
 }

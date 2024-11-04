@@ -160,13 +160,12 @@ public class VisualService {
 
     // 메인 비주얼 수정
     public int modifyVisual(VisualDTO visualDTO, int loginId) {
-        int result = 0;
 
         // 파일을 새로 등록했는 지 확인
-        MultipartFile file = visualDTO.getMain_file();
+        int fileYn = visualDTO.getFile_yn();
 
         // 만약 파일을 새로 등록했다면 파일 테이블 포함 저장
-        if(file != null) {
+        if(fileYn != 0) {
             // 0. 기존 파일 재조회
             VisualDTO basicFile = visualDAO.select(visualDTO.getMain_sn());
 
@@ -181,10 +180,10 @@ public class VisualService {
                 // 테이블에 있는 파일 삭제
                 visualDAO.deleteFile(basicFile.getAtch_file_sn());
             }
-            
+
             // 3. 새로운 파일 경로에 저장
             FileDTO fileSave = saveFile(visualDTO, loginId);
-            
+
             // 4. 새로운 파일 테이블에 저장
             if(fileSave != null) {
                 // 파일 일련번호 대입
