@@ -137,7 +137,7 @@ public class VisualService {
     }
 
     // 메인 비주얼 삭제
-    public int deleteVisual(int visualId) {
+    public void deleteVisual(int visualId) {
         // 변수 생성
         int result = 0;
         // 메인 비주얼 상세 조회
@@ -153,9 +153,8 @@ public class VisualService {
             // 파일 삭제
             visualDAO.deleteFile(fileId);
             // 비주얼 삭제
-            result = visualDAO.deleteVisual(visualId);
+            visualDAO.deleteVisual(visualId);
         }
-        return result;
     }
 
     // 메인 비주얼 수정
