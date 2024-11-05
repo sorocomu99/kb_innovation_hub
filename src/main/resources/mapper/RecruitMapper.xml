@@ -46,6 +46,7 @@
     </insert>
     <!-- 채용 지원 관리 수정 -->
     <update id="modify" parameterType="com.kb.inno.admin.DTO.RecruitDTO">
+        /* 채용 지원 관리 수정 */
         UPDATE KB_EMPLOY_INFO
            SET EMPLOY_YR       = #{employ_yr}
              , EMPLOY_EMP_NOCS = #{employ_emp_nocs}
