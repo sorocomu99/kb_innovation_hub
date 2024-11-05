@@ -66,7 +66,7 @@
                   <button th:if="${visual?.main_sn == null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('insert')">등록하기</button>
                   <button th:if="${visual?.main_sn != null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('modify')">수정하기</button>
                   <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
-                  <a href="javascript:" class="btn btn-outline-primary" th:href="@{/admin/visual/list/}">목록보기</a>
+                  <a class="btn btn-outline-primary" th:href="@{/admin/visual/list/}">목록보기</a>
                 </div>
               </form>
             </div>

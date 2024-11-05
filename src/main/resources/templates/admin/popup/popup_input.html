@@ -102,8 +102,8 @@
                                 <div class="button-container">
                                     <button th:if="${popup?.popup_sn == null}" type="submit" class="btn btn-primary" onclick="confirmMsg('insert')">등록하기</button>
                                     <button th:if="${popup?.popup_sn != null}" type="submit" class="btn btn-primary" onclick="confirmMsg('update')">수정하기</button>
-                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="passwordModal" data-bs-target="#exampleModal" onclick="openPopup1()">미리보기</button>
-                                    <a href="javascript:" class="btn btn-outline-primary" th:href="@{/admin/popup/list}">목록보기</a>
+                                    <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                    <a class="btn btn-outline-primary" th:href="@{/admin/popup/list}">목록보기</a>
                                 </div>
                             </form>
                         </div>
@@ -130,16 +130,6 @@
     </div>
 </div>
 <script th:inline="javascript">
-    // 팝업 열기
-    function openPopup1(){
-        $('#popupContents').html($('#summernote').summernote('code'));
-        popup1.style.display = 'block';
-    }
-    // 팝업 닫기
-    function closePopup1(){
-        popup1.style.display = 'none';
-    }
-
     // 시작/종료 일시 체크
     let today = new Date();
     let year = today.getFullYear(); // 년도
