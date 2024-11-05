@@ -174,8 +174,6 @@ public class AffiliateService {
 
     // 제휴 사례 관리 삭제
     public void delete(int affiliateSn) {
-        // 변수 생성
-        int result = 0;
         // 메인 비주얼 상세 조회
         AffiliateDTO selectInfo = affiliateDAO.select(affiliateSn);
         // 조회한 것에서 file_id 꺼내기
