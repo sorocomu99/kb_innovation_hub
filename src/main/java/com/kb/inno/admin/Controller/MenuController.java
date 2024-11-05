@@ -35,6 +35,13 @@ public class MenuController {
     // 공통 경로 설정
     @Value("/admin/menu")
     private String directory;
+
+    // 메뉴 리스트 조회 : 메뉴 조회
+    @GetMapping("/")
+    public ResponseEntity<Object> index() {
+        List<MenuDTO> selectList = menuService.selectList();
+        return ResponseEntity.ok().body(selectList);
+    }
     
     // 메뉴 리스트 조회
     @GetMapping("/list")
@@ -51,6 +58,7 @@ public class MenuController {
         return ResponseEntity.ok().body(select);
     }
 
+    // 메뉴 수정
     @PostMapping("/modify")
     public String modify(RedirectAttributes redirectAttributes, MenuDTO menuDTO) {
         int result = menuService.modify(menuDTO);

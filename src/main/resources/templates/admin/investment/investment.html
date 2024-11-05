@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragment/config :: configFragment}"></head>
+<body>
+    <div class="wrap">
+        <app-header></app-header>
+        <main class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="paper">
+                            <h2 class="h4">협업성과 - 투자 그래프 관리</h2>
+                            <div class="mt-4">
+                                <form th:action="@{/admin/investment/save}" method="post" name="investment_form">
+                                    <input type="hidden" th:value="${select?.graph_sn}" name="graph_sn"/>
+                                    <table class="table table-bordered align-middle">
+                                        <tbody>
+                                            <tr>
+                                                <th class="bg-light" style="width:18%">기준년월</th>
+                                                <td>
+                                                    <input type="text" class="form-control" name="crtr_ym" th:value="${select?.crtr_ym}" placeholder=" ex) 2024년 10월 기준">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <table class="table table-bordered align-middle">
+                                        <tbody>
+                                            <tr>
+                                                <th class="bg-light text-center" colspan="2" style="width:20%">그래프 1</th>
+                                                <th class="bg-light text-center" colspan="2" style="width:20%">그래프 2</th>
+                                                <th class="bg-light text-center" colspan="2" style="width:20%">그래프 3</th>
+                                                <th class="bg-light text-center" colspan="2" style="width:20%">그래프 4</th>
+                                                <th class="bg-light text-center" colspan="2" style="width:20%">그래프 5</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-light" style="width:8%">연도</th>
+                                                <td><input type="number" class="form-control" name="graph1_yr" th:value="${select?.graph1_yr}" placeholder=" ex) 2024"></td>
+                                                <th class="bg-light" style="width:8%">연도</th>
+                                                <td><input type="number" class="form-control" name="graph2_yr" th:value="${select?.graph2_yr}" placeholder=" ex) 2024"></td>
+                                                <th class="bg-light" style="width:8%">연도</th>
+                                                <td><input type="number" class="form-control" name="graph3_yr" th:value="${select?.graph3_yr}" placeholder=" ex) 2024"></td>
+                                                <th class="bg-light" style="width:8%">연도</th>
+                                                <td><input type="number" class="form-control" name="graph4_yr" th:value="${select?.graph4_yr}" placeholder=" ex) 2024"></td>
+                                                <th class="bg-light" style="width:8%">연도</th>
+                                                <td><input type="number" class="form-control" name="graph5_yr" th:value="${select?.graph5_yr}" placeholder=" ex) 2024"></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-light">기업 수</th>
+                                                <td><input type="number" class="form-control" name="graph1_nocs" th:value="${select?.graph1_nocs}" placeholder=" ex) 123"></td>
+                                                <th class="bg-light">기업 수</th>
+                                                <td><input type="number" class="form-control" name="graph2_nocs" th:value="${select?.graph2_nocs}" placeholder=" ex) 123"></td>
+                                                <th class="bg-light">기업 수</th>
+                                                <td><input type="number" class="form-control" name="graph3_nocs" th:value="${select?.graph3_nocs}" placeholder=" ex) 123"></td>
+                                                <th class="bg-light">기업 수</th>
+                                                <td><input type="number" class="form-control" name="graph4_nocs" th:value="${select?.graph4_nocs}" placeholder=" ex) 123"></td>
+                                                <th class="bg-light">기업 수</th>
+                                                <td><input type="number" class="form-control" name="graph5_nocs" th:value="${select?.graph5_nocs}" placeholder=" ex) 123"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="button-container">
+                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                        <button type="button" class="btn btn-primary" onclick="confirmMsg()">저장하기</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script th:src="@{/js/admin.js}"></script>
+
+    <script th:inline="javascript">
+        // 페이지 로드 시 실행
+        window.onload = function () {
+            // 페이지 로드 시 메시지 확인 및 알림 표시
+            // 수정 및 등록 시 띄울 알림창
+            const msg = /*[[${msg}]]*/ '';
+            if (msg) alert(msg);
+        };
+
+        // 컨펌 메시지 띄우는 함수
+        function confirmMsg() {
+            let result = confirm("저장 하시겠습니까?");
+            if(!result) {
+                return false;
+            } else {
+                var graph_sn = $("input[name=graph_sn]").val();
+                // PK 값이 비어있으면 기본 값 0 세팅
+                if(graph_sn == "") {
+                    $("input[name=graph_sn]").val(0);
+                }
+                // 폼 태그 서브밋 보내기
+                f=document.investment_form;
+                f.submit();
+            }
+        }
+    </script>
+    
+</body>
+</html>
