@@ -34,7 +34,7 @@ public class AffiliateController {
     private String directory;
 
     // 제휴 사례 조회
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String selectList(Model model) {
         List<AffiliateDTO> selectList = affiliateService.selectList();
         model.addAttribute("selectList", selectList);
@@ -42,13 +42,13 @@ public class AffiliateController {
     }
 
     // 제휴 사례 등록
-    @GetMapping("/insert")
+    @RequestMapping("/insert")
     public String insert(Model model) {
         return directory + "/affiliate_insert";
     }
     
     // 제휴 사례 상세
-    @GetMapping("/update/{affiliate_sn}")
+    @RequestMapping("/update/{affiliate_sn}")
     public String update(@PathVariable int affiliate_sn, Model model) {
         AffiliateDTO select = affiliateService.select(affiliate_sn);
         model.addAttribute("affiliate", select);
