@@ -1,4 +1,4 @@
-<!doctype html>
+ <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/fragment/config :: configFragment}"></head>
 <body>
@@ -11,9 +11,7 @@
                     <div class="paper">
                         <h2 class="h4">제휴 사례 관리</h2>
                         <div class="mt-4">
-                            <form th:action="@{/admin/affiliate/save}" method="post" enctype="multipart/form-data" name="affiliate_form">
-                                <input type="hidden" name="affiliate_sn" th:value="${affiliate?.affiliate_sn}"/>
-                                <input type="hidden" name="atch_file_sn" th:value="${affiliate?.atch_file_sn}"/>
+                            <form th:action="@{/admin/affiliate/insert}" method="post" enctype="multipart/form-data" name="affiliate_form">
                                 <input type="hidden" id="file_yn" name="file_yn" value="0" />
                                 <table class="table table-bordered align-middle">
                                     <tbody>
@@ -23,7 +21,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input class="form-control w-auto" type="file" name="affiliate_file" onchange="preview()">
                                                 </div>
-                                                <img id="previewFrame" th:src="'/upload/' + ${affiliate?.affiliate_file_name}" width="200" class="img-fluid mt-2" style="display:none" />
+                                                <img id="previewFrame" width="200" class="img-fluid mt-2" style="display: none;"/>
                                                 <p class="mb-0 mt-2">
                                                     * 권장 사이즈 : 458x328px
                                                 </p>
@@ -33,39 +31,39 @@
                                             <th class="bg-light">KB 계열사명</th>
                                             <td>
                                                 <p class="mb-2">최대 20자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="affiliate_nm" th:value="${affiliate?.affiliate_nm}">
+                                                <input type="text" class="form-control" name="affiliate_nm">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="bg-light">KB 스타터스명</th>
                                             <td>
                                                 <p class="mb-2">최대 20자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="starter_nm" th:value="${affiliate?.starter_nm}">
+                                                <input type="text" class="form-control" name="starter_nm">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="bg-light">서비스명</th>
                                             <td>
                                                 <p class="mb-2">최대 40자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="srvc_nm" th:value="${affiliate?.srvc_nm}">
+                                                <input type="text" class="form-control" name="srvc_nm">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="bg-light">카테고리명</th>
                                             <td>
                                                 <p class="mb-2">최대 44자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="ctgry_nm" th:value="${affiliate?.ctgry_nm}">
+                                                <input type="text" class="form-control" name="ctgry_nm">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="bg-light">노출여부</th>
                                             <td>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y" th:checked="${affiliate?.expsr_yn eq 'Y'}">
+                                                    <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y">
                                                     <label class="form-check-label" for="expsr_y">노출</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N" th:checked="${affiliate?.expsr_yn eq 'N'}">
+                                                    <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N">
                                                     <label class="form-check-label" for="expsr_n">미노출</label>
                                                 </div>
                                             </td>
@@ -74,7 +72,7 @@
                                             <th class="bg-light">정렬</th>
                                             <td>
                                                 <div class="d-flex">
-                                                    <input class="form-control" type="number" style="width:100px" name="sort_no" th:value="${affiliate?.sort_no}">
+                                                    <input class="form-control" type="number" style="width:100px" name="sort_no">
                                                     <p class="mb-0 mt-2 ms-3">* 숫자가 낮을수록 상위 노출됩니다.</p>
                                                 </div>
                                             </td>
@@ -82,8 +80,7 @@
                                     </tbody>
                                 </table>
                                 <div class="button-container">
-                                    <button th:if="${affiliate?.affiliate_sn == null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('insert')">등록하기</button>
-                                    <button th:if="${affiliate?.affiliate_sn != null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('modify')">수정하기</button>
+                                    <button type="button" class="btn btn-primary" onclick="javascript:confirmMsg('insert')">등록하기</button>
                                     <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
                                     <a class="btn btn-outline-primary" th:href="@{/admin/affiliate/list/}">목록보기</a>
                                 </div>
@@ -96,6 +93,18 @@
     </main>
 </div>
 <script th:inline="javascript">
+    // 썸네일 미리보기
+    // 게시글 수정 시, 썸네일이 등록되어있으면 다음 두개 태그에 인라인 스타일을 제거해주세요.
+    // #previewFrame, #deleteThumbnail
+    // ex)
+    // 수정 전: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>
+    // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
+    function preview(img) {
+        document.querySelector('#previewFrame').src = URL.createObjectURL(event.target.files[0]);
+        document.querySelector('#file_yn').value = 1;
+        document.querySelector('#previewFrame').style.display = "block";
+    }
+
     // 페이지 로드 시 실행
     window.onload = function () {
         // 페이지 로드 시 메시지 확인 및 알림 표시
@@ -104,49 +113,12 @@
         if (msg) alert(msg);
     }
 
-    // 썸네일 미리보기
-    // 게시글 수정 시, 썸네일이 등록되어있으면 다음 두개 태그에 인라인 스타일을 제거해주세요.
-    // #previewFrame, #deleteThumbnail
-    // ex)
-    // 수정 전: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>
-    // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
-    function preview() {
-        // previewFrame.src = URL.createObjectURL(event.target.files[0]);
-        document.querySelector('#file_yn').value = 1;
-        // document.querySelector('#previewFrame').style.display = "block";
-        // document.querySelector('#deleteThumbnail').style.display = "block";
-    }
-    function clearImage() {
-        document.getElementById('formFile').value = null;
-        previewFrame.src = "";
-        document.querySelector('#previewFrame').style.display = "none";
-        document.querySelector('#deleteThumbnail').style.display = "none";
-    }
-
-    $(document).ready(function (){
-        var sn = $("#affiliate_sn").val();
-        if(sn != 0) {
-            $("#previewFrame").css("display", "block");
-            $("#deleteThumbnail").css("display", "block");
-        }
-    });
-
     // 컨펌 메시지 띄우는 함수
     function confirmMsg(type) {
-        let message = type == "insert" ? "등록 하시겠습니까?" : "수정 하시겠습니까?";
-        let result = confirm(message);
+        let result = confirm('등록 하시겠습니까?');
         if(!result) {
             return false;
         } else {
-            var affiliate_sn = $("input[name=affiliate_sn]").val();
-            var atch_file_sn = $("input[name=atch_file_sn]").val();
-            // PK 값이 비어있으면 기본 값 0 세팅
-            if(atch_file_sn == "") {
-                $("input[name=atch_file_sn]").val(0);
-            }
-            if(affiliate_sn == "") {
-                $("input[name=affiliate_sn]").val(0);
-            }
             // 폼 태그 서브밋 보내기
             f=document.affiliate_form;
             f.submit();

@@ -42,41 +42,54 @@ public class AffiliateController {
     }
 
     // 제휴 사례 등록
-    @GetMapping("/add")
-    public String add(Model model) {
-        return directory + "/affiliate_input";
+    @GetMapping("/insert")
+    public String insert(Model model) {
+        return directory + "/affiliate_insert";
     }
     
     // 제휴 사례 상세
-    @GetMapping("/modify/{affiliate_sn}")
-    public String modify(@PathVariable int affiliate_sn, Model model) {
+    @GetMapping("/update/{affiliate_sn}")
+    public String update(@PathVariable int affiliate_sn, Model model) {
         AffiliateDTO select = affiliateService.select(affiliate_sn);
         model.addAttribute("affiliate", select);
-        return directory + "/affiliate_input";
+        return directory + "/affiliate_update";
     }
 
-    // 제휴 사례 저장
-    @PostMapping("/save")
-    public String save(RedirectAttributes redirectAttributes, AffiliateDTO affiliateDTO) {
+    // 제휴 사례 추가
+    @PostMapping("/insert")
+    public String insert(RedirectAttributes redirectAttributes, AffiliateDTO affiliateDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
         // 수정 요망 : 임시 아이디 값
         int loginId = 1;
-        int result = 0;
 
-        // 추가, 수정 처리
-        if (affiliateDTO.getAffiliate_sn() == 0) {
-            result = affiliateService.addVisual(affiliateDTO, loginId);
-        } else {
-            result = affiliateService.modifyVisual(affiliateDTO, loginId);
-        }
+        int result = affiliateService.insert(affiliateDTO, loginId);
 
         // 결과 메시지 설정
         if (result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
             return "redirect:" + directory + "/list";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
-            return directory + "/affiliate_input";
+            redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
+            return directory + "/affiliate_insert";
+        }
+    }
+
+    // 제휴 사례 저장
+    @PostMapping("/update")
+    public String update(RedirectAttributes redirectAttributes, AffiliateDTO affiliateDTO) {
+        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
+        // 수정 요망 : 임시 아이디 값
+        int loginId = 1;
+
+        int result = affiliateService.update(affiliateDTO, loginId);
+
+        // 결과 메시지 설정
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
+            return "redirect:" + directory + "/list";
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
+            return directory + "/affiliate_update";
         }
     }
 
@@ -84,6 +97,6 @@ public class AffiliateController {
     @PostMapping("/delete")
     public String delete(@RequestParam("affiliate_sn") int affiliate_sn) {
         affiliateService.delete(affiliate_sn);
-        return directory + "/affiliate_input";
+        return directory + "/affiliate";
     }
 }

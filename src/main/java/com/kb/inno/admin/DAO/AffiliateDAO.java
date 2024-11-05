@@ -23,15 +23,15 @@ public interface AffiliateDAO {
     // 제휴 사례 조회
     List<AffiliateDTO> selectList();
     // 파일 추가
-    int addFile(FileDTO fileDTO);
+    int insertFile(FileDTO fileDTO);
     // 제휴 사례 추가
-    int addAffiliate(AffiliateDTO affiliateDTO);
+    int insert(AffiliateDTO affiliateDTO);
     // 제휴 사례 상세 조회
     AffiliateDTO select(int affiliate_sn);
     // 파일 삭제
-    void deleteFile(int fileId);
+    void deleteFile(int file_sn);
     // 제휴 사례 수정
-    int modifyAffiliate(AffiliateDTO affiliateDTO);
+    int update(AffiliateDTO affiliateDTO);
     // 제휴 사례 삭제
-    int deleteAffiliate(int affiliateSn);
+    void delete(int affiliate_sn);
 }

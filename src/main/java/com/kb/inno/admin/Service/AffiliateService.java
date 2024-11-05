@@ -92,18 +92,18 @@ public class AffiliateService {
         fileDTO.setLast_mdfr(loginId);
 
         // 파일 테이블 저장
-        int result = affiliateDAO.addFile(fileDTO);
+        int result = affiliateDAO.insertFile(fileDTO);
 
         // 결과가 있으면 fileDTO return
         if(result == 1) {
             return fileDTO;
+        } else {
+            return null;
         }
-
-        return null;
     }
 
-    // 제휴 사례 저장
-    public int addVisual(AffiliateDTO affiliateDTO, int loginId) {
+    // 제휴 사례 관리 추가
+    public int insert(AffiliateDTO affiliateDTO, int loginId) {
         // 로그인 한 사람 대입
         affiliateDTO.setFrst_rgtr(loginId);
         affiliateDTO.setLast_mdfr(loginId);
@@ -122,7 +122,7 @@ public class AffiliateService {
             affiliateDTO.setFrst_rgtr(loginId);
             affiliateDTO.setLast_mdfr(loginId);
 
-            result = affiliateDAO.addAffiliate(affiliateDTO);
+            result = affiliateDAO.insert(affiliateDTO);
         }
 
         return result;
@@ -134,7 +134,7 @@ public class AffiliateService {
     }
 
     // 제휴 사례 관리 수정
-    public int modifyVisual(AffiliateDTO affiliateDTO, int loginId) {
+    public int update(AffiliateDTO affiliateDTO, int loginId) {
 
         // 파일을 새로 등록했는 지 확인
         int fileYn = affiliateDTO.getFile_yn();
@@ -169,25 +169,28 @@ public class AffiliateService {
         // 최종 수정자 대입
         affiliateDTO.setLast_mdfr(loginId);
 
-        return affiliateDAO.modifyAffiliate(affiliateDTO);
+        return affiliateDAO.update(affiliateDTO);
     }
 
     // 제휴 사례 관리 삭제
     public void delete(int affiliateSn) {
         // 메인 비주얼 상세 조회
         AffiliateDTO selectInfo = affiliateDAO.select(affiliateSn);
+
         // 조회한 것에서 file_id 꺼내기
         int fileId = selectInfo.getAtch_file_sn();
+
         // 경로 내 파일 삭제
         Path path = Paths.get(System.getProperty("user.dir"), staticPath);
         File deleteFile = new File(path + selectInfo.getAffiliate_path() + selectInfo.getAffiliate_file_name());
         boolean removed = deleteFile.delete();
+
         // 만약 경로에 파일이 지워졌다면
         if(removed) {
             // 파일 삭제
             affiliateDAO.deleteFile(fileId);
             // 비주얼 삭제
-            affiliateDAO.deleteAffiliate(affiliateSn);
+            affiliateDAO.delete(affiliateSn);
         }
     }
 }
