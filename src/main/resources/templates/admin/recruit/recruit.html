@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragment/config :: configFragment}"></head>
+<body>
+    <div class="wrap">
+        <app-header></app-header>
+        <!--<header th:replace="~{admin/fragment/header :: headerFragment}"></header>
+        <nav th:replace="~{admin/fragment/header :: navFragment}"></nav>-->
+        <main class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="paper">
+                            <h2 class="h4">육성프로그램 - 채용 지원 관리</h2>
+                            <div class="mt-4">
+                                <form th:action="@{/admin/recruit/save}" method="post" name="recruit_form">
+                                    <input type="hidden" th:value="${select?.employ_sn}" name="employ_sn"/>
+                                    <table class="table table-bordered align-middle">
+                                        <tbody>
+                                            <tr>
+                                                <th class="bg-light" width="20%">연도</th>
+                                                <td>
+                                                    <input type="text" class="form-control" name="employ_yr" placeholder="ex) 2024" th:value="${select?.employ_yr}">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-light" width="20%">채용 수</th>
+                                                <td>
+                                                    <input type="text" class="form-control" name="employ_emp_nocs" placeholder="ex) 1,142" th:value="${select?.employ_emp_nocs}">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-light" width="20%">지원 금액</th>
+                                                <td>
+                                                    <input type="text" class="form-control" name="sprt_amt" placeholder=" ex) 6억 7천 2백만원" th:value="${select?.sprt_amt}">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th class="bg-light" width="20%">채용 기업 수</th>
+                                                <td>
+                                                    <input type="text" class="form-control" name="employ_ent_nocs" placeholder=" ex) 116" th:value="${select?.employ_ent_nocs}">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="button-container">
+                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                        <button type="button" class="btn btn-primary" onclick="javascript:confirmMsg()">저장하기</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+<script th:src="@{/js/admin.js}"></script>
+
+<script th:inline="javascript">
+    // 페이지 로드 시 실행
+    window.onload = function () {
+        // 페이지 로드 시 메시지 확인 및 알림 표시
+        // 수정 및 등록 시 띄울 알림창
+        const msg = /*[[${msg}]]*/ '';
+        if (msg) alert(msg);
+    };
+
+    // 컨펌 메시지 띄우는 함수
+    function confirmMsg() {
+        let result = confirm("저장 하시겠습니까?");
+        if(!result) {
+            return false;
+        } else {
+            var graph_sn = $("input[name=employ_sn]").val();
+            // PK 값이 비어있으면 기본 값 0 세팅
+            if(graph_sn == "") {
+                $("input[name=employ_sn]").val(0);
+            }
+            // 폼 태그 서브밋 보내기
+            f=document.recruit_form;
+            f.submit();
+        }
+    }
+</script>
+    
+</body>
+</html>
