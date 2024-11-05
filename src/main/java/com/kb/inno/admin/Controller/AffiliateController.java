@@ -46,7 +46,8 @@ public class AffiliateController {
     public String add(Model model) {
         return directory + "/affiliate_input";
     }
-
+    
+    // 제휴 사례 상세
     @GetMapping("/modify/{affiliate_sn}")
     public String modify(@PathVariable int affiliate_sn, Model model) {
         AffiliateDTO select = affiliateService.select(affiliate_sn);
