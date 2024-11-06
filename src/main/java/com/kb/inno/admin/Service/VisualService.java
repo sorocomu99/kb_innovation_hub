@@ -15,20 +15,14 @@ import com.kb.inno.admin.DTO.FileDTO;
 import com.kb.inno.admin.DTO.VisualDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -50,7 +44,6 @@ public class VisualService {
 
     // 파일 저장
     public FileDTO saveFile(VisualDTO visualDTO, int loginId) {
-        // 파일 저장
         // 파일 꺼내기
         MultipartFile file = visualDTO.getMain_file();
 
@@ -98,7 +91,7 @@ public class VisualService {
         fileDTO.setLast_mdfr(loginId);
 
         // 파일 테이블에 저장
-        int result = visualDAO.addFile(fileDTO);
+        int result = visualDAO.saveFile(fileDTO);
 
         // 결과가 있으면 fileDTO return
         if(result == 1) {
@@ -109,7 +102,7 @@ public class VisualService {
     }
     
     // 메인 비주얼 등록
-    public int addVisual(VisualDTO visualDTO, int loginId) {
+    public int insert(VisualDTO visualDTO, int loginId) {
         // 로그인 한 아이디 세팅
         visualDTO.setFrst_rgtr(loginId);
         visualDTO.setLast_mdfr(loginId);
@@ -126,7 +119,7 @@ public class VisualService {
             // 최초 등록자, 최종 수정자 대입
             visualDTO.setFrst_rgtr(loginId);
             visualDTO.setLast_mdfr(loginId);
-            result = visualDAO.addVisual(visualDTO);
+            result = visualDAO.insert(visualDTO);
         }
 
         return result;
@@ -137,9 +130,7 @@ public class VisualService {
     }
 
     // 메인 비주얼 삭제
-    public void deleteVisual(int visualId) {
-        // 변수 생성
-        int result = 0;
+    public void delete(int visualId) {
         // 메인 비주얼 상세 조회
         VisualDTO selectInfo = visualDAO.select(visualId);
         // 조회한 것에서 file_id 꺼내기
@@ -153,13 +144,12 @@ public class VisualService {
             // 파일 삭제
             visualDAO.deleteFile(fileId);
             // 비주얼 삭제
-            visualDAO.deleteVisual(visualId);
+            visualDAO.delete(visualId);
         }
     }
 
     // 메인 비주얼 수정
-    public int modifyVisual(VisualDTO visualDTO, int loginId) {
-
+    public int update(VisualDTO visualDTO, int loginId) {
         // 파일을 새로 등록했는 지 확인
         int fileYn = visualDTO.getFile_yn();
 
@@ -193,6 +183,6 @@ public class VisualService {
         // 최종 수정자 대입
         visualDTO.setLast_mdfr(loginId);
 
-        return visualDAO.modifyVisual(visualDTO);
+        return visualDAO.update(visualDTO);
     }
 }

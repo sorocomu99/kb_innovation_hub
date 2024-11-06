@@ -16,7 +16,7 @@
                 </div>
                 <div class="col">
                   <div class="button-wrap d-flex justify-content-end">
-                    <a th:href="@{/admin/visual/add}" class="btn btn-primary">
+                    <a th:href="@{/admin/visual/insert}" class="btn btn-primary">
                       <i data-feather="edit"></i> 신규 등록
                     </a>
                   </div>
@@ -43,7 +43,7 @@
                   <td th:text="${list.expsr_yn == 'Y' ? '노출' : '미노출'}"></td>
                   <td th:text="${list.sort_no}"></td>
                   <td>
-                    <a th:href="@{/admin/visual/modify/{visualId}(visualId=${list.main_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                    <a th:href="@{/admin/visual/update/{visualId}(visualId=${list.main_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
                     <button th:onclick="deleteAlert([[${list.main_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
                   </td>
                 </tr>

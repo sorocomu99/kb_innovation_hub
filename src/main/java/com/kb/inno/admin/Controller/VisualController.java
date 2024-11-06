@@ -17,11 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -37,7 +34,7 @@ public class VisualController {
     private String directory;
     
     // 메인 비주얼 조회
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String visualList(Model model) {
         List<VisualDTO> selectList = visualService.selectList();
         model.addAttribute("selectList", selectList);
@@ -45,34 +42,27 @@ public class VisualController {
     }
 
     // 메인 비주얼 등록 페이지 이동
-    @GetMapping("/add")
-    public String addVisual() {
-        return directory + "/main_input";
+    @RequestMapping("/insert")
+    public String insert() {
+        return directory + "/main_insert";
     }
 
     // 메인 비주얼 수정 페이지 이동
-    @GetMapping("/modify/{visualId}")
-    public String modifyVisual(@PathVariable int visualId, Model model) {
+    @RequestMapping("/update/{visualId}")
+    public String update(@PathVariable int visualId, Model model) {
         VisualDTO visual = visualService.select(visualId);
         model.addAttribute("visual", visual);
-        return directory + "/main_input";
+        return directory + "/main_update";
     }
 
-    // 메인 비주얼 등록, 수정
-    @PostMapping("/save")
-    public String saveVisual(VisualDTO visualDTO, RedirectAttributes redirectAttributes) {
+    // 메인 비주얼 등록
+    @PostMapping("/insert")
+    public String insert(VisualDTO visualDTO, RedirectAttributes redirectAttributes) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
         // 수정 요망 : 임시 아이디 값
         int loginId = 1;
 
-        int result = 0;
-
-        // 추가, 수정 처리
-        if (visualDTO.getMain_sn() == 0) {
-            result = visualService.addVisual(visualDTO, loginId);
-        } else {
-            result = visualService.modifyVisual(visualDTO, loginId);
-        }
+        int result = visualService.insert(visualDTO, loginId);
 
         // 결과 메시지 설정
         if (result == 1) {
@@ -80,14 +70,33 @@ public class VisualController {
             return "redirect:" + directory + "/list";
         } else {
             redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
-            return directory + "/main_input";
+            return directory + "/main_insert";
+        }
+    }
+
+    // 메인 비주얼 수정
+    @PostMapping("/update")
+    public String update(VisualDTO visualDTO, RedirectAttributes redirectAttributes) {
+        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
+        // 수정 요망 : 임시 아이디 값
+        int loginId = 1;
+
+        int result = visualService.update(visualDTO, loginId);
+
+        // 결과 메시지 설정
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            return "redirect:" + directory + "/list";
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
+            return directory + "/main_update";
         }
     }
 
     // 메인 비주얼 삭제
     @PostMapping("/delete")
     public String deleteVisual(@RequestParam("visualId") int visualId) {
-        visualService.deleteVisual(visualId);
-        return directory + "/main_input";
+        visualService.delete(visualId);
+        return directory + "/main";
     }
 }

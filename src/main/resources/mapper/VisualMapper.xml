@@ -17,7 +17,7 @@
          ORDER BY MAIN_SN DESC
     </select>
     <!-- 메인 비주얼 파일 추가 -->
-    <insert id="addFile" parameterType="com.kb.inno.admin.DTO.FileDTO" useGeneratedKeys="true" keyProperty="file_sn">
+    <insert id="saveFile" parameterType="com.kb.inno.admin.DTO.FileDTO" useGeneratedKeys="true" keyProperty="file_sn">
         /* 메인 비주얼 파일 추가 */
         INSERT INTO KB_FILE_INFO
         (
@@ -52,7 +52,7 @@
         </selectKey>
     </insert>
     <!-- 메인 비주얼 게시글 추가 -->
-    <insert id="addVisual" parameterType="com.kb.inno.admin.DTO.VisualDTO">
+    <insert id="insert" parameterType="com.kb.inno.admin.DTO.VisualDTO">
         /* 메인 비주얼 게시글 추가 */
         INSERT INTO KB_MAIN_INFO
         (
@@ -95,7 +95,7 @@
           AND MAIN_SN = #{visualId}
     </select>
     <!-- 메인 비주얼 삭제 -->
-    <delete id="deleteVisual" parameterType="int">
+    <delete id="delete" parameterType="int">
         /* 메인 비주얼 삭제 */
         DELETE
           FROM KB_MAIN_INFO
@@ -109,7 +109,7 @@
          WHERE FILE_SN = #{fileId}
     </delete>
     <!-- 메인 비주얼 수정 -->
-    <update id="modifyVisual" parameterType="com.kb.inno.admin.DTO.VisualDTO">
+    <update id="update" parameterType="com.kb.inno.admin.DTO.VisualDTO">
         UPDATE KB_MAIN_INFO
            SET MAIN_CN       = #{main_cn}
              , EXPSR_YN      = #{expsr_yn}
@@ -119,19 +119,4 @@
              , LAST_MDFCN_DT = SYSDATE
          WHERE MAIN_SN       = #{main_sn}
     </update>
-    <!-- 파일 조회 -->
-    <select id="selectFile" parameterType="int" resultType="com.kb.inno.admin.DTO.FileDTO">
-        SELECT FILE_SN
-             , FILE_NM
-             , ORGNL_FILE_NM
-             , FILE_SZ
-             , FILE_EXTN
-             , FILE_PATH
-             , FRST_RGTR
-             , FRST_REG_DT
-             , LAST_MDFR
-             , LAST_MDFCN_DT
-          FROM KB_FILE_INFO
-         WHERE FILE_SN = #{file_sn}
-    </select>
 </mapper>
