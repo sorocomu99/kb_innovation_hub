@@ -98,12 +98,7 @@
     document.querySelector('#previewFrame').style.display = "block";
     document.querySelector('#deleteThumbnail').style.display = "block";
   }
-  function clearImage() {
-    document.getElementById('formFile').value = null;
-    previewFrame.src = "";
-    document.querySelector('#previewFrame').style.display = "none";
-    document.querySelector('#deleteThumbnail').style.display = "none";
-  }
+
   // 컨펌 메시지 띄우는 함수
   function confirmMsg(type) {
     let result = confirm("등록 하시겠습니까?");
