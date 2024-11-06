@@ -33,17 +33,17 @@ public class VisualService {
     // DAO 연결
     private final VisualDAO visualDAO;
 
+    // 파일 경로
+    @Value("src/main/resources/static/")
+    private String staticPath;
+
     // 메인 비주얼 리스트 조회
     public List<VisualDTO> selectList() {
         return visualDAO.selectList();
     }
 
-    // 파일 경로
-    @Value("src/main/resources/static/")
-    private String staticPath;
-
     // 파일 저장
-    public FileDTO saveFile(VisualDTO visualDTO, int loginId) {
+    public FileDTO insertFile(VisualDTO visualDTO, int loginId) {
         // 파일 꺼내기
         MultipartFile file = visualDTO.getMain_file();
 
@@ -91,7 +91,7 @@ public class VisualService {
         fileDTO.setLast_mdfr(loginId);
 
         // 파일 테이블에 저장
-        int result = visualDAO.saveFile(fileDTO);
+        int result = visualDAO.insertFile(fileDTO);
 
         // 결과가 있으면 fileDTO return
         if(result == 1) {
@@ -110,7 +110,7 @@ public class VisualService {
         int result = 0;
 
         // 파일 저장
-        FileDTO fileSave = saveFile(visualDTO, loginId);
+        FileDTO fileSave = insertFile(visualDTO, loginId);
 
         // 게시글 저장
         if(fileSave != null) {
@@ -124,28 +124,10 @@ public class VisualService {
 
         return result;
     }
-    // 메인 비주얼 상세 조회
-    public VisualDTO select(int visualId) {
-        return visualDAO.select(visualId);
-    }
 
-    // 메인 비주얼 삭제
-    public void delete(int visualId) {
-        // 메인 비주얼 상세 조회
-        VisualDTO selectInfo = visualDAO.select(visualId);
-        // 조회한 것에서 file_id 꺼내기
-        int fileId = selectInfo.getAtch_file_sn();
-        // 경로 내 파일 삭제
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-        File deleteFile = new File(path + selectInfo.getMain_path() + selectInfo.getMain_file_name());
-        boolean removed = deleteFile.delete();
-        // 만약 경로에 파일이 지워졌다면
-        if(removed) {
-            // 파일 삭제
-            visualDAO.deleteFile(fileId);
-            // 비주얼 삭제
-            visualDAO.delete(visualId);
-        }
+    // 메인 비주얼 상세 조회
+    public VisualDTO select(int main_sn) {
+        return visualDAO.select(main_sn);
     }
 
     // 메인 비주얼 수정
@@ -171,7 +153,7 @@ public class VisualService {
             }
 
             // 3. 새로운 파일 경로에 저장
-            FileDTO fileSave = saveFile(visualDTO, loginId);
+            FileDTO fileSave = insertFile(visualDTO, loginId);
 
             // 4. 새로운 파일 테이블에 저장
             if(fileSave != null) {
@@ -184,5 +166,24 @@ public class VisualService {
         visualDTO.setLast_mdfr(loginId);
 
         return visualDAO.update(visualDTO);
+    }
+
+    // 메인 비주얼 삭제
+    public void delete(int main_sn) {
+        // 메인 비주얼 상세 조회
+        VisualDTO selectInfo = visualDAO.select(main_sn);
+        // 조회한 것에서 file_id 꺼내기
+        int file_sn = selectInfo.getAtch_file_sn();
+        // 경로 내 파일 삭제
+        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+        File deleteFile = new File(path + selectInfo.getMain_path() + selectInfo.getMain_file_name());
+        boolean removed = deleteFile.delete();
+        // 만약 경로에 파일이 지워졌다면
+        if(removed) {
+            // 파일 삭제
+            visualDAO.deleteFile(file_sn);
+            // 비주얼 삭제
+            visualDAO.delete(main_sn);
+        }
     }
 }

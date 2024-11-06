@@ -78,14 +78,14 @@
   }
 
   // 삭제 성공/실패 알림창 띄우기
-  function deleteAlert(visual_sn) {
+  function deleteAlert(main_sn) {
     let result = confirm("정말 삭제 하시겠습니까?");
     if(result) {
       $.ajax({
         url: [[@{/admin/visual/delete}]], // 요청 URL
         type: 'POST', // HTTP 메서드
         contentType: 'application/x-www-form-urlencoded', // 헤더 설정
-        data: { visualId: visual_sn }, // 보내는 데이터
+        data: { main_sn: main_sn }, // 보내는 데이터
         success: function(response) {
           if(response == 0) {
             alert('삭제에 실패하였습니다.');

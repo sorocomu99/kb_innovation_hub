@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/admin/visual")
 public class VisualController {
     
-    // Service 연결
+    // 서비스 연결
     private final VisualService visualService;
     
     // 메인 디렉토리 설정
@@ -41,7 +41,7 @@ public class VisualController {
         return directory + "/main";
     }
 
-    // 메인 비주얼 추가 페이지 이동
+    // 메인 비주얼 등록 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
         return directory + "/main_insert";
@@ -95,8 +95,8 @@ public class VisualController {
 
     // 메인 비주얼 삭제
     @PostMapping("/delete")
-    public String deleteVisual(@RequestParam("visualId") int visualId) {
-        visualService.delete(visualId);
+    public String delete(@RequestParam("main_sn") int main_sn) {
+        visualService.delete(main_sn);
         return directory + "/main";
     }
 }

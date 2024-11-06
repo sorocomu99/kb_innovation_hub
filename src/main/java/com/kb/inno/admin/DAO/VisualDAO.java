@@ -20,18 +20,18 @@ import java.util.List;
 @Mapper
 @Repository
 public interface VisualDAO {
-    // 메인 비주얼 게시글 리스트 조회
+    // 메인 비주얼 리스트 조회
     List<VisualDTO> selectList();
-    // 메인 비주얼 파일 추가
-    int saveFile(FileDTO fileDTO);
-    // 메인 비주얼 게시글 추가
+    // 메인 비주얼 파일 저장
+    int insertFile(FileDTO fileDTO);
+    // 메인 비주얼 등록
     int insert(VisualDTO visualDTO);
     // 메인 비주얼 상세 조회
-    VisualDTO select(int visualId);
-    // 메인 비주얼 삭제
-    void delete(int visualId);
+    VisualDTO select(int main_sn);
     // 메인 비주얼 파일 삭제
-    void deleteFile(int fileId);
+    void deleteFile(int file_sn);
     // 메인 비주얼 수정
     int update(VisualDTO visualDTO);
+    // 메인 비주얼 삭제
+    void delete(int main_sn);
 }

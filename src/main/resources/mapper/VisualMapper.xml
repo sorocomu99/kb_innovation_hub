@@ -5,20 +5,21 @@
     <!-- 메인 비주얼 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.VisualDTO">
         /* 메인 비주얼 조회 */
-        SELECT VISUAL.MAIN_SN AS MAIN_SN
-             , VISUAL.MAIN_CN AS MAIN_CN
-             , VISUAL.EXPSR_YN AS EXPSR_YN
-             , VISUAL.SORT_NO AS SORT_NO
-             , IMG.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
-             , IMG.FILE_NM AS MAIN_FILE_NAME
-             , IMG.FILE_PATH AS MAIN_PATH
-          FROM KB_MAIN_INFO VISUAL, KB_FILE_INFO IMG
-         WHERE VISUAL.ATCH_FILE_SN = IMG.FILE_SN
+        SELECT VISUAL.MAIN_SN      AS MAIN_SN
+             , VISUAL.MAIN_CN      AS MAIN_CN
+             , VISUAL.EXPSR_YN     AS EXPSR_YN
+             , VISUAL.SORT_NO      AS SORT_NO
+             , FILES.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
+             , FILES.FILE_NM       AS MAIN_FILE_NAME
+             , FILES.FILE_PATH     AS MAIN_PATH
+          FROM KB_MAIN_INFO VISUAL
+             , KB_FILE_INFO FILES
+         WHERE VISUAL.ATCH_FILE_SN = FILES.FILE_SN
          ORDER BY MAIN_SN DESC
     </select>
-    <!-- 메인 비주얼 파일 추가 -->
-    <insert id="saveFile" parameterType="com.kb.inno.admin.DTO.FileDTO" useGeneratedKeys="true" keyProperty="file_sn">
-        /* 메인 비주얼 파일 추가 */
+    <!-- 메인 비주얼 파일 저장 -->
+    <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO" useGeneratedKeys="true" keyProperty="file_sn">
+        /* 메인 비주얼 파일 저장 */
         INSERT INTO KB_FILE_INFO
         (
          FILE_SN
@@ -82,34 +83,22 @@
     <!-- 메인 비주얼 상세 조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.VisualDTO">
         /* 메인 비주얼 상세 조회 */
-        SELECT VISUAL.MAIN_SN AS MAIN_SN
-             , VISUAL.MAIN_CN AS MAIN_CN
-             , VISUAL.EXPSR_YN AS EXPSR_YN
-             , VISUAL.SORT_NO AS SORT_NO
-             , IMG.FILE_SN AS ATCH_FILE_SN
-             , IMG.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
-             , IMG.FILE_NM AS MAIN_FILE_NAME
-             , IMG.FILE_PATH AS MAIN_PATH
-        FROM KB_MAIN_INFO VISUAL, KB_FILE_INFO IMG
-        WHERE VISUAL.ATCH_FILE_SN = IMG.FILE_SN
-          AND MAIN_SN = #{visualId}
+        SELECT VISUAL.MAIN_SN      AS MAIN_SN
+             , VISUAL.MAIN_CN      AS MAIN_CN
+             , VISUAL.EXPSR_YN     AS EXPSR_YN
+             , VISUAL.SORT_NO      AS SORT_NO
+             , FILES.FILE_SN       AS ATCH_FILE_SN
+             , FILES.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
+             , FILES.FILE_NM       AS MAIN_FILE_NAME
+             , FILES.FILE_PATH     AS MAIN_PATH
+          FROM KB_MAIN_INFO VISUAL
+             , KB_FILE_INFO FILES
+         WHERE VISUAL.ATCH_FILE_SN = FILES.FILE_SN
+           AND VISUAL.MAIN_SN      = #{main_sn}
     </select>
-    <!-- 메인 비주얼 삭제 -->
-    <delete id="delete" parameterType="int">
-        /* 메인 비주얼 삭제 */
-        DELETE
-          FROM KB_MAIN_INFO
-         WHERE MAIN_SN = #{visualId}
-    </delete>
-    <!-- 메인 비주얼 파일 삭제 -->
-    <delete id="deleteFile" parameterType="int">
-        /* 메인 비주얼 파일 삭제 */
-        DELETE
-          FROM KB_FILE_INFO
-         WHERE FILE_SN = #{fileId}
-    </delete>
     <!-- 메인 비주얼 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.VisualDTO">
+        /* 메인 비주얼 수정 */
         UPDATE KB_MAIN_INFO
            SET MAIN_CN       = #{main_cn}
              , EXPSR_YN      = #{expsr_yn}
@@ -119,4 +108,18 @@
              , LAST_MDFCN_DT = SYSDATE
          WHERE MAIN_SN       = #{main_sn}
     </update>
+    <!-- 메인 비주얼 삭제 -->
+    <delete id="delete" parameterType="int">
+        /* 메인 비주얼 삭제 */
+        DELETE
+          FROM KB_MAIN_INFO
+         WHERE MAIN_SN = #{main_sn}
+    </delete>
+    <!-- 메인 비주얼 파일 삭제 -->
+    <delete id="deleteFile" parameterType="int">
+        /* 메인 비주얼 파일 삭제 */
+        DELETE
+          FROM KB_FILE_INFO
+         WHERE FILE_SN = #{file_sn}
+    </delete>
 </mapper>
