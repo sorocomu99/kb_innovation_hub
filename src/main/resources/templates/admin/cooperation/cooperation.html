@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragment/config :: configFragment}"></head>
+<body>
+<div class="wrap">
+    <app-header></app-header>
+        <main class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="paper">
+                            <h2 class="h4">국내 프로그램 - 협력기관 관리</h2>
+                            <div class="mt-4">
+                                <div class="top-search d-flex mt-4">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <div class="button-wrap d-flex justify-content-end">
+                                            <a th:href="@{/admin/cooperation/insert}" class="btn btn-primary">
+                                                <i data-feather="edit"></i> 신규 등록
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <table class="table text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%">NO</th>
+                                            <th style="width:25%">로고</th>
+                                            <th style="width:30%">업체명</th>
+                                            <th style="width:10%">노출여부</th>
+                                            <th style="width:10%">정렬</th>
+                                            <th style="width:20%">관리</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="list : ${selectList}">
+                                            <td th:text="${list.coope_sn}"></td>
+                                            <td><img th:src="${'/upload/' + list.coope_file_name}" width="200" alt=""></td>
+                                            <td th:text="${list.bzenty_nm}"></td>
+                                            <td th:text="${list.expsr_yn == 'Y' ? '노출' : '미노출'}">노출</td>
+                                            <td th:text="${list.sort_no}"></td>
+                                            <td>
+                                                <a th:href="@{/admin/cooperation/update/{coope_sn}(coope_sn=${list.coope_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                                <button th:onclick="deleteAlert([[${list.coope_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:inline="javascript">
+        // 페이지 로드 시 실행
+        window.onload = function () {
+            // 페이지 로드 시 메시지 확인 및 알림 표시
+            // 수정 및 등록 시 띄울 알림창
+            const msg = /*[[${msg}]]*/ '';
+            if (msg) alert(msg);
+        }
+
+        // 삭제 성공/실패 알림창 띄우기
+        function deleteAlert(coope_sn) {
+            let result = confirm("정말 삭제 하시겠습니까?");
+            if(result) {
+                $.ajax({
+                    url: [[@{/admin/cooperation/delete}]], // 요청 URL
+                    type: 'POST', // HTTP 메서드
+                    contentType: 'application/x-www-form-urlencoded', // 헤더 설정
+                    data: { coope_sn: coope_sn }, // 보내는 데이터
+                    success: function(response) {
+                        if(response == 0) {
+                            alert('삭제에 실패하였습니다.');
+                        } else {
+                            alert("삭제에 성공하였습니다.");
+                            window.location.href = [[@{/admin/cooperation/list}]];
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
