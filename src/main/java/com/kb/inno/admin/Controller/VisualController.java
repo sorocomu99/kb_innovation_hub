@@ -48,9 +48,9 @@ public class VisualController {
     }
 
     // 메인 비주얼 수정 페이지 이동
-    @RequestMapping("/update/{visualId}")
-    public String update(@PathVariable int visualId, Model model) {
-        VisualDTO visual = visualService.select(visualId);
+    @RequestMapping("/update/{main_sn}")
+    public String update(@PathVariable int main_sn, Model model) {
+        VisualDTO visual = visualService.select(main_sn);
         model.addAttribute("visual", visual);
         return directory + "/main_update";
     }

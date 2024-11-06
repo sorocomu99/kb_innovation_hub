@@ -1,3 +1,14 @@
+<!--
+ 파일명     : main_update.html
+ 관련자바   : VisualController
+ 화면명     : 메인 비주얼 관리
+ 설명       : 메인 비주얼 조회 및 등록, 수정, 삭제 처리
+ 최초개발일 : 2024.10.24
+ 최초개발자 : 양윤지
+ ==========================================================
+   수정일            수정자           설명
+ ==========================================================
+-->
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/fragment/config :: configFragment}"></head>
@@ -63,8 +74,7 @@
                   </tbody>
                 </table>
                 <div class="button-container">
-                  <button th:if="${visual?.main_sn == null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('insert')">등록하기</button>
-                  <button th:if="${visual?.main_sn != null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('modify')">수정하기</button>
+                  <button type="button" class="btn btn-primary" onclick="confirmMsg()">수정하기</button>
                   <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
                   <a class="btn btn-outline-primary" th:href="@{/admin/visual/list/}">목록보기</a>
                 </div>
@@ -84,15 +94,6 @@
   // ex)
   // 수정 전: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>
   // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
-
-  $(document).ready(function (){
-    var sn = $("#main_sn").val();
-    if(sn != 0) {
-      $("#previewFrame").css("display", "block");
-      $("#deleteThumbnail").css("display", "block");
-    }
-  });
-
   function preview() {
     previewFrame.src = URL.createObjectURL(event.target.files[0]);
     document.querySelector("#file_yn").value = 1;
@@ -112,15 +113,6 @@
     if(!result) {
       return false;
     } else {
-      var main_sn = $("input[name=main_sn]").val();
-      var file_sn = $("input[name=atch_file_sn]").val();
-      // PK 값이 비어있으면 기본 값 0 세팅
-      if(file_sn == "") {
-        $("input[name=atch_file_sn]").val(0);
-      }
-      if(main_sn == "") {
-        $("input[name=main_sn]").val(0);
-      }
       // 폼 태그 서브밋 보내기
       f=document.main_form;
       f.submit();

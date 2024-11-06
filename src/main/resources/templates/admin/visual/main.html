@@ -1,3 +1,14 @@
+<!--
+ 파일명     : main.html
+ 관련자바   : VisualController
+ 화면명     : 메인 비주얼 관리
+ 설명       : 메인 비주얼 조회 및 등록, 수정, 삭제 처리
+ 최초개발일 : 2024.10.24
+ 최초개발자 : 양윤지
+ ==========================================================
+   수정일            수정자           설명
+ ==========================================================
+-->
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{admin/fragment/config :: configFragment}"></head>
@@ -43,7 +54,7 @@
                   <td th:text="${list.expsr_yn == 'Y' ? '노출' : '미노출'}"></td>
                   <td th:text="${list.sort_no}"></td>
                   <td>
-                    <a th:href="@{/admin/visual/update/{visualId}(visualId=${list.main_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                    <a th:href="@{/admin/visual/update/{main_sn}(main_sn=${list.main_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
                     <button th:onclick="deleteAlert([[${list.main_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
                   </td>
                 </tr>
