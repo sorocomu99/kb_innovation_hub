@@ -28,5 +28,5 @@ public interface PopupDAO {
     // 팝업 수정
     int update(PopupDTO popupDTO);
     // 팝업 삭제
-    int delete(int popupId);
+    void delete(int popupId);
 }

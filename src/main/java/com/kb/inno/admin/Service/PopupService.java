@@ -92,7 +92,7 @@ public class PopupService {
     }
     
     // 팝업 삭제
-    public int delete(int popupId) {
-        return popupDAO.delete(popupId);
+    public void delete(int popupId) {
+        popupDAO.delete(popupId);
     }
 }

@@ -47,7 +47,7 @@ public class PopupController {
     @Value("src/main/resources/static/")
     private String staticPath;
 
-    // 팝업 조회
+    // 팝업 리스트 조회
     @GetMapping("/list")
     public String list(Model model) {
         List<PopupDTO> selectList = popupService.selectList();
@@ -55,16 +55,16 @@ public class PopupController {
         return directory + "/popup";
     }
     
-    // 팝업 추가
+    // 팝업 추가 페이지 이동
     @GetMapping("/insert")
     public String insert() {
         return directory + "/popup_insert";
     }
 
-    // 팝업 상세
-    @GetMapping("/update/{popupId}")
-    public String update(@PathVariable int popupId, Model model) {
-        PopupDTO popup = popupService.select(popupId);
+    // 팝업 상세 페이지 이동
+    @GetMapping("/update/{popup_sn}")
+    public String update(@PathVariable int popup_sn, Model model) {
+        PopupDTO popup = popupService.select(popup_sn);
         model.addAttribute("popup", popup);
         return directory + "/popup_update";
     }
@@ -143,10 +143,7 @@ public class PopupController {
     // 팝업 삭제
     @PostMapping("/delete")
     public String delete(@RequestParam("popupId") int popupId) {
-        int result = popupService.delete(popupId);
-        if (result == 1) {
-            return "redirect:" + directory + "/list";
-        }
-        return directory + "/popup_input";
+        popupService.delete(popupId);
+        return directory + "/popup";
     }
 }

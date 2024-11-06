@@ -43,7 +43,7 @@ public class AffiliateController {
 
     // 제휴 사례 등록
     @RequestMapping("/insert")
-    public String insert(Model model) {
+    public String insert() {
         return directory + "/affiliate_insert";
     }
     

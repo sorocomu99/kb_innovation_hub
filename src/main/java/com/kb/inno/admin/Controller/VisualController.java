@@ -33,7 +33,7 @@ public class VisualController {
     @Value("/admin/visual")
     private String directory;
     
-    // 메인 비주얼 조회
+    // 메인 비주얼 리스트 조회
     @RequestMapping("/list")
     public String visualList(Model model) {
         List<VisualDTO> selectList = visualService.selectList();
@@ -41,13 +41,13 @@ public class VisualController {
         return directory + "/main";
     }
 
-    // 메인 비주얼 등록 페이지 이동
+    // 메인 비주얼 추가 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
         return directory + "/main_insert";
     }
 
-    // 메인 비주얼 수정 페이지 이동
+    // 메인 비주얼 상세 페이지 이동
     @RequestMapping("/update/{main_sn}")
     public String update(@PathVariable int main_sn, Model model) {
         VisualDTO visual = visualService.select(main_sn);
@@ -66,10 +66,10 @@ public class VisualController {
 
         // 결과 메시지 설정
         if (result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
             return "redirect:" + directory + "/list";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
+            redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/main_insert";
         }
     }
@@ -85,10 +85,10 @@ public class VisualController {
 
         // 결과 메시지 설정
         if (result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
             return "redirect:" + directory + "/list";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
+            redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/main_update";
         }
     }
