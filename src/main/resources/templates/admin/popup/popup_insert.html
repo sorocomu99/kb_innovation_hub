@@ -11,22 +11,21 @@
                     <div class="paper">
                         <h2 class="h4">팝업 관리</h2>
                         <div class="mt-4">
-                            <form id="popup_input_form" th:action="@{/admin/popup/save}" method="post">
+                            <form name="popup_form" th:action="@{/admin/popup/insert}" method="post">
                                 <table class="table table-bordered align-middle">
-                                    <input th:if="${popup?.popup_sn != 0}" type="hidden" name="popup_sn" th:value="${popup?.popup_sn}"/>
                                     <tbody>
                                     <tr>
                                         <th class="bg-light" width="20%">시작일시</th>
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="input-group w-auto flex-nowrap me-2 date" data-provide="datepicker">
-                                                    <input id="inputStart" type="text" class="form-control w-auto" th:value="${popup?.bgng_ymd}" name="bgng_ymd">
+                                                    <input id="inputStart" type="text" class="form-control w-auto" name="bgng_ymd">
                                                     <div class="input-group-addon">
                                                         <span data-feather="calendar"></span>
                                                     </div>
                                                 </div>
                                                 <div class="input-group clockpicker">
-                                                    <input type="text" class="form-control w-auto" th:value="${popup?.bgng_hr}" name="bgng_hr">
+                                                    <input type="text" class="form-control w-auto" name="bgng_hr">
                                                     <span class="input-group-addon">
                                                         <span data-feather="clock"></span>
                                                     </span>
@@ -43,13 +42,13 @@
                                         <td>
                                             <div class="d-flex align-items-center">
                                                 <div class="input-group w-auto flex-nowrap me-2 date" data-provide="datepicker">
-                                                    <input id="inputEnd" type="text" class="form-control w-auto" th:value="${popup?.end_ymd}" name="end_ymd">
+                                                    <input id="inputEnd" type="text" class="form-control w-auto" name="end_ymd">
                                                     <div class="input-group-addon">
                                                         <span data-feather="calendar"></span>
                                                     </div>
                                                 </div>
                                                 <div class="input-group clockpicker">
-                                                    <input type="text" class="form-control w-auto" th:value="${popup?.end_hr}" name="end_hr">
+                                                    <input type="text" class="form-control w-auto" name="end_hr">
                                                     <span class="input-group-addon">
                                                         <span data-feather="clock"></span>
                                                     </span>
@@ -67,12 +66,12 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group mb-2" style="width:275px">
                                                     <span class="input-group-text">X</span>
-                                                    <input type="text" class="form-control" th:value="${popup?.popup_left_pstn}" name="popup_left_pstn">
+                                                    <input type="text" class="form-control" name="popup_left_pstn">
                                                     <span class="input-group-text">px</span>
                                                 </div>
                                                 <div class="input-group mb-2" style="width:275px">
                                                     <span class="input-group-text">Y</span>
-                                                    <input type="text" class="form-control" th:value="${popup?.popup_top_pstn}" name="popup_top_pstn">
+                                                    <input type="text" class="form-control" name="popup_top_pstn">
                                                     <span class="input-group-text">px</span>
                                                 </div>
                                             </div>
@@ -85,7 +84,7 @@
                                     <tr>
                                         <th class="bg-light" width="20%">팝업 제목</th>
                                         <td>
-                                            <input type="text" class="form-control" th:value="${popup?.mngr_ttl}" name="mngr_ttl">
+                                            <input type="text" class="form-control" name="mngr_ttl">
                                         </td>
                                     </tr>
                                     <tr>
@@ -100,8 +99,7 @@
                                     </tbody>
                                 </table>
                                 <div class="button-container">
-                                    <button th:if="${popup?.popup_sn == null}" type="submit" class="btn btn-primary" onclick="confirmMsg('insert')">등록하기</button>
-                                    <button th:if="${popup?.popup_sn != null}" type="submit" class="btn btn-primary" onclick="confirmMsg('update')">수정하기</button>
+                                    <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
                                     <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
                                     <a class="btn btn-outline-primary" th:href="@{/admin/popup/list}">목록보기</a>
                                 </div>
@@ -159,19 +157,15 @@
     }
 
     // 컨펌 메시지 띄우는 함수
-    function confirmMsg(type) {
-        let message = type == "insert" ? "등록 하시겠습니까?" : "수정 하시겠습니까?";
-        let result = confirm(message);
+    function confirmMsg() {
+        let result = confirm("등록 하시겠습니까?");
         if(!result) {
             return false;
         } else {
-            var main_sn = $("input[name=popup_sn]").val();
-            // PK 값이 비어있으면 기본 값 0 세팅
-            if(main_sn == "") {
-                $("input[name=popup_sn]").val(0);
-            }
+            var summernote_value = $("#summernote").summernote('code');
+            $("#popup_cn").val(summernote_value);
             // 폼 태그 서브밋 보내기
-            f=document.main_form;
+            f=document.popup_form;
             f.submit();
         }
     }
@@ -207,13 +201,6 @@
         }
     });
 
-    // 페이지 로드 시 실행
-    window.onload = function () {
-        // 페이지 로드 시 메시지 확인 및 알림 표시
-        // 수정 및 등록 시 띄울 알림창
-        const msg = /*[[${msg}]]*/ '';
-        if (msg) alert(msg);
-    }
 </script>
 </body>
 </html>

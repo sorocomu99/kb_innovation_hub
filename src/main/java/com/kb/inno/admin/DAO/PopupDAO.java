@@ -22,11 +22,11 @@ public interface PopupDAO {
     // 팝업 리스트 조회
     List<PopupDTO> selectList();
     // 팝업 추가
-    int popupAdd(PopupDTO popupDTO);
-    // 팝업 수정 페이지
+    int insert(PopupDTO popupDTO);
+    // 팝업 상세 조회
     PopupDTO select(int popupId);
     // 팝업 수정
-    int modify(PopupDTO popupDTO);
+    int update(PopupDTO popupDTO);
     // 팝업 삭제
     int delete(int popupId);
 }

@@ -22,7 +22,7 @@
          ORDER BY POPUP_SN DESC
     </select>
     <!-- 팝업 등록 -->
-    <insert id="popupAdd" parameterType="com.kb.inno.admin.DTO.PopupDTO">
+    <insert id="insert" parameterType="com.kb.inno.admin.DTO.PopupDTO">
         /* 팝업 등록 */
         INSERT INTO KBUSER.KB_POPUP_INFO
          (
@@ -77,7 +77,7 @@
          WHERE POPUP_SN = #{popupId}
     </select>
     <!-- 팝업 수정 -->
-    <update id="modify" parameterType="com.kb.inno.admin.DTO.PopupDTO">
+    <update id="update" parameterType="com.kb.inno.admin.DTO.PopupDTO">
         /* 팝업 수정 */
         UPDATE KB_POPUP_INFO
            SET MNGR_TTL        = #{mngr_ttl}

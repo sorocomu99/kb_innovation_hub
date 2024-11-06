@@ -28,7 +28,7 @@ public class PopupService {
     }
     
     // 팝업 추가
-    public int popupAdd(PopupDTO popupDTO, int loginId) {
+    public int insert(PopupDTO popupDTO, int loginId) {
         // 로그인 한 아이디 세팅
         popupDTO.setFrst_rgtr(loginId);
         popupDTO.setLast_mdfr(loginId);
@@ -51,7 +51,7 @@ public class PopupService {
         end_hr = end_hr.replace(":", "");
         popupDTO.setEnd_hr(end_hr);
 
-        return popupDAO.popupAdd(popupDTO);
+        return popupDAO.insert(popupDTO);
     }
 
     // 팝업 조회 페이지
@@ -66,7 +66,7 @@ public class PopupService {
     }
 
     // 팝업 수정
-    public int popupModify(PopupDTO popupDTO, int loginId) {
+    public int update(PopupDTO popupDTO, int loginId) {
         // 로그인 한 아이디 세팅
         popupDTO.setLast_mdfr(loginId);
 
@@ -88,7 +88,7 @@ public class PopupService {
         end_hr = end_hr.replace(":", "");
         popupDTO.setEnd_hr(end_hr);
 
-        return popupDAO.modify(popupDTO);
+        return popupDAO.update(popupDTO);
     }
     
     // 팝업 삭제

@@ -36,33 +36,37 @@ import java.util.UUID;
 @RequestMapping("/admin/popup")
 public class PopupController {
     
+    // 서비스 연결
+    private final PopupService popupService;
+
     // 디렉터리 공통
     @Value("/admin/popup")
     private String directory;
 
-    // 서비스 연결
-    private final PopupService popupService;
+    // 파일 경로
+    @Value("src/main/resources/static/")
+    private String staticPath;
 
-    // 팝업 리스트 페이지 이동
+    // 팝업 조회
     @GetMapping("/list")
-    public String popupList(Model model) {
+    public String list(Model model) {
         List<PopupDTO> selectList = popupService.selectList();
         model.addAttribute("selectList", selectList);
         return directory + "/popup";
     }
     
-    // 팝업 추가 페이지 이동
-    @GetMapping("/add")
-    public String popupAdd() {
-        return directory + "/popup_input";
+    // 팝업 추가
+    @GetMapping("/insert")
+    public String insert() {
+        return directory + "/popup_insert";
     }
 
-    // 팝업 수정 페이지 이동
-    @GetMapping("/modify/{popupId}")
-    public String popupModify(@PathVariable int popupId, Model model) {
+    // 팝업 상세
+    @GetMapping("/update/{popupId}")
+    public String update(@PathVariable int popupId, Model model) {
         PopupDTO popup = popupService.select(popupId);
         model.addAttribute("popup", popup);
-        return "/admin/popup/popup_input";
+        return directory + "/popup_update";
     }
 
     // 이미지 업로드
@@ -78,7 +82,7 @@ public class PopupController {
         String fileName = UUID.randomUUID().toString() + fileExtension;
 
         // 파일 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), "src/main/resources/static/").toAbsolutePath().normalize();
+        Path path = Paths.get(System.getProperty("user.dir"), staticPath).toAbsolutePath().normalize();
         String savePath = path + "\\upload\\";
 
         // 디렉토리 없으면 생성
@@ -98,34 +102,47 @@ public class PopupController {
         return ResponseEntity.ok().body(fileName);
     }
 
-    // 팝업 추가, 수정
-    @PostMapping("/save")
-    public String popupSave(RedirectAttributes redirectAttributes, PopupDTO popupDTO) {
+    // 팝업 추가
+    @PostMapping("/insert")
+    public String insert(RedirectAttributes redirectAttributes, PopupDTO popupDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
         // 수정 요망 : 임시 아이디 값
         int loginId = 1;
 
-        int result;
-        // 추가, 수정 처리
-        if (popupDTO.getPopup_sn() == 0) {
-            result = popupService.popupAdd(popupDTO, loginId);
-        } else {
-            result = popupService.popupModify(popupDTO, loginId);
-        }
+        int result = popupService.insert(popupDTO, loginId);
 
         // 결과 메시지 설정
         if (result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
             return "redirect:" + directory + "/list";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
-            return directory + "/popup_input";
+            redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
+            return directory + "/popup_insert";
+        }
+    }
+
+    // 팝업 수정
+    @PostMapping("/update")
+    public String update(RedirectAttributes redirectAttributes, PopupDTO popupDTO) {
+        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
+        // 수정 요망 : 임시 아이디 값
+        int loginId = 1;
+
+        int result = popupService.update(popupDTO, loginId);
+
+        // 결과 메시지 설정
+        if (result == 1) {
+            redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
+            return "redirect:" + directory + "/list";
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
+            return directory + "/popup_update";
         }
     }
 
     // 팝업 삭제
     @PostMapping("/delete")
-    public String popupDelete(@RequestParam("popupId") int popupId) {
+    public String delete(@RequestParam("popupId") int popupId) {
         int result = popupService.delete(popupId);
         if (result == 1) {
             return "redirect:" + directory + "/list";
