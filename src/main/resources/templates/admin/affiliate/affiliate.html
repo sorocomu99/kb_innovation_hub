@@ -68,6 +68,7 @@
   </main>
 </div>
 <script th:inline="javascript">
+
   // 페이지 로드 시 실행
   window.onload = function () {
     // 페이지 로드 시 메시지 확인 및 알림 표시
@@ -82,21 +83,21 @@
     if(result) {
       $.ajax({
         url: [[@{/admin/affiliate/delete}]], // 요청 URL
-      type: 'POST', // HTTP 메서드
-      contentType: 'application/x-www-form-urlencoded', // 헤더 설정
-      data: { affiliate_sn: affiliate_sn }, // 보내는 데이터
-      success: function(response) {
-        if(response == 0) {
-          alert('삭제에 실패하였습니다.');
-        } else {
-          alert("삭제에 성공하였습니다.");
-          window.location.href = [[@{/admin/affiliate/list}]];
-        }
-      },
-      error: function(xhr, status, error) {
-        console.error('Error:', error);
-      }
-    });
+        type: 'POST', // HTTP 메서드
+        contentType: 'application/x-www-form-urlencoded', // 헤더 설정
+        data: { affiliate_sn: affiliate_sn }, // 보내는 데이터
+        success: function(response) {
+          if(response == 0) {
+           alert('삭제에 실패하였습니다.');
+          } else {
+           alert("삭제에 성공하였습니다.");
+            window.location.href = [[@{/admin/affiliate/list}]];
+         }
+        },
+        error: function(xhr, status, error) {
+         console.error('Error:', error);
+       }
+     });
     }
   }
 </script>

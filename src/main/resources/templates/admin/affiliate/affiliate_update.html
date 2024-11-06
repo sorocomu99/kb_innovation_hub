@@ -93,8 +93,7 @@
                                     </tbody>
                                 </table>
                                 <div class="button-container">
-                                    <button th:if="${affiliate?.affiliate_sn == null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('insert')">등록하기</button>
-                                    <button th:if="${affiliate?.affiliate_sn != null}" type="button" class="btn btn-primary" onclick="javascript:confirmMsg('modify')">수정하기</button>
+                                    <button type="button" class="btn btn-primary" onclick="javascript:confirmMsg()">수정하기</button>
                                     <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
                                     <a class="btn btn-outline-primary" th:href="@{/admin/affiliate/list/}">목록보기</a>
                                 </div>
@@ -107,13 +106,6 @@
     </main>
 </div>
 <script th:inline="javascript">
-    // 페이지 로드 시 실행
-    window.onload = function () {
-        // 페이지 로드 시 메시지 확인 및 알림 표시
-        // 수정 및 등록 시 띄울 알림창
-        const msg = /*[[${msg}]]*/ '';
-        if (msg) alert(msg);
-    }
 
     // 썸네일 미리보기
     // 게시글 수정 시, 썸네일이 등록되어있으면 다음 두개 태그에 인라인 스타일을 제거해주세요.
@@ -121,18 +113,12 @@
     // ex)
     // 수정 전: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>
     // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
+
     function preview(img) {
         document.querySelector('#previewFrame').src = URL.createObjectURL(event.target.files[0]);
         document.querySelector('#file_yn').value = 1;
         document.querySelector('#previewFrame').style.display = "block";
     }
-
-    $(document).ready(function (){
-        var sn = $("#affiliate_sn").val();
-        if(sn > 0) {
-            $("#previewFrame").css("display", "block");
-        }
-    });
 
     // 컨펌 메시지 띄우는 함수
     function confirmMsg(type) {

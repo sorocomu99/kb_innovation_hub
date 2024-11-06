@@ -33,7 +33,7 @@ public class AffiliateController {
     @Value("/admin/affiliate")
     private String directory;
 
-    // 제휴 사례 조회
+    // 제휴 사례 리스트 조회
     @RequestMapping("/list")
     public String selectList(Model model) {
         List<AffiliateDTO> selectList = affiliateService.selectList();
@@ -41,13 +41,13 @@ public class AffiliateController {
         return directory + "/affiliate";
     }
 
-    // 제휴 사례 등록
+    // 제휴 사례 추가 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
         return directory + "/affiliate_insert";
     }
     
-    // 제휴 사례 상세
+    // 제휴 사례 상세 페이지 이동
     @RequestMapping("/update/{affiliate_sn}")
     public String update(@PathVariable int affiliate_sn, Model model) {
         AffiliateDTO select = affiliateService.select(affiliate_sn);
@@ -74,7 +74,7 @@ public class AffiliateController {
         }
     }
 
-    // 제휴 사례 저장
+    // 제휴 사례 수정
     @PostMapping("/update")
     public String update(RedirectAttributes redirectAttributes, AffiliateDTO affiliateDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것

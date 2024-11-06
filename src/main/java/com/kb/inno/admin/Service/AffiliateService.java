@@ -39,13 +39,13 @@ public class AffiliateService {
     @Value("src/main/resources/static/")
     private String staticPath;
 
-    // 제휴 사례 조회
+    // 제휴 사례 리스트 조회
     public List<AffiliateDTO> selectList() {
         return affiliateDAO.selectList();
     }
 
     // 파일 저장
-    public FileDTO saveFile(AffiliateDTO affiliateDTO, int loginId) {
+    public FileDTO insertFile(AffiliateDTO affiliateDTO, int loginId) {
         // 파일 꺼내기
         MultipartFile file = affiliateDTO.getAffiliate_file();
 
@@ -102,7 +102,7 @@ public class AffiliateService {
         }
     }
 
-    // 제휴 사례 관리 추가
+    // 제휴 사례 등록
     public int insert(AffiliateDTO affiliateDTO, int loginId) {
         // 로그인 한 사람 대입
         affiliateDTO.setFrst_rgtr(loginId);
@@ -111,7 +111,7 @@ public class AffiliateService {
         int result = 0;
 
         // 1. 파일 디렉토리 및 테이블에 저장
-        FileDTO file = saveFile(affiliateDTO, loginId);
+        FileDTO file = insertFile(affiliateDTO, loginId);
 
         // 2. 제휴 사례 저장
         if(file != null) {
@@ -128,12 +128,12 @@ public class AffiliateService {
         return result;
     }
 
-    // 제휴 사례 관리 상세 조회
+    // 제휴 사례 상세 조회
     public AffiliateDTO select(int affiliate_sn) {
         return affiliateDAO.select(affiliate_sn);
     }
 
-    // 제휴 사례 관리 수정
+    // 제휴 사례 수정
     public int update(AffiliateDTO affiliateDTO, int loginId) {
 
         // 파일을 새로 등록했는 지 확인
@@ -157,7 +157,7 @@ public class AffiliateService {
             }
 
             // 3. 새로운 파일 경로에 저장
-            FileDTO fileSave = saveFile(affiliateDTO, loginId);
+            FileDTO fileSave = insertFile(affiliateDTO, loginId);
 
             // 4. 새로운 파일 테이블에 저장
             if(fileSave != null) {
@@ -172,13 +172,13 @@ public class AffiliateService {
         return affiliateDAO.update(affiliateDTO);
     }
 
-    // 제휴 사례 관리 삭제
-    public void delete(int affiliateSn) {
+    // 제휴 사례 삭제
+    public void delete(int affiliate_sn) {
         // 메인 비주얼 상세 조회
-        AffiliateDTO selectInfo = affiliateDAO.select(affiliateSn);
+        AffiliateDTO selectInfo = affiliateDAO.select(affiliate_sn);
 
         // 조회한 것에서 file_id 꺼내기
-        int fileId = selectInfo.getAtch_file_sn();
+        int file_sn = selectInfo.getAtch_file_sn();
 
         // 경로 내 파일 삭제
         Path path = Paths.get(System.getProperty("user.dir"), staticPath);
@@ -188,9 +188,9 @@ public class AffiliateService {
         // 만약 경로에 파일이 지워졌다면
         if(removed) {
             // 파일 삭제
-            affiliateDAO.deleteFile(fileId);
+            affiliateDAO.deleteFile(file_sn);
             // 비주얼 삭제
-            affiliateDAO.delete(affiliateSn);
+            affiliateDAO.delete(affiliate_sn);
         }
     }
 }

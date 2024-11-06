@@ -24,7 +24,7 @@ public interface AffiliateDAO {
     List<AffiliateDTO> selectList();
     // 파일 추가
     int insertFile(FileDTO fileDTO);
-    // 제휴 사례 추가
+    // 제휴 사례 등록
     int insert(AffiliateDTO affiliateDTO);
     // 제휴 사례 상세 조회
     AffiliateDTO select(int affiliate_sn);

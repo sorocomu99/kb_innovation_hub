@@ -104,24 +104,18 @@
     </main>
 </div>
 <script th:inline="javascript">
+
     // 썸네일 미리보기
     // 게시글 수정 시, 썸네일이 등록되어있으면 다음 두개 태그에 인라인 스타일을 제거해주세요.
     // #previewFrame, #deleteThumbnail
     // ex)
     // 수정 전: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>
     // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
+
     function preview(img) {
         document.querySelector('#previewFrame').src = URL.createObjectURL(event.target.files[0]);
         document.querySelector('#file_yn').value = 1;
         document.querySelector('#previewFrame').style.display = "block";
-    }
-
-    // 페이지 로드 시 실행
-    window.onload = function () {
-        // 페이지 로드 시 메시지 확인 및 알림 표시
-        // 수정 및 등록 시 띄울 알림창
-        const msg = /*[[${msg}]]*/ '';
-        if (msg) alert(msg);
     }
 
     // 컨펌 메시지 띄우는 함수
