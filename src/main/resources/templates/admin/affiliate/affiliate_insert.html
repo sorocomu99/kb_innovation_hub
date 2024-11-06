@@ -103,7 +103,7 @@
         </div>
     </main>
 </div>
-<script th:inline="javascript">
+<script>
 
     // 썸네일 미리보기
     // 게시글 수정 시, 썸네일이 등록되어있으면 다음 두개 태그에 인라인 스타일을 제거해주세요.
@@ -119,7 +119,7 @@
     }
 
     // 컨펌 메시지 띄우는 함수
-    function confirmMsg(type) {
+    function confirmMsg() {
         let result = confirm('등록 하시겠습니까?');
         if(!result) {
             return false;
