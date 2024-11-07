@@ -106,6 +106,7 @@
     </select>
     <!-- 제휴 사례 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.AffiliateDTO">
+        /* 제휴 사례 수정 */
         UPDATE KB_AFFILIATE_INFO
            SET AFFILIATE_NM  = #{affiliate_nm}
              , STARTER_NM    = #{starter_nm}
@@ -120,13 +121,14 @@
     </update>
     <!-- 제휴 사례 삭제 -->
     <delete id="delete" parameterType="int">
+        /* 제휴 사례 삭제 */
         DELETE
           FROM KB_AFFILIATE_INFO
          WHERE AFFILIATE_SN = #{affiliate_sn}
     </delete>
     <!-- 제휴 사례 파일 삭제 -->
     <delete id="deleteFile" parameterType="int">
-        /* 제휴 사례 관리 파일 삭제 */
+        /* 제휴 사례 파일 삭제 */
         DELETE
           FROM KB_FILE_INFO
          WHERE FILE_SN = #{file_sn}
