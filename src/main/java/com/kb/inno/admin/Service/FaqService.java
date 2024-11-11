@@ -37,6 +37,22 @@ public class FaqService {
             // 더하기
             repeat += 1;
         }
+        
+        // repeat이 0이면
+        if(repeat == 0) {
+            repeat = 1;
+        }
+
+        // 만약 가져온 페이지가 repeat 보다 크다면
+        if(repeat < page) {
+            page = repeat;
+        }
+
+        // 만약 가져온 페이지가 0이라면
+        if(page < 1) {
+            page = 1;
+        }
+
         // 끝 페이지
         int end = page * pageLetter;
         search.setEnd(end);
@@ -47,10 +63,6 @@ public class FaqService {
 
         // 리스트 조회
         List<FaqDTO> selectList = faqDAO.selectList(search);
-
-        if(repeat == 0) {
-            repeat = 1;
-        }
 
         model.addAttribute("repeat", repeat);
         model.addAttribute("currentPage", page);
