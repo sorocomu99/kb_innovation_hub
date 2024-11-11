@@ -10,7 +10,6 @@
  */
 package com.kb.inno.admin.Controller;
 
-import ch.qos.logback.core.util.FileUtil;
 import com.kb.inno.admin.DTO.PopupDTO;
 import com.kb.inno.admin.Service.PopupService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -26,9 +24,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -49,9 +51,8 @@ public class PopupController {
 
     // 팝업 리스트 조회
     @GetMapping("/list")
-    public String list(Model model) {
-        List<PopupDTO> selectList = popupService.selectList();
-        model.addAttribute("selectList", selectList);
+    public String selectList(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+        popupService.selectList(model, page);
         return directory + "/popup";
     }
     
@@ -72,34 +73,30 @@ public class PopupController {
     // 이미지 업로드
     @PostMapping("/uploadImage")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file) {
-        // 오리지널 파일 이름
-        String originalFileName = file.getOriginalFilename();
+        Map<String, String> responseMap = new HashMap<>();
 
-        // 파일 확장자 설정
-        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-        // 파일 이름 설정
-        String fileName = UUID.randomUUID().toString() + fileExtension;
-
-        // 파일 경로 설정
         Path path = Paths.get(System.getProperty("user.dir"), staticPath).toAbsolutePath().normalize();
         String savePath = path + "\\upload\\";
 
-        // 디렉토리 없으면 생성
-        File directory = new File(savePath);
-        if(!directory.exists()) {
-            directory.mkdirs();
-        }
+        String originalFileName = file.getOriginalFilename();	// 원래 파일명
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	// 파일 확장자
+        String savedFileName = UUID.randomUUID() + extension;	// 저장될 파일명
 
-        // 파일 저장
+        File targetFile = new File(savePath + savedFileName);
         try {
-            file.transferTo(new File(savePath, fileName));
+            InputStream fileStream = file.getInputStream();
+            Files.copy(fileStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            responseMap.put("url", "/upload/" + savedFileName);
+            responseMap.put("responseCode", "success");
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            targetFile.delete();  // 저장된 파일 삭제
+            responseMap.put("responseCode", "error");
+            e.printStackTrace();
         }
 
-        // fileName 반환
-        return ResponseEntity.ok().body(fileName);
+        // json으로 리턴하면 오류나기 때문에 string으로 리턴
+        return ResponseEntity.ok(responseMap);
     }
 
     // 팝업 추가

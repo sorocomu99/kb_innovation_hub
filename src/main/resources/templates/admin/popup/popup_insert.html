@@ -189,13 +189,15 @@
         $.ajax({
             data : formData,
             type : "POST",
-            url : '/admin/popup/uploadImage',
+            url: /*[[@{/admin/popup/uploadImage}]]*/, // 요청 URL
             contentType : false,
-            processData : false,
             enctype : 'multipart/form-data',
+            processData : false,
             success : function(data) {
-                $('#summernote').summernote('insertImage', "/upload/" + data);
+                debugger;
+                $('#summernote').summernote('insertImage', "/upload/" + data.url);
             }, error: function(xhr, status, error) {
+                debugger;
                 console.error('Error uploading image:', error);
                 alert('이미지 업로드를 실패하였습니다.');
             }
