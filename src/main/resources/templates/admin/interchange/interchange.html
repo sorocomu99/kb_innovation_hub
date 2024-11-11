@@ -1,0 +1,105 @@
+<!--
+ 파일명     : interchange.html
+ 관련자바   : InterchangeController
+ 화면명     : 현지 교류 관리
+ 설명       : 현지 교류 조회 및 삭제 처리
+ 최초개발일 : 2024.11.11
+ 최초개발자 : 양윤지
+ ==========================================================
+   수정일            수정자           설명
+ ==========================================================
+-->
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{admin/fragment/config :: configFragment}"></head>
+<body>
+<div class="wrap">
+    <app-header></app-header>
+        <main class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col">
+                        <div class="paper">
+                            <h2 class="h4">글로벌 - 현지교류 지원 관리</h2>
+                            <div class="mt-4">
+                                <div class="top-search d-flex mt-4">
+                                    <div class="col">
+                                    </div>
+                                    <div class="col">
+                                        <div class="button-wrap d-flex justify-content-end">
+                                            <a th:href="@{/admin/interchange/insert}" class="btn btn-primary">
+                                                <i data-feather="edit"></i> 신규 등록
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <table class="table text-center align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th style="width:5%">NO</th>
+                                            <th style="width:25%">이미지</th>
+                                            <th style="width:30%">타이틀</th>
+                                            <th style="width:10%">노출여부</th>
+                                            <th style="width:10%">정렬</th>
+                                            <th style="width:20%">관리</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="list : ${selectList}">
+                                            <td th:text="${list.exch_sn}"></td>
+                                            <td><img th:src="${list.inter_path1 + list.inter_file_name1}" width="200" alt=""></td>
+                                            <td th:text="${list.exch_ttl}"></td>
+                                            <td th:text="${list.expsr_yn == 'Y' ? '노출' : '미노출'}"></td>
+                                            <td th:text="${list.sort_no}"></td>
+                                            <td>
+                                                <a th:href="@{/admin/interchange/update/{exch_sn}(exch_sn=${list.exch_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" th:onclick="deleteAlert([[${list.exch_sn}]])">삭제</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script th:inline="javascript">
+        // 페이지 로드 시 실행
+        window.onload = function () {
+            // 페이지 로드 시 메시지 확인 및 알림 표시
+            // 수정 및 등록 시 띄울 알림창
+            const msg = /*[[${msg}]]*/ '';
+            if (msg) alert(msg);
+        }
+
+        // 삭제 성공/실패 알림창 띄우기
+        function deleteAlert(exch_sn) {
+            let result = confirm("정말 삭제 하시겠습니까?");
+            if(result) {
+                $.ajax({
+                    url: [[@{/admin/interchange/delete}]], // 요청 URL
+                    type: 'POST', // HTTP 메서드
+                    data: { exch_sn: exch_sn }, // 보내는 데이터
+                    success: function(response) {
+                        if(response == 0) {
+                            alert('삭제에 실패하였습니다.');
+                        } else {
+                            alert("삭제에 성공하였습니다.");
+                            window.location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('삭제에 실패하였습니다.');
+                        console.error('Error:', error);
+                    }
+                });
+            }
+        }
+    </script>
+
+</body>
+</html>
