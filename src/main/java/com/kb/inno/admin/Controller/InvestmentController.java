@@ -42,7 +42,7 @@ public class InvestmentController {
         return directory + "/investment";
     }
 
-    // 육성 프로그램 - 육성 그래프 관리 저장
+    // 협업 성과 - 투자 그래프 관리 저장
     @PostMapping("/save")
     public String save(RedirectAttributes redirectAttributes, InvestmentDTO investmentDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
