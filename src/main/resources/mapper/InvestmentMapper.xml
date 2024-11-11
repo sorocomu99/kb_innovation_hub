@@ -16,10 +16,6 @@
              , GRAPH4_NOCS
              , GRAPH5_YR
              , GRAPH5_NOCS
-             , FRST_RGTR
-             , FRST_REG_DT
-             , LAST_MDFR
-             , LAST_MDFCN_DT
         FROM KB_INVEST_GRAPH_INFO
     </select>
     <!-- 협업 성과 - 투자 그래프 관리 추가 -->

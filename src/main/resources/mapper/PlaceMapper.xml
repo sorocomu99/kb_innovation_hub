@@ -42,7 +42,7 @@
         <selectKey keyProperty="file_sn" resultType="int" order="AFTER">
             /* 저장한 파일 중 제일 큰 것 조회(키 조회) */
             SELECT MAX(FILE_SN) AS FILE_SN
-            FROM KB_FILE_INFO
+              FROM KB_FILE_INFO
         </selectKey>
     </insert>
     <!-- 육성 공간 등록 -->
@@ -106,28 +106,28 @@
     <update id="update" parameterType="com.kb.inno.admin.DTO.PlaceDTO">
         /* 육성 공간 수정 */
         UPDATE KB_PLC_INFO
-        SET PLC_NM        = #{plc_nm}
-          , PLC_ADDR      = #{plc_addr}
-          , SORT_NO       = #{sort_no}
-          , ATCH_FILE_SN1 = #{atch_file_sn1}
-          , ATCH_FILE_SN2 = #{atch_file_sn2}
-          , ATCH_FILE_SN3 = #{atch_file_sn3}
-          , LAST_MDFR     = #{last_mdfr}
-          , LAST_MDFCN_DT = SYSDATE
-        WHERE PLC_SN      = #{plc_sn}
+           SET PLC_NM        = #{plc_nm}
+             , PLC_ADDR      = #{plc_addr}
+             , SORT_NO       = #{sort_no}
+             , ATCH_FILE_SN1 = #{atch_file_sn1}
+             , ATCH_FILE_SN2 = #{atch_file_sn2}
+             , ATCH_FILE_SN3 = #{atch_file_sn3}
+             , LAST_MDFR     = #{last_mdfr}
+             , LAST_MDFCN_DT = SYSDATE
+         WHERE PLC_SN        = #{plc_sn}
     </update>
     <!-- 육성 공간 삭제 -->
     <delete id="delete" parameterType="int">
         /* 육성 공간 삭제 */
         DELETE
-        FROM KB_PLC_INFO
-        WHERE PLC_SN = #{plc_sn}
+          FROM KB_PLC_INFO
+         WHERE PLC_SN = #{plc_sn}
     </delete>
     <!-- 육성 공간 파일 삭제 -->
     <delete id="deleteFile" parameterType="int">
         /* 육성 공간 파일 삭제 */
         DELETE
-        FROM KB_FILE_INFO
-        WHERE FILE_SN = #{file_sn}
+          FROM KB_FILE_INFO
+         WHERE FILE_SN = #{file_sn}
     </delete>
 </mapper>
