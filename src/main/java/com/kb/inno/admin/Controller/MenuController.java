@@ -39,7 +39,7 @@ public class MenuController {
     // 메뉴 리스트 조회 : 메뉴 조회
     @GetMapping("/")
     public ResponseEntity<Object> index() {
-        List<MenuDTO> selectList = menuService.selectList();
+        List<MenuDTO> selectList = menuService.selectListConfig();
         return ResponseEntity.ok().body(selectList);
     }
     

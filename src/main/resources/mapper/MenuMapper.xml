@@ -16,6 +16,21 @@
        CONNECT BY PRIOR MENU_SN = MENU_UP_SN
          ORDER BY MENU_SN, MENU_SORT
     </select>
+    <!-- 메뉴 공통 조회 -->
+    <select id="selectListConfig" resultType="com.kb.inno.admin.DTO.MenuDTO">
+        /* 메뉴 공통 조회 */
+        SELECT LPAD(' ', 2 * (MENU_DEPTH) - 1) || MENU_NM AS MENU_NM
+             , MENU_SN
+             , MENU_DEPTH
+             , MENU_UP_SN
+             , MENU_SORT
+             , MENU_LINK
+          FROM KB_MENU_INFO
+         WHERE USE_YN = 'Y'
+         START WITH MENU_UP_SN IS NULL
+       CONNECT BY PRIOR MENU_SN = MENU_UP_SN
+         ORDER BY MENU_SN, MENU_SORT
+    </select>
     <!-- 메뉴 상세 조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.MenuDTO">
         SELECT MENU_NM

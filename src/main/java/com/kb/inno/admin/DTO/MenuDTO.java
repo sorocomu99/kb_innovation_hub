@@ -22,6 +22,7 @@ public class MenuDTO {
     private int menu_up_sn;     // 메뉴 상위 일련번호
     private int menu_sort;      // 메뉴 정렬
     private String use_yn;      // 사용 여부
+    private String menu_link;   // 메뉴 링크
     private int frst_rgtr;      // 최초 등록자
     private Date frst_reg_dt;   // 최초 등록 일시
     private int last_mdfr;      // 최종 수정자

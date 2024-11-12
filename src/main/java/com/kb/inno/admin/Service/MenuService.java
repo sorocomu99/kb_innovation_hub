@@ -25,6 +25,11 @@ public class MenuService {
     private final MenuDAO menuDAO;
 
     // 메뉴 조회
+    public List<MenuDTO> selectListConfig() {
+        return menuDAO.selectListConfig();
+    }
+
+    // 메뉴 조회
     public List<MenuDTO> selectList() {
         return menuDAO.selectList();
     }
