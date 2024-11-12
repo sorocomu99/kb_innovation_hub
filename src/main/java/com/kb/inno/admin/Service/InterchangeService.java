@@ -45,16 +45,31 @@ public class InterchangeService {
 
     // 파일 저장
     public List<FileDTO> insertFile(InterchangeDTO interchangeDTO, int loginId) {
-        // 파일 꺼내기
-        MultipartFile file1 = interchangeDTO.getInter_file1();
-        MultipartFile file2 = interchangeDTO.getInter_file2();
-        MultipartFile file3 = interchangeDTO.getInter_file3();
 
+        // 파일을 등록했는 지 확인
+        int fileYn1 = interchangeDTO.getFile_yn1();
+        int fileYn2 = interchangeDTO.getFile_yn2();
+        int fileYn3 = interchangeDTO.getFile_yn3();
+
+        // 파일 꺼내기
         // 리스트에 담기
+        MultipartFile file1, file2, file3;
         List<MultipartFile> files = new ArrayList<>();
-        files.add(file1);
-        files.add(file2);
-        files.add(file3);
+
+        if(fileYn1 == 1) {
+            file1 = interchangeDTO.getInter_file1();
+            files.add(file1);
+        }
+
+        if(fileYn2 == 1) {
+            file2 = interchangeDTO.getInter_file2();
+            files.add(file2);
+        }
+
+        if(fileYn3 == 1) {
+            file3 = interchangeDTO.getInter_file3();
+            files.add(file3);
+        }
 
         // 파일 경로 설정
         Path path = Paths.get(System.getProperty("user.dir"), staticPath);

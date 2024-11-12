@@ -110,20 +110,28 @@ public class AffiliateService {
 
         int result = 0;
 
+        // 파일을 등록했는 지 확인
+        int fileYn = affiliateDTO.getFile_yn();
+
+        if(fileYn == 1) {
+            // 파일 저장
+            FileDTO fileSave = insertFile(affiliateDTO, loginId);
+
+            // 게시글 저장
+            if(fileSave != null) {
+                // 파일 일련번호 대입
+                affiliateDTO.setAtch_file_sn(fileSave.getFile_sn());
+            }
+        }
+
         // 1. 파일 디렉토리 및 테이블에 저장
         FileDTO file = insertFile(affiliateDTO, loginId);
 
-        // 2. 제휴 사례 저장
-        if(file != null) {
-            // 파일 일련 번호 대입
-            affiliateDTO.setAtch_file_sn(file.getFile_sn());
+        // 로그인 한 사람 대입
+        affiliateDTO.setFrst_rgtr(loginId);
+        affiliateDTO.setLast_mdfr(loginId);
 
-            // 로그인 한 사람 대입
-            affiliateDTO.setFrst_rgtr(loginId);
-            affiliateDTO.setLast_mdfr(loginId);
-
-            result = affiliateDAO.insert(affiliateDTO);
-        }
+        result = affiliateDAO.insert(affiliateDTO);
 
         return result;
     }

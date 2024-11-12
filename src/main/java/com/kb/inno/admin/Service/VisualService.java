@@ -109,18 +109,24 @@ public class VisualService {
 
         int result = 0;
 
-        // 파일 저장
-        FileDTO fileSave = insertFile(visualDTO, loginId);
+        // 파일을 등록했는 지 확인
+        int fileYn = visualDTO.getFile_yn();
 
-        // 게시글 저장
-        if(fileSave != null) {
-            // 파일 일련번호 대입
-            visualDTO.setAtch_file_sn(fileSave.getFile_sn());
-            // 최초 등록자, 최종 수정자 대입
-            visualDTO.setFrst_rgtr(loginId);
-            visualDTO.setLast_mdfr(loginId);
-            result = visualDAO.insert(visualDTO);
+        if(fileYn == 1) {
+            // 파일 저장
+            FileDTO fileSave = insertFile(visualDTO, loginId);
+
+            // 게시글 저장
+            if(fileSave != null) {
+                // 파일 일련번호 대입
+                visualDTO.setAtch_file_sn(fileSave.getFile_sn());
+            }
         }
+
+        // 최초 등록자, 최종 수정자 대입
+        visualDTO.setFrst_rgtr(loginId);
+        visualDTO.setLast_mdfr(loginId);
+        result = visualDAO.insert(visualDTO);
 
         return result;
     }

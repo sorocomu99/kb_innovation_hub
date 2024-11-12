@@ -107,19 +107,18 @@ public class CooperationService {
 
         int result = 0;
 
-        // 1. 파일 디렉토리 및 테이블에 저장
-        FileDTO file = insertFile(cooperationDTO, loginId);
+        // 파일을 등록했는 지 확인
+        int fileYn = cooperationDTO.getFile_yn();
 
-        // 2. 제휴 사례 저장
-        if(file != null) {
-            // 파일 일련 번호 대입
-            cooperationDTO.setAtch_file_id(file.getFile_sn());
+        if(fileYn == 1) {
+            // 파일 저장
+            FileDTO fileSave = insertFile(cooperationDTO, loginId);
 
-            // 로그인 한 사람 대입
-            cooperationDTO.setFrst_rgtr(loginId);
-            cooperationDTO.setLast_mdfr(loginId);
-
-            result = cooperationDAO.insert(cooperationDTO);
+            // 게시글 저장
+            if(fileSave != null) {
+                // 파일 일련번호 대입
+                cooperationDTO.setAtch_file_id(fileSave.getFile_sn());
+            }
         }
 
         return result;
