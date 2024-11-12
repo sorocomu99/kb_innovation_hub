@@ -101,7 +101,7 @@
              , FILES.FILE_PATH     AS AFFILIATE_PATH
           FROM KB_AFFILIATE_INFO AFFI
              , KB_FILE_INFO FILES
-        WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN
+        WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
           AND AFFI.AFFILIATE_SN = #{affiliate_sn}
     </select>
     <!-- 제휴 사례 수정 -->

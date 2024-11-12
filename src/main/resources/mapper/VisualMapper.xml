@@ -93,7 +93,7 @@
              , FILES.FILE_PATH     AS MAIN_PATH
           FROM KB_MAIN_INFO VISUAL
              , KB_FILE_INFO FILES
-         WHERE VISUAL.ATCH_FILE_SN = FILES.FILE_SN
+         WHERE VISUAL.ATCH_FILE_SN = FILES.FILE_SN(+)
            AND VISUAL.MAIN_SN      = #{main_sn}
     </select>
     <!-- 메인 비주얼 수정 -->

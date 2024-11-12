@@ -93,7 +93,7 @@
              , FILES.FILE_PATH     AS COOPE_PATH
           FROM KB_COOPE_INFO COOPE
              , KB_FILE_INFO FILES
-         WHERE COOPE.ATCH_FILE_ID = FILES.FILE_SN
+         WHERE COOPE.ATCH_FILE_ID = FILES.FILE_SN(+)
            AND COOPE.COOPE_SN     = #{coope_sn}
     </select>
     <!-- 협력 기관 수정 -->
