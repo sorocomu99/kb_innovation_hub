@@ -41,25 +41,30 @@
                         <div class="mt-4">
                             <table class="table text-center">
                                 <thead>
-                                <tr>
-                                    <th style="width:5%">NO</th>
-                                    <th style="width:25%">제목</th>
-                                    <th style="width:20%">시작일시</th>
-                                    <th style="width:20%">종료일시</th>
-                                    <th style="width:20%">관리</th>
-                                </tr>
+                                    <tr>
+                                        <th style="width:5%">NO</th>
+                                        <th style="width:25%">제목</th>
+                                        <th style="width:20%">시작일시</th>
+                                        <th style="width:20%">종료일시</th>
+                                        <th style="width:20%">관리</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="list : ${selectList}">
-                                    <td th:text="${list.popup_sn}"></td>
-                                    <td th:text="${list.mngr_ttl}"></td>
-                                    <td th:text="${list.bgng_ymd}"></td>
-                                    <td th:text="${list.end_ymd}"></td>
-                                    <td>
-                                        <a th:href="@{/admin/popup/update/{popup_sn}(popup_sn=${list.popup_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
-                                        <button th:onclick="deleteAlert([[${list.popup_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
-                                    </td>
-                                </tr>
+                                    <tr th:if="${selectList == null or selectList.isEmpty()}">
+                                        <td class="py-5" colspan="10">
+                                            검색 결과가 없습니다.
+                                        </td>
+                                    </tr>
+                                    <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
+                                        <td th:text="${list.popup_sn}"></td>
+                                        <td th:text="${list.mngr_ttl}"></td>
+                                        <td th:text="${list.bgng_ymd}"></td>
+                                        <td th:text="${list.end_ymd}"></td>
+                                        <td>
+                                            <a th:href="@{/admin/popup/update/{popup_sn}(popup_sn=${list.popup_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                            <button th:onclick="deleteAlert([[${list.popup_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                        </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

@@ -63,7 +63,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="list : ${selectList}">
+                                        <tr th:if="${selectList == null or selectList.isEmpty()}">
+                                            <td class="py-5" colspan="10">
+                                                검색 결과가 없습니다.
+                                            </td>
+                                        </tr>
+                                        <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
                                             <td th:text="${list.faq_sn}"></td>
                                             <td th:text="${list.faq_ctgry}"></td>
                                             <td th:text="${list.faq_qstn}"></td>

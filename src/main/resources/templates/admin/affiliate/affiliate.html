@@ -47,17 +47,22 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="list : ${selectList}">
-                  <td th:text="${list.affiliate_sn}"></td>
-                  <td><img th:src="${'/upload/' + list.affiliate_file_name}" width="200" alt=""></td>
-                  <td th:text="${list.srvc_nm}"></td>
-                  <td th:text="${list.expsr_yn == 'Y' ? '노출' : '미노출'}">노출</td>
-                  <td th:text="${list.sort_no}"></td>
-                  <td>
-                    <a th:href="@{/admin/affiliate/update/{affiliate_sn}(affiliate_sn=${list.affiliate_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
-                    <button th:onclick="deleteAlert([[${list.affiliate_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
-                  </td>
-                </tr>
+                  <tr th:if="${selectList == null or selectList.isEmpty()}">
+                    <td class="py-5" colspan="10">
+                      검색 결과가 없습니다.
+                    </td>
+                  </tr>
+                  <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
+                    <td th:text="${list.affiliate_sn}"></td>
+                    <td><img th:src="${'/upload/' + list.affiliate_file_name}" width="200" alt=""></td>
+                    <td th:text="${list.srvc_nm}"></td>
+                    <td th:text="${list.expsr_yn == 'Y' ? '노출' : '미노출'}">노출</td>
+                    <td th:text="${list.sort_no}"></td>
+                    <td>
+                      <a th:href="@{/admin/affiliate/update/{affiliate_sn}(affiliate_sn=${list.affiliate_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                      <button th:onclick="deleteAlert([[${list.affiliate_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
