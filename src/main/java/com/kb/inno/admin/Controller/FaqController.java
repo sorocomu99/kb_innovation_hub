@@ -35,7 +35,7 @@ public class FaqController {
 
     // FAQ 등록 화면 이동
     @RequestMapping("/insert")
-    public String insert(Model model) {
+    public String insert() {
         return directory + "/faq_insert";
     }
 
