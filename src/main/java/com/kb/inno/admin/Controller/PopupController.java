@@ -138,9 +138,10 @@ public class PopupController {
     }
 
     // 팝업 삭제
+    @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("popupId") int popupId) {
         popupService.delete(popupId);
-        return directory + "/popup";
+        return "success";
     }
 }

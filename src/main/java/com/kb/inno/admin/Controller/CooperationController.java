@@ -94,9 +94,10 @@ public class CooperationController {
     }
 
     // 제휴 사례 삭제
+    @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("coope_sn") int coope_sn) {
         cooperationService.delete(coope_sn);
-        return directory + "/cooperation";
+        return "success";
     }
 }

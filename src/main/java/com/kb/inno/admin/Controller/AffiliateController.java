@@ -94,9 +94,10 @@ public class AffiliateController {
     }
 
     // 제휴 사례 삭제
+    @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("affiliate_sn") int affiliate_sn) {
         affiliateService.delete(affiliate_sn);
-        return directory + "/affiliate";
+        return "success";
     }
 }

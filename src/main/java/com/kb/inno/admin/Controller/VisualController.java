@@ -94,9 +94,10 @@ public class VisualController {
     }
 
     // 메인 비주얼 삭제
+    @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("main_sn") int main_sn) {
         visualService.delete(main_sn);
-        return directory + "/main";
+        return "success";
     }
 }

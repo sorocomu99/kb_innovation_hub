@@ -16,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -96,9 +93,11 @@ public class InterchangeController {
         }
     }
 
+    // 현지 교류 삭제
+    @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("exch_sn") int exch_sn) {
         interchangeService.delete(exch_sn);
-        return "redirect:" + directory + "/list";
+        return "success";
     }
 }
