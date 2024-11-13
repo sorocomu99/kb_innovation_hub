@@ -108,8 +108,6 @@ public class AffiliateService {
         affiliateDTO.setFrst_rgtr(loginId);
         affiliateDTO.setLast_mdfr(loginId);
 
-        int result = 0;
-
         // 파일을 등록했는 지 확인
         int fileYn = affiliateDTO.getFile_yn();
 
@@ -124,13 +122,7 @@ public class AffiliateService {
             }
         }
 
-        // 로그인 한 사람 대입
-        affiliateDTO.setFrst_rgtr(loginId);
-        affiliateDTO.setLast_mdfr(loginId);
-
-        result = affiliateDAO.insert(affiliateDTO);
-
-        return result;
+        return affiliateDAO.insert(affiliateDTO);
     }
 
     // 제휴 사례 상세 조회
