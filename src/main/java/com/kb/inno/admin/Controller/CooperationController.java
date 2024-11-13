@@ -48,10 +48,10 @@ public class CooperationController {
     }
 
     // 협력 기관 상세 페이지 이동
-    @RequestMapping("/update/{cooperation_sn}")
-    public String update(@PathVariable int cooperation_sn, Model model) {
-        CooperationDTO select = cooperationService.select(cooperation_sn);
-        model.addAttribute("cooperation", select);
+    @PostMapping("/detail")
+    public String detail(@RequestParam int coope_sn, Model model) {
+        CooperationDTO cooperation = cooperationService.select(coope_sn);
+        model.addAttribute("cooperation", cooperation);
         return directory + "/cooperation_update";
     }
 

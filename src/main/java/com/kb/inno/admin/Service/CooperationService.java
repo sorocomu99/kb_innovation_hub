@@ -105,8 +105,6 @@ public class CooperationService {
         cooperationDTO.setFrst_rgtr(loginId);
         cooperationDTO.setLast_mdfr(loginId);
 
-        int result = 0;
-
         // 파일을 등록했는 지 확인
         int fileYn = cooperationDTO.getFile_yn();
 
@@ -121,7 +119,7 @@ public class CooperationService {
             }
         }
 
-        return result;
+        return cooperationDAO.insert(cooperationDTO);
     }
 
     // 협력 기관 상세 조회
@@ -171,18 +169,24 @@ public class CooperationService {
     public void delete(int coope_sn) {
         // 메인 비주얼 상세 조회
         CooperationDTO selectInfo = cooperationDAO.select(coope_sn);
+
         // 조회한 것에서 file_id 꺼내기
         int fileId = selectInfo.getAtch_file_id();
-        // 경로 내 파일 삭제
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-        File deleteFile = new File(path + selectInfo.getCoope_path() + selectInfo.getCoope_file_name());
-        boolean removed = deleteFile.delete();
-        // 만약 경로에 파일이 지워졌다면
-        if(removed) {
-            // 파일 삭제
-            cooperationDAO.deleteFile(fileId);
-            // 비주얼 삭제
-            cooperationDAO.delete(coope_sn);
+
+        if(fileId != 0) {
+            // 경로 내 파일 삭제
+            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+            File deleteFile = new File(path + selectInfo.getCoope_path() + selectInfo.getCoope_file_name());
+            boolean removed = deleteFile.delete();
+
+            // 만약 경로에 파일이 지워졌다면
+            if(removed) {
+                // 파일 삭제
+                cooperationDAO.deleteFile(fileId);
+            }
         }
+
+        // 협력 기관 삭제
+        cooperationDAO.delete(coope_sn);
     }
 }
