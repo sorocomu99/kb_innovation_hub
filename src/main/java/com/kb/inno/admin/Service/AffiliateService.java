@@ -124,9 +124,6 @@ public class AffiliateService {
             }
         }
 
-        // 1. 파일 디렉토리 및 테이블에 저장
-        FileDTO file = insertFile(affiliateDTO, loginId);
-
         // 로그인 한 사람 대입
         affiliateDTO.setFrst_rgtr(loginId);
         affiliateDTO.setLast_mdfr(loginId);
@@ -188,17 +185,19 @@ public class AffiliateService {
         // 조회한 것에서 file_id 꺼내기
         int file_sn = selectInfo.getAtch_file_sn();
 
-        // 경로 내 파일 삭제
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-        File deleteFile = new File(path + selectInfo.getAffiliate_path() + selectInfo.getAffiliate_file_name());
-        boolean removed = deleteFile.delete();
-
-        // 만약 경로에 파일이 지워졌다면
-        if(removed) {
-            // 파일 삭제
-            affiliateDAO.deleteFile(file_sn);
-            // 비주얼 삭제
-            affiliateDAO.delete(affiliate_sn);
+        if(file_sn != 0) {
+            // 경로 내 파일 삭제
+            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+            File deleteFile = new File(path + selectInfo.getAffiliate_path() + selectInfo.getAffiliate_file_name());
+            boolean removed = deleteFile.delete();
+            // 만약 경로에 파일이 지워졌다면
+            if(removed) {
+                // 파일 삭제
+                affiliateDAO.deleteFile(file_sn);
+            }
         }
+
+        // 비주얼 삭제
+        affiliateDAO.delete(affiliate_sn);
     }
 }

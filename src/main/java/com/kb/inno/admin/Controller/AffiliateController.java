@@ -48,10 +48,10 @@ public class AffiliateController {
     }
     
     // 제휴 사례 상세 페이지 이동
-    @RequestMapping("/update/{affiliate_sn}")
-    public String update(@PathVariable int affiliate_sn, Model model) {
-        AffiliateDTO select = affiliateService.select(affiliate_sn);
-        model.addAttribute("affiliate", select);
+    @PostMapping("/detail")
+    public String detail(@RequestParam int affiliate_sn, Model model) {
+        AffiliateDTO affiliate = affiliateService.select(affiliate_sn);
+        model.addAttribute("affiliate", affiliate);
         return directory + "/affiliate_update";
     }
 

@@ -34,7 +34,7 @@
                                                 <div class="d-flex align-items-center">
                                                     <input class="form-control w-auto" type="file" name="affiliate_file" onchange="preview()">
                                                 </div>
-                                                <img id="previewFrame" th:src="${affiliate?.affiliate_path + affiliate?.affiliate_file_name}" width="200" class="img-fluid mt-2" />
+                                                <img id="previewFrame" th:src="${affiliate?.affiliate_path == null ? '' : affiliate?.affiliate_path + affiliate?.affiliate_file_name}" width="200" class="img-fluid mt-2" />
                                                 <p class="mb-0 mt-2">
                                                     * 권장 사이즈 : 458x328px
                                                 </p>
@@ -113,6 +113,13 @@
     // ex)
     // 수정 전: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>
     // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
+
+    window.onload = function () {
+        var img = document.querySelector('#previewFrame').src;
+        if(img != null) {
+            document.querySelector('#previewFrame').style.display = "block";
+        }
+    }
 
     function preview(img) {
         document.querySelector('#previewFrame').src = URL.createObjectURL(event.target.files[0]);

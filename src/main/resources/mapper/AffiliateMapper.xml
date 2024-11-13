@@ -13,7 +13,7 @@
              , FILES.FILE_PATH   AS AFFILIATE_PATH
           FROM KB_AFFILIATE_INFO AFFI
              , KB_FILE_INFO FILES
-         WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN
+         WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
          ORDER BY AFFILIATE_SN DESC
     </select>
     <!-- 제휴 사례 파일 저장 -->
