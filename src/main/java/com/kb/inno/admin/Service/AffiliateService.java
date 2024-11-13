@@ -189,7 +189,7 @@ public class AffiliateService {
             }
         }
 
-        // 비주얼 삭제
+        // 제휴 사례 삭제
         affiliateDAO.delete(affiliate_sn);
     }
 }
