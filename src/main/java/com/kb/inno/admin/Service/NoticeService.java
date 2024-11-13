@@ -171,7 +171,8 @@ public class NoticeService {
     public NoticeDTO select(int ntc_sn) {
         return noticeDAO.select(ntc_sn);
     }
-
+    
+    // 공지사항 수정
     public int update(NoticeDTO noticeDTO, int loginId) {
         // 파일을 새로 등록했는 지 확인
         int fileYn = noticeDTO.getFile_yn();
