@@ -55,10 +55,10 @@ public class FaqController {
     }
 
     // FAQ 수정 화면 이동
-    @RequestMapping("/update/{faq_sn}")
-    public String update(@PathVariable int faq_sn, Model model) {
-        FaqDTO select = faqService.select(faq_sn);
-        model.addAttribute("faq", select);
+    @PostMapping("/detail")
+    public String detail(@RequestParam int faq_sn, Model model) {
+        FaqDTO faq = faqService.select(faq_sn);
+        model.addAttribute("faq", faq);
         return directory + "/faq_update";
     }
 

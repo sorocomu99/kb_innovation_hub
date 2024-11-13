@@ -75,7 +75,7 @@
                                             <td th:text="${list.faq_ans}"></td>
                                             <td th:text="${list.sort_no}"></td>
                                             <td>
-                                                <a th:href="@{/admin/faq/update/{faq_sn}(faq_sn=${list.faq_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                                <button th:onclick="updatePage([[${list.faq_sn}]])" class="btn btn-outline-dark btn-sm">수정</button>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" th:onclick="deleteAlert([[${list.faq_sn}]])">삭제</button>
                                             </td>
                                         </tr>
@@ -139,23 +139,37 @@
             if (msg) alert(msg);
         }
 
+        // 수정 페이지 이동
+        function updatePage(faq_sn) {
+            // 빈 form 전달
+            let pageMoveForm = document.createElement('form');
+            // 인수 값 전달
+            let obj = document.createElement('input');
+            obj.setAttribute('type', 'hidden');
+            obj.setAttribute('name', 'faq_sn');
+            obj.setAttribute('value', faq_sn);
+            pageMoveForm.appendChild(obj);
+
+            pageMoveForm.setAttribute('method', 'post');
+            pageMoveForm.setAttribute('action', '/admin/faq/detail');
+            document.body.appendChild(pageMoveForm);
+            pageMoveForm.submit();
+        }
+
         // 삭제 성공/실패 알림창 띄우기
         function deleteAlert(faq_sn) {
             let result = confirm("정말 삭제 하시겠습니까?");
             if(result) {
                 $.ajax({
-                    url: [[@{/admin/faq/delete}]], // 요청 URL
+                    url: /*[[@{/admin/faq/delete}]]*/, // 요청 URL
                     type: 'POST', // HTTP 메서드
                     data: { faq_sn: faq_sn }, // 보내는 데이터
                     success: function(response) {
-                        if(response == 0) {
-                            alert('삭제에 실패하였습니다.');
-                        } else {
-                            alert("삭제에 성공하였습니다.");
-                            window.location.reload();
-                        }
+                        alert("삭제에 성공하였습니다.");
+                        window.location.reload();
                     },
                     error: function(xhr, status, error) {
+                        alert('삭제에 실패하였습니다.');
                         console.error('Error:', error);
                     }
                 });
