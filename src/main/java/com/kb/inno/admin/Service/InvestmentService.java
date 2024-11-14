@@ -36,9 +36,9 @@ public class InvestmentService {
     }
 
     // 협업 성과 - 투자 그래프 관리 수정
-    public int modify(InvestmentDTO investmentDTO, int loginId) {
+    public int update(InvestmentDTO investmentDTO, int loginId) {
         investmentDTO.setLast_mdfr(loginId);
 
-        return investmentDAO.modify(investmentDTO);
+        return investmentDAO.update(investmentDTO);
     }
 }

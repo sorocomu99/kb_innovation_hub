@@ -22,5 +22,5 @@ public interface InvestmentDAO {
     // 협업 성과 - 투자 그래프 관리 추가
     int insert(InvestmentDTO investmentDTO);
     // 협업 성과 - 투자 그래프 관리 수정
-    int modify(InvestmentDTO investmentDTO);
+    int update(InvestmentDTO investmentDTO);
 }

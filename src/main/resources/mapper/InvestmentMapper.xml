@@ -61,7 +61,7 @@
         )
     </insert>
     <!-- 협업 성과 - 투자 그래프 관리 수정 -->
-    <update id="modify" parameterType="com.kb.inno.admin.DTO.InvestmentDTO">
+    <update id="update" parameterType="com.kb.inno.admin.DTO.InvestmentDTO">
         /* 협업 성과 - 투자 그래프 관리 수정 */
         UPDATE KB_INVEST_GRAPH_INFO
            SET CRTR_YM       = #{crtr_ym}

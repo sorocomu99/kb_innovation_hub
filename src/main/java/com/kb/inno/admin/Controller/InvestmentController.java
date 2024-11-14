@@ -53,14 +53,14 @@ public class InvestmentController {
         if (investmentDTO.getGraph_sn() == 0) {
             result = investmentService.insert(investmentDTO, loginId);
         } else {
-            result = investmentService.modify(investmentDTO, loginId);
+            result = investmentService.update(investmentDTO, loginId);
         }
 
         if(result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 완료되었습니다.");
             return "redirect:" + directory + "/info";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
             return directory + "/investment";
         }
     }
