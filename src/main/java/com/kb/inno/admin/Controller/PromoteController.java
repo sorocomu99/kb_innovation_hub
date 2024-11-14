@@ -33,7 +33,7 @@ public class PromoteController {
     @Value("/admin/promote")
     private String directory;
 
-    // 육성 프로그램 - 육성 그래프 관리 조회
+    // 육성 프로그램 - 육성 그래프 조회
     @GetMapping("/info")
     public String select(Model model) {
         PromoteDTO result = promoteService.select();
@@ -41,7 +41,7 @@ public class PromoteController {
         return directory + "/promote";
     }
 
-    // 육성 프로그램 - 육성 그래프 관리 저장
+    // 육성 프로그램 - 육성 그래프 저장
     @PostMapping("/save")
     public String save(RedirectAttributes redirectAttributes, PromoteDTO promoteDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것

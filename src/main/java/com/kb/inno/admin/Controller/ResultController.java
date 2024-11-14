@@ -32,7 +32,7 @@ public class ResultController {
     // 서비스 연결
     private final ResultService resultService;
     
-    // 주요 성과보고 관리 조회
+    // 주요 성과보고 조회
     @RequestMapping("/info")
     public String select(Model model) {
         ResultDTO result = resultService.select();

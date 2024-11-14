@@ -32,7 +32,7 @@ public class InvestmentController {
     @Value("/admin/investment")
     private String directory;
 
-    // 협업 성과 - 투자 그래프 관리 조회
+    // 협업 성과 - 투자 그래프 조회
     @RequestMapping("/info")
     public String select(Model model) {
         InvestmentDTO select = investmentService.select();
@@ -40,7 +40,7 @@ public class InvestmentController {
         return directory + "/investment";
     }
 
-    // 협업 성과 - 투자 그래프 관리 저장
+    // 협업 성과 - 투자 그래프 저장
     @PostMapping("/save")
     public String save(RedirectAttributes redirectAttributes, InvestmentDTO investmentDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
