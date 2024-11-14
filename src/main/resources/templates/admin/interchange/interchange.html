@@ -54,12 +54,12 @@
                                         </tr>
                                         <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
                                             <td th:text="${list.exch_sn}"></td>
-                                            <td><img th:src="${list.inter_path1 + list.inter_file_name1}" width="200" alt=""></td>
+                                            <td><img th:src="${list.inter_path1 == null ? '' : list.inter_path1 + list.inter_file_name1}" width="200" alt=""></td>
                                             <td th:text="${list.exch_ttl}"></td>
                                             <td th:text="${list.expsr_yn == 'Y' ? '노출' : '미노출'}"></td>
                                             <td th:text="${list.sort_no}"></td>
                                             <td>
-                                                <a th:href="@{/admin/interchange/update/{exch_sn}(exch_sn=${list.exch_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                                <button th:onclick="updatePage([[${list.exch_sn}]])" class="btn btn-outline-dark btn-sm">수정</button>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" th:onclick="deleteAlert([[${list.exch_sn}]])">삭제</button>
                                             </td>
                                         </tr>
@@ -79,6 +79,23 @@
             // 수정 및 등록 시 띄울 알림창
             const msg = /*[[${msg}]]*/ '';
             if (msg) alert(msg);
+        }
+
+        // 수정 페이지 이동
+        function updatePage(exch_sn) {
+            // 빈 form 전달
+            let pageMoveForm = document.createElement('form');
+            // 인수 값 전달
+            let obj = document.createElement('input');
+            obj.setAttribute('type', 'hidden');
+            obj.setAttribute('name', 'exch_sn');
+            obj.setAttribute('value', exch_sn);
+            pageMoveForm.appendChild(obj);
+
+            pageMoveForm.setAttribute('method', 'post');
+            pageMoveForm.setAttribute('action', '/admin/interchange/detail');
+            document.body.appendChild(pageMoveForm);
+            pageMoveForm.submit();
         }
 
         // 삭제 성공/실패 알림창 띄우기

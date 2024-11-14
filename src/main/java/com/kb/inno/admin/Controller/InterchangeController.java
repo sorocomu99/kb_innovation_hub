@@ -67,10 +67,10 @@ public class InterchangeController {
     }
 
     // 현지 교류 수정 화면 이동
-    @RequestMapping("/update/{exch_sn}")
-    public String update(@PathVariable int exch_sn, Model model) {
-        InterchangeDTO select = interchangeService.select(exch_sn);
-        model.addAttribute("interchange", select);
+    @PostMapping("/detail")
+    public String detail(@RequestParam int exch_sn, Model model) {
+        InterchangeDTO interchange = interchangeService.select(exch_sn);
+        model.addAttribute("interchange", interchange);
         return directory + "/interchange_update";
     }
 

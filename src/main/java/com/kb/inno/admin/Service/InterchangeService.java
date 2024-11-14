@@ -138,13 +138,11 @@ public class InterchangeService {
         interchangeDTO.setFrst_rgtr(loginId);
         interchangeDTO.setLast_mdfr(loginId);
 
-        int result = 0;
-
         // 1. 파일 디렉토리 및 테이블에 저장
         List<FileDTO> files = insertFile(interchangeDTO, loginId);
 
         // 2. 제휴 사례 저장
-        if(!files.isEmpty()) {
+        if(!files.isEmpty() || files != null) {
             // 파일 일련 번호 대입
             for (int i = 0; i < files.size(); i++) {
                 if (i == 0) {
@@ -157,16 +155,9 @@ public class InterchangeService {
                     interchangeDTO.setAtch_file_sn3(files.get(i).getFile_sn());
                 }
             }
-
-            // 로그인 한 사람 대입
-            interchangeDTO.setFrst_rgtr(loginId);
-            interchangeDTO.setLast_mdfr(loginId);
-
-
-            result = interchangeDAO.insert(interchangeDTO);
         }
 
-        return result;
+        return interchangeDAO.insert(interchangeDTO);
     }
 
     // 현지 교류 상세 조회
