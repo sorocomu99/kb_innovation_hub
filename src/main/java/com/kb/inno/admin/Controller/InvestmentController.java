@@ -11,13 +11,11 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.InvestmentDTO;
-import com.kb.inno.admin.DTO.PromoteDTO;
 import com.kb.inno.admin.Service.InvestmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -35,7 +33,7 @@ public class InvestmentController {
     private String directory;
 
     // 협업 성과 - 투자 그래프 관리 조회
-    @GetMapping("/info")
+    @RequestMapping("/info")
     public String select(Model model) {
         InvestmentDTO select = investmentService.select();
         model.addAttribute("select", select);
