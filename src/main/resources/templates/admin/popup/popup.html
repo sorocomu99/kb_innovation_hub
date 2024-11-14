@@ -61,7 +61,7 @@
                                         <td th:text="${list.bgng_ymd}"></td>
                                         <td th:text="${list.end_ymd}"></td>
                                         <td>
-                                            <a th:href="@{/admin/popup/update/{popup_sn}(popup_sn=${list.popup_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                            <button th:onclick="updatePage([[${list.popup_sn}]])" class="btn btn-outline-dark btn-sm">수정</button>
                                             <button th:onclick="deleteAlert([[${list.popup_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
                                         </td>
                                     </tr>
@@ -123,6 +123,23 @@
         const msg = /*[[${msg}]]*/ '';
         if (msg) alert(msg);
     };
+
+    // 수정 페이지 이동
+    function updatePage(popup_sn) {
+        // 빈 form 전달
+        let pageMoveForm = document.createElement('form');
+        // 인수 값 전달
+        let obj = document.createElement('input');
+        obj.setAttribute('type', 'hidden');
+        obj.setAttribute('name', 'popup_sn');
+        obj.setAttribute('value', popup_sn);
+        pageMoveForm.appendChild(obj);
+
+        pageMoveForm.setAttribute('method', 'post');
+        pageMoveForm.setAttribute('action', '/admin/popup/detail');
+        document.body.appendChild(pageMoveForm);
+        pageMoveForm.submit();
+    }
 
     // 삭제 성공/실패 알림창 띄우기
     function deleteAlert(popup_sn) {

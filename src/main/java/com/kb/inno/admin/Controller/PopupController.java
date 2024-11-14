@@ -50,21 +50,21 @@ public class PopupController {
     private String staticPath;
 
     // 팝업 리스트 조회
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String selectList(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         popupService.selectList(model, page);
         return directory + "/popup";
     }
     
     // 팝업 추가 페이지 이동
-    @GetMapping("/insert")
+    @RequestMapping("/insert")
     public String insert() {
         return directory + "/popup_insert";
     }
 
     // 팝업 상세 페이지 이동
-    @GetMapping("/update/{popup_sn}")
-    public String update(@PathVariable int popup_sn, Model model) {
+    @PostMapping("/detail")
+    public String detail(@RequestParam int popup_sn, Model model) {
         PopupDTO popup = popupService.select(popup_sn);
         model.addAttribute("popup", popup);
         return directory + "/popup_update";
