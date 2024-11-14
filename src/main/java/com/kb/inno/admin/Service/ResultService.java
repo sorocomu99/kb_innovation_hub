@@ -35,7 +35,7 @@ public class ResultService {
         return resultDAO.insert(resultDTO);
     }
 
-    public int modify(ResultDTO resultDTO, int loginId) {
+    public int update(ResultDTO resultDTO, int loginId) {
         // 로그인한 사람 수정자 대입
         resultDTO.setLast_mdfr(loginId);
         return resultDAO.update(resultDTO);

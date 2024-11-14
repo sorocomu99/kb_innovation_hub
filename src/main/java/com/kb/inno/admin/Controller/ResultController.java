@@ -53,14 +53,14 @@ public class ResultController {
         if (resultDTO.getRslt_sn() == 0) {
             result = resultService.insert(resultDTO, loginId);
         } else {
-            result = resultService.modify(resultDTO, loginId);
+            result = resultService.update(resultDTO, loginId);
         }
 
         if(result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 완료되었습니다.");
             return "redirect:" + directory + "/info";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
             return directory + "/result";
         }
     }
