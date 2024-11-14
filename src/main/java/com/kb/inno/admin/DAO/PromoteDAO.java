@@ -22,5 +22,5 @@ public interface PromoteDAO {
     // 육성 프로그램 - 육성 그래프 관리 추가
     int insert(PromoteDTO promoteDTO);
     // 육성 프로그램 - 육성 그래프 관리 수정
-    int modify(PromoteDTO promoteDTO);
+    int update(PromoteDTO promoteDTO);
 }

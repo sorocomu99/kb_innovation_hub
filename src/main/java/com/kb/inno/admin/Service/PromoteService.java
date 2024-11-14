@@ -37,10 +37,10 @@ public class PromoteService {
     }
 
     // 육성 프로그램 - 육성 그래프 관리 수정
-    public int modify(PromoteDTO promoteDTO, int loginId) {
+    public int update(PromoteDTO promoteDTO, int loginId) {
         // 로그인 한 아이디 대입
         promoteDTO.setLast_mdfr(loginId);
 
-        return promoteDAO.modify(promoteDTO);
+        return promoteDAO.update(promoteDTO);
     }
 }

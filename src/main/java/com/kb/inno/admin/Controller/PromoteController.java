@@ -54,14 +54,14 @@ public class PromoteController {
         if (promoteDTO.getGraph_sn() == 0) {
             result = promoteService.insert(promoteDTO, loginId);
         } else {
-            result = promoteService.modify(promoteDTO, loginId);
+            result = promoteService.update(promoteDTO, loginId);
         }
 
         if(result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 완료되었습니다.");
             return "redirect:" + directory + "/info";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
             return directory + "/promote";
         }
     }
