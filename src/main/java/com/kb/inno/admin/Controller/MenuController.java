@@ -37,14 +37,14 @@ public class MenuController {
     private String directory;
 
     // 메뉴 리스트 조회 : 메뉴 조회
-    @GetMapping("/")
+    @RequestMapping("/")
     public ResponseEntity<Object> index() {
         List<MenuDTO> selectList = menuService.selectListConfig();
         return ResponseEntity.ok().body(selectList);
     }
     
     // 메뉴 리스트 조회
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public String select(Model model) {
         List<MenuDTO> selectList = menuService.selectList();
         model.addAttribute("selectList", selectList);
@@ -52,16 +52,16 @@ public class MenuController {
     }
     
     // 메뉴 상세 조회
-    @GetMapping("/info")
+    @PostMapping("/info")
     public ResponseEntity<Object> detail(@RequestParam("menu_sn") int menu_sn, Model model) {
         MenuDTO select = menuService.select(menu_sn);
         return ResponseEntity.ok().body(select);
     }
 
     // 메뉴 수정
-    @PostMapping("/modify")
-    public String modify(RedirectAttributes redirectAttributes, MenuDTO menuDTO) {
-        int result = menuService.modify(menuDTO);
+    @PostMapping("/update")
+    public String update(RedirectAttributes redirectAttributes, MenuDTO menuDTO) {
+        int result = menuService.update(menuDTO);
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "작업이 성공적으로 완료되었습니다.");

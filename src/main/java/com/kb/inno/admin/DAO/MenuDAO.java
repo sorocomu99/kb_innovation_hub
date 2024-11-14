@@ -24,7 +24,7 @@ public interface MenuDAO {
     // 메뉴 상세 조회
     MenuDTO select(int menu_sn);
     // 메뉴 수정
-    int modify(MenuDTO menuDTO);
+    int update(MenuDTO menuDTO);
     // 메뉴 공통 조회
     List<MenuDTO> selectListConfig();
 }

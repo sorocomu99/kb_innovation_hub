@@ -40,7 +40,7 @@ public class MenuService {
     }
 
     // 메뉴 수정
-    public int modify(MenuDTO menuDTO) {
-        return menuDAO.modify(menuDTO);
+    public int update(MenuDTO menuDTO) {
+        return menuDAO.update(menuDTO);
     }
 }

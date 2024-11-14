@@ -31,7 +31,7 @@
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <form th:action="@{/admin/menu/modify}" method="post" name="menu_form">
+                                        <form th:action="@{/admin/menu/update}" method="post" name="menu_form">
                                             <input type="hidden" name="menu_sn">
                                             <table class="table align-middle">
                                                 <tbody>
@@ -106,8 +106,8 @@
 
             // 메뉴 상세 조회
             $.ajax({
-                url: [[@{/admin/menu/info}]], // 요청 URL
-                type: 'GET', // HTTP 메서드
+                url: /*[[@{/admin/menu/info}]]*/, // 요청 URL
+                type: 'POST', // HTTP 메서드
                 data: { menu_sn: menu_sn }, // 보내는 데이터
                 success: function(response) {
                     $("input[name=menu_nm]").val(response.menu_nm);
@@ -118,6 +118,7 @@
                     }
                 },
                 error: function(xhr, status, error) {
+                    alert("메뉴 조회에 실패했습니다.");
                     console.error('Error:', error);
                 }
             });
