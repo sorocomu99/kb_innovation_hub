@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface PromoteDAO {
-    // 육성 프로그램 - 육성 그래프 관리 조회
+    // 육성 프로그램 - 육성 그래프 조회
     PromoteDTO select();
-    // 육성 프로그램 - 육성 그래프 관리 추가
+    // 육성 프로그램 - 육성 그래프 추가
     int insert(PromoteDTO promoteDTO);
-    // 육성 프로그램 - 육성 그래프 관리 수정
+    // 육성 프로그램 - 육성 그래프 수정
     int update(PromoteDTO promoteDTO);
 }

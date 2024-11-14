@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface ResultDAO {
-    // 주요 성과 보고 관리 조회
+    // 주요 성과 보고 조회
     ResultDTO select();
-    // 주요 성과 보고 관리 추가
+    // 주요 성과 보고 추가
     int insert(ResultDTO result);
-    // 주요 성과 보고 관리 수정
+    // 주요 성과 보고 수정
     int update(ResultDTO result);
 }

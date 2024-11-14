@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface InvestmentDAO {
-    // 협업 성과 - 투자 그래프 관리 조회
+    // 협업 성과 - 투자 그래프 조회
     InvestmentDTO select();
-    // 협업 성과 - 투자 그래프 관리 추가
+    // 협업 성과 - 투자 그래프 추가
     int insert(InvestmentDTO investmentDTO);
-    // 협업 성과 - 투자 그래프 관리 수정
+    // 협업 성과 - 투자 그래프 수정
     int update(InvestmentDTO investmentDTO);
 }

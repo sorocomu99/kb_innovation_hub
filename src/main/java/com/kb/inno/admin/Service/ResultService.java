@@ -22,7 +22,7 @@ public class ResultService {
     // DAO 연결
     private final ResultDAO resultDAO;
     
-    // 주요 성과 보고 관리 조회
+    // 주요 성과 보고 조회
     public ResultDTO select() {
         return resultDAO.select();
     }
@@ -34,7 +34,8 @@ public class ResultService {
         resultDTO.setLast_mdfr(loginId);
         return resultDAO.insert(resultDTO);
     }
-
+    
+    // 주요 성과 보고 수정
     public int update(ResultDTO resultDTO, int loginId) {
         // 로그인한 사람 수정자 대입
         resultDTO.setLast_mdfr(loginId);

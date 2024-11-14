@@ -22,12 +22,12 @@ public class InvestmentService {
     // DAO 연결
     private final InvestmentDAO investmentDAO;
 
-    // 협업 성과 - 투자 그래프 관리 조회
+    // 협업 성과 - 투자 그래프 조회
     public InvestmentDTO select() {
         return investmentDAO.select();
     }
     
-    // 협업 성과 - 투자 그래프 관리 추가
+    // 협업 성과 - 투자 그래프 추가
     public int insert(InvestmentDTO investmentDTO, int loginId) {
         investmentDTO.setFrst_rgtr(loginId);
         investmentDTO.setLast_mdfr(loginId);
@@ -35,7 +35,7 @@ public class InvestmentService {
         return investmentDAO.insert(investmentDTO);
     }
 
-    // 협업 성과 - 투자 그래프 관리 수정
+    // 협업 성과 - 투자 그래프 수정
     public int update(InvestmentDTO investmentDTO, int loginId) {
         investmentDTO.setLast_mdfr(loginId);
 
