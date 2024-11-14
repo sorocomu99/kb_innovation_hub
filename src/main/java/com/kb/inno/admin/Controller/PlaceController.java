@@ -10,7 +10,6 @@
  */
 package com.kb.inno.admin.Controller;
 
-import com.kb.inno.admin.DTO.AffiliateDTO;
 import com.kb.inno.admin.DTO.PlaceDTO;
 import com.kb.inno.admin.Service.PlaceService;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +26,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/place")
+@RequestMapping("/place")
 public class PlaceController {
 
     // 서비스 연결
     private final PlaceService placeService;
 
     // 공통 경로 설정
-    @Value("/admin/place")
+    @Value("/place")
     private String directory;
 
     // 육성 공간 리스트 조회

@@ -27,13 +27,13 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/menu")
+@RequestMapping("/menu")
 public class MenuController {
     // 서비스 연결
     private final MenuService menuService;
 
     // 공통 경로 설정
-    @Value("/admin/menu")
+    @Value("/menu")
     private String directory;
 
     // 메뉴 리스트 조회 : 메뉴 조회

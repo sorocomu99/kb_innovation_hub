@@ -23,14 +23,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/affiliate")
+@RequestMapping("/affiliate")
 public class AffiliateController {
 
     // 서비스 연결
     private final AffiliateService affiliateService;
 
     // 공통 경로 설정
-    @Value("/admin/affiliate")
+    @Value("/affiliate")
     private String directory;
 
     // 제휴 사례 리스트 조회

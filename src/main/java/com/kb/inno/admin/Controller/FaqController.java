@@ -14,13 +14,13 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/faq")
+@RequestMapping("/faq")
 public class FaqController {
     // 서비스 연결
     private final FaqService faqService;
     
     // 공통 경로 설정
-    @Value("/admin/faq")
+    @Value("/faq")
     private String directory;
     
     // FAQ 리스트 조회

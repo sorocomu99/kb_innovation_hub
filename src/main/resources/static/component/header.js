@@ -1,6 +1,6 @@
 let htmlCode = "";
 $.ajax({
-    url: `/admin/menu/`, // 요청 URL
+    url: `/menu/`, // 요청 URL
     type: `GET`, // HTTP 메서드
     contentType: `application/x-www-form-urlencoded`, // 헤더 설정
     data: {}, // 보내는 데이터

@@ -22,14 +22,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/recruit")
+@RequestMapping("/recruit")
 public class RecruitController {
 
     // 서비스 연결
     private final RecruitService recruitService;
 
     // 공통 경로 설정
-    @Value("/admin/recruit")
+    @Value("/recruit")
     private String directory;
     
     // 채용 지원 조회

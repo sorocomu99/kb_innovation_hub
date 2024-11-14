@@ -22,14 +22,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/starters")
+@RequestMapping("/starters")
 public class StartersController {
     
     // 서비스 연결
     private final StartersService startersService;
     
     // 공통 경로 설정
-    @Value("/admin/starters")
+    @Value("/starters")
     private String directory;
     
     // KB 스타터스 조회

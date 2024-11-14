@@ -22,14 +22,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/investment")
+@RequestMapping("/investment")
 public class InvestmentController {
 
     // 서비스 연결
     private final InvestmentService investmentService;
 
     // 공통 경로 설정
-    @Value("/admin/investment")
+    @Value("/investment")
     private String directory;
 
     // 협업 성과 - 투자 그래프 조회

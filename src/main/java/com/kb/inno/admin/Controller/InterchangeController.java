@@ -23,14 +23,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/interchange")
+@RequestMapping("/interchange")
 public class InterchangeController {
 
     // 서비스 연결
     private final InterchangeService interchangeService;
 
     // 공통 경로 설정
-    @Value("/admin/interchange")
+    @Value("/interchange")
     private String directory;
 
     // 현지 교류 리스트 조회

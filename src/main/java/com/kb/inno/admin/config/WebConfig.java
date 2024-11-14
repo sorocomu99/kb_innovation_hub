@@ -30,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
         Interceptor interceptor = new Interceptor();
 
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/admin/popup/**", "/admin/member/**", "/admin/visual/**")
+                .addPathPatterns("/popup/**", "/member/**", "/visual/**")
                 .excludePathPatterns("/css/**", "/images/**", "/js/**, /enov/component/**");
     }
 }

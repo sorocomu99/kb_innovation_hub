@@ -23,14 +23,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/cooperation")
+@RequestMapping("/cooperation")
 public class CooperationController {
 
     // 서비스 연결
     private final CooperationService cooperationService;
 
     // 공통 경로 설정
-    @Value("/admin/cooperation")
+    @Value("/cooperation")
     private String directory;
 
     // 협력 기관 리스트 조회

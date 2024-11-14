@@ -23,14 +23,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/promote")
+@RequestMapping("/promote")
 public class PromoteController {
 
     // 서비스 연결
     private final PromoteService promoteService;
 
     // 공통 경로 설정
-    @Value("/admin/promote")
+    @Value("/promote")
     private String directory;
 
     // 육성 프로그램 - 육성 그래프 조회

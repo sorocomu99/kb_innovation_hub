@@ -35,14 +35,14 @@ import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/popup")
+@RequestMapping("/popup")
 public class PopupController {
     
     // 서비스 연결
     private final PopupService popupService;
 
     // 디렉터리 공통
-    @Value("/admin/popup")
+    @Value("/popup")
     private String directory;
 
     // 파일 경로

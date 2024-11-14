@@ -13,14 +13,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/notice")
+@RequestMapping("/notice")
 public class NoticeController {
 
     // 서비스 연결
     private final NoticeService noticeService;
 
     // 공통 경로 설정
-    @Value("/admin/notice")
+    @Value("/notice")
     public String directory;
 
     // 공지사항 리스트 조회

@@ -23,14 +23,14 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/visual")
+@RequestMapping("/visual")
 public class VisualController {
     
     // 서비스 연결
     private final VisualService visualService;
     
     // 메인 디렉토리 설정
-    @Value("/admin/visual")
+    @Value("/visual")
     private String directory;
     
     // 메인 비주얼 리스트 조회

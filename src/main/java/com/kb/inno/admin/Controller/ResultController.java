@@ -22,11 +22,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/result")
+@RequestMapping("/result")
 public class ResultController {
     
     // 디렉토리 설정
-    @Value("/admin/result")
+    @Value("/result")
     private String directory;
 
     // 서비스 연결
