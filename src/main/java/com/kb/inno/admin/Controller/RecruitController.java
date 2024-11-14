@@ -53,14 +53,14 @@ public class RecruitController {
         if(recruit_sn == 0) {
             result = recruitService.insert(recruitDTO, loginId);
         } else {
-            result = recruitService.modify(recruitDTO, loginId);
+            result = recruitService.update(recruitDTO, loginId);
         }
 
         if(result == 1) {
-            redirectAttributes.addFlashAttribute("msg", "작업이 완료 되었습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 완료 되었습니다.");
             return "redirect:" + directory + "/info";
         } else {
-            redirectAttributes.addFlashAttribute("msg", "작업이 실패했습니다.");
+            redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
             return directory + "/recruit";
         }
     }

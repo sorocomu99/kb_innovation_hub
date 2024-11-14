@@ -36,9 +36,9 @@ public class RecruitService {
     }
     
     // 채용 지원 수정
-    public int modify(RecruitDTO recruitDTO, int loginId) {
+    public int update(RecruitDTO recruitDTO, int loginId) {
         recruitDTO.setLast_mdfr(loginId);
 
-        return recruitDAO.modify(recruitDTO);
+        return recruitDAO.update(recruitDTO);
     }
 }

@@ -22,5 +22,5 @@ public interface RecruitDAO {
     // 채용 지원 추가
     int insert(RecruitDTO recruitDTO);
     // 채용 지원 수정
-    int modify(RecruitDTO recruitDTO);
+    int update(RecruitDTO recruitDTO);
 }
