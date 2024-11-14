@@ -2,9 +2,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kb.inno.admin.DAO.StartersDAO">
-    <!-- KB 스타터스 관리 조회 -->
+    <!-- KB 스타터스 조회 -->
     <select id="select" resultType="com.kb.inno.admin.DTO.StartersDTO">
-        /* KB 스타터스 관리 조회 */
+        /* KB 스타터스 조회 */
         SELECT STAR_SN
              , SLCTN_PRCS
              , STARTER_STTS
@@ -15,9 +15,9 @@
              , LAST_MDFCN_DT
           FROM KB_STARTER_INFO
     </select>
-    <!-- KB 스타터스 관리 추가 -->
+    <!-- KB 스타터스 추가 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.StartersDTO">
-        /* KB 스타터스 관리 추가 */
+        /* KB 스타터스 추가 */
         INSERT INTO KB_STARTER_INFO
         (
          STAR_SN
@@ -41,8 +41,9 @@
        , SYSDATE
         )
     </insert>
-    <!-- KB 스타터스 관리 수정 -->
-    <update id="modify" parameterType="com.kb.inno.admin.DTO.StartersDTO">
+    <!-- KB 스타터스 수정 -->
+    <update id="update" parameterType="com.kb.inno.admin.DTO.StartersDTO">
+        /* KB 스타터스 수정 */
         UPDATE KB_STARTER_INFO
            SET SLCTN_PRCS    = #{slctn_prcs}
              , STARTER_STTS  = #{starter_stts}

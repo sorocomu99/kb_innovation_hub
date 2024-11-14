@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface StartersDAO {
-    // KB 스타터스 관리 조회
+    // KB 스타터스 조회
     StartersDTO select();
-    // KB 스타터스 관리 저장
+    // KB 스타터스 저장
     int insert(StartersDTO startersDTO);
-    // KB 스타터스 관리 수정
-    int modify(StartersDTO startersDTO);
+    // KB 스타터스 수정
+    int update(StartersDTO startersDTO);
 }

@@ -22,12 +22,12 @@ public class StartersService {
     // 서비스 연결
     private final StartersDAO startersDAO;
 
-    // KB 스타터스 관리 조회
+    // KB 스타터스 조회
     public StartersDTO select() {
         return startersDAO.select();
     }
 
-    // KB 스타터스 관리 추가
+    // KB 스타터스 추가
     public int insert(StartersDTO startersDTO, int loginId) {
         // 로그인 한 아이디 대입
         startersDTO.setFrst_rgtr(loginId);
@@ -36,11 +36,11 @@ public class StartersService {
         return startersDAO.insert(startersDTO);
     }
 
-    // KB 스타터스 관리 수정
-    public int modify(StartersDTO startersDTO, int loginId) {
+    // KB 스타터스 수정
+    public int update(StartersDTO startersDTO, int loginId) {
         // 로그인 한 아이디 대입
         startersDTO.setLast_mdfr(loginId);
 
-        return startersDAO.modify(startersDTO);
+        return startersDAO.update(startersDTO);
     }
 }
