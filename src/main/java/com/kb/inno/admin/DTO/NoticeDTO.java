@@ -18,9 +18,9 @@ public class NoticeDTO {
     private int last_mdfr;           // 최종 수정자
     private Date last_mdfcn_dt;      // 최종 수정 일시
     private String ntc_yn;           // 공지사항 등록 여부
-    private MultipartFile ntc_file;  // 메인 비주얼 파일
-    private String ntc_file_name;    // 메인 비주얼 파일명
-    private String origin_file_name; // 메인 비주얼 오리지널 파일명
-    private String ntc_path;         // 메인 비주얼 파일 경로
+    private MultipartFile ntc_file;  // 공지사항 파일
+    private String ntc_file_name;    // 공지사항 파일명
+    private String origin_file_name; // 공지사항 오리지널 파일명
+    private String ntc_path;         // 공지사항 파일 경로
     private int file_yn;             // 파일이 담겨있는 지 아닌지 확인
 }
