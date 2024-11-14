@@ -107,8 +107,6 @@ public class VisualService {
         visualDTO.setFrst_rgtr(loginId);
         visualDTO.setLast_mdfr(loginId);
 
-        int result = 0;
-
         // 파일을 등록했는 지 확인
         int fileYn = visualDTO.getFile_yn();
 
@@ -123,12 +121,7 @@ public class VisualService {
             }
         }
 
-        // 최초 등록자, 최종 수정자 대입
-        visualDTO.setFrst_rgtr(loginId);
-        visualDTO.setLast_mdfr(loginId);
-        result = visualDAO.insert(visualDTO);
-
-        return result;
+        return visualDAO.insert(visualDTO);
     }
 
     // 메인 비주얼 상세 조회
@@ -178,18 +171,24 @@ public class VisualService {
     public void delete(int main_sn) {
         // 메인 비주얼 상세 조회
         VisualDTO selectInfo = visualDAO.select(main_sn);
+
         // 조회한 것에서 file_id 꺼내기
         int file_sn = selectInfo.getAtch_file_sn();
-        // 경로 내 파일 삭제
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-        File deleteFile = new File(path + selectInfo.getMain_path() + selectInfo.getMain_file_name());
-        boolean removed = deleteFile.delete();
-        // 만약 경로에 파일이 지워졌다면
-        if(removed) {
-            // 파일 삭제
-            visualDAO.deleteFile(file_sn);
-            // 비주얼 삭제
-            visualDAO.delete(main_sn);
+
+        if(file_sn != 0) {
+            // 경로 내 파일 삭제
+            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+            File deleteFile = new File(path + selectInfo.getMain_path() + selectInfo.getMain_file_name());
+            boolean removed = deleteFile.delete();
+
+            // 만약 경로에 파일이 지워졌다면
+            if(removed) {
+                // 파일 삭제
+                visualDAO.deleteFile(file_sn);
+            }
         }
+
+        // 비주얼 삭제
+        visualDAO.delete(main_sn);
     }
 }

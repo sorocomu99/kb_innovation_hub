@@ -38,21 +38,21 @@ public class VisualController {
     public String visualList(Model model) {
         List<VisualDTO> selectList = visualService.selectList();
         model.addAttribute("selectList", selectList);
-        return directory + "/main";
+        return directory + "/visual";
     }
 
     // 메인 비주얼 등록 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
-        return directory + "/main_insert";
+        return directory + "/visual_insert";
     }
 
     // 메인 비주얼 상세 페이지 이동
-    @RequestMapping("/update/{main_sn}")
-    public String update(@PathVariable int main_sn, Model model) {
+    @PostMapping("/detail")
+    public String detail(@RequestParam int main_sn, Model model) {
         VisualDTO visual = visualService.select(main_sn);
         model.addAttribute("visual", visual);
-        return directory + "/main_update";
+        return directory + "/visual_update";
     }
 
     // 메인 비주얼 등록
@@ -70,7 +70,7 @@ public class VisualController {
             return "redirect:" + directory + "/list";
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
-            return directory + "/main_insert";
+            return directory + "/visual_insert";
         }
     }
 
@@ -89,7 +89,7 @@ public class VisualController {
             return "redirect:" + directory + "/list";
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
-            return directory + "/main_update";
+            return directory + "/visual_update";
         }
     }
 
