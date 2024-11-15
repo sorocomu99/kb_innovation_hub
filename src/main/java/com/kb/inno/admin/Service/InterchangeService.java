@@ -264,6 +264,63 @@ public class InterchangeService {
 
     // 현지 교류 삭제
     public void delete(int exch_sn) {
+        // 0. 기존 파일 재조회
+        InterchangeDTO basicFile = interchangeDAO.select(exch_sn);
+
+        // 1. 기존 경로에 있는 파일 삭제
+        // 경로 설정
+        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+
+        // File_sn 담기
+        ArrayList<Integer> list = new ArrayList<>();
+
+        int file_sn1 = basicFile.getAtch_file_sn1();
+        int file_sn2 = basicFile.getAtch_file_sn2();
+        int file_sn3 = basicFile.getAtch_file_sn3();
+
+        list.add(file_sn1);
+        list.add(file_sn2);
+        list.add(file_sn3);
+
+        // File_sn 만큼 반복
+        for(int i = 0; i < list.size(); i++) {
+
+            // file_sn이 있으면
+            if(list.get(i) != 0) {
+
+                // 변수 생성
+                int file_sn = 0;
+                File deleteFile = null;
+
+                // 만약 첫 번째라면
+                if(i == 0) {
+                    deleteFile = new File(path + basicFile.getInter_path1() + basicFile.getInter_file_name1());
+                    file_sn = basicFile.getAtch_file_sn1();
+                }
+
+                // 만약 두 번째라면
+                if(i == 1) {
+                    deleteFile = new File(path + basicFile.getInter_path2() + basicFile.getInter_file_name2());
+                    file_sn = basicFile.getAtch_file_sn2();
+                }
+
+                // 만약 세 번째라면
+                if(i == 2) {
+                    deleteFile = new File(path + basicFile.getInter_path3() + basicFile.getInter_file_name3());
+                    file_sn = basicFile.getAtch_file_sn3();
+                }
+
+                // 파일 삭제
+                boolean removed = deleteFile != null && deleteFile.delete();
+
+                // 2. 만약 경로에 파일이 지워졌다면
+                if(removed) {
+                    // 테이블에 있는 파일 삭제
+                    interchangeDAO.deleteFile(file_sn);
+                }
+            }
+        }
+        
         interchangeDAO.delete(exch_sn);
     }
 }

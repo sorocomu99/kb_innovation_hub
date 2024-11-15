@@ -87,6 +87,7 @@
     </insert>
     <!-- 현지 교류 상세 조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.InterchangeDTO">
+        /* 현지 교류 상세 조회 */
         SELECT EXCH.EXCH_SN        AS EXCH_SN
              , EXCH.EXCH_TTL       AS EXCH_TTL
              , EXCH.EXCH_CN        AS EXCH_CN
@@ -134,7 +135,7 @@
     </delete>
     <!-- 현지 교류 삭제 -->
     <delete id="delete" parameterType="int">
-        /* 육성 공간 삭제 */
+        /* 현지 교류 삭제 */
         DELETE
           FROM KB_EXCH_INFO
          WHERE EXCH_SN = #{exch_sn}
