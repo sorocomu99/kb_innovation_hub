@@ -4,6 +4,7 @@
 <mapper namespace="com.kb.inno.admin.DAO.InvestmentDAO">
     <!-- 협업 성과 - 투자 그래프 관리 조회 -->
     <select id="select" resultType="com.kb.inno.admin.DTO.InvestmentDTO">
+        /* 협업 성과 - 투자 그래프 관리 조회 */
         SELECT GRAPH_SN
              , CRTR_YM
              , GRAPH1_YR
@@ -18,9 +19,9 @@
              , GRAPH5_NOCS
         FROM KB_INVEST_GRAPH_INFO
     </select>
-    <!-- 협업 성과 - 투자 그래프 관리 추가 -->
+    <!-- 협업 성과 - 투자 그래프 관리 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.InvestmentDTO">
-        /* 협업 성과 - 투자 그래프 관리 추가 */
+        /* 협업 성과 - 투자 그래프 관리 등록 */
         INSERT INTO KB_INVEST_GRAPH_INFO
         (
          GRAPH_SN

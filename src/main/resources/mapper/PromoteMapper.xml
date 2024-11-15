@@ -23,9 +23,9 @@
              , LAST_MDFCN_DT
           FROM KB_ENT_GRAPH_INFO
     </select>
-    <!-- 육성 프로그램 - 육성 그래프 추가 -->
+    <!-- 육성 프로그램 - 육성 그래프 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.PromoteDTO">
-        /* 육성 프로그램 - 육성 그래프 추가 */
+        /* 육성 프로그램 - 육성 그래프 등록 */
         INSERT INTO KB_ENT_GRAPH_INFO
         (
          GRAPH_SN

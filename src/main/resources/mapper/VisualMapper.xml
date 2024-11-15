@@ -17,9 +17,9 @@
          WHERE VISUAL.ATCH_FILE_SN = FILES.FILE_SN(+)
          ORDER BY MAIN_SN DESC
     </select>
-    <!-- 메인 비주얼 파일 저장 -->
+    <!-- 메인 비주얼 파일 추가 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO" useGeneratedKeys="true" keyProperty="file_sn">
-        /* 메인 비주얼 파일 저장 */
+        /* 메인 비주얼 파일 추가 */
         INSERT INTO KB_FILE_INFO
         (
          FILE_SN
@@ -52,9 +52,9 @@
             FROM KB_FILE_INFO
         </selectKey>
     </insert>
-    <!-- 메인 비주얼 추가 -->
+    <!-- 메인 비주얼 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.VisualDTO">
-        /* 메인 비주얼 추가 */
+        /* 메인 비주얼 등록 */
         INSERT INTO KB_MAIN_INFO
         (
          MAIN_SN

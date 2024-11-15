@@ -15,9 +15,9 @@
              , LAST_MDFCN_DT
           FROM KB_STARTER_INFO
     </select>
-    <!-- KB 스타터스 추가 -->
+    <!-- KB 스타터스 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.StartersDTO">
-        /* KB 스타터스 추가 */
+        /* KB 스타터스 등록 */
         INSERT INTO KB_STARTER_INFO
         (
          STAR_SN
