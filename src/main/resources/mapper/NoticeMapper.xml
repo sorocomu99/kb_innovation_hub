@@ -8,7 +8,7 @@
         SELECT COUNT(*)
           FROM KB_NTC_INFO
          WHERE 1=1
-        <if test='keyword != null'>
+        <if test='keyword != null and keyword != ""'>
            <choose>
                <when test="type == 'all'">
                    AND NTC_TTL LIKE '%'|| #{keyword} ||'%'
@@ -17,9 +17,9 @@
                <when test="type == 'title'">
                    AND NTC_TTL LIKE '%'|| #{keyword} ||'%'
                </when>
-               <otherwise>
+               <when test="type == 'content'">
                    AND NTC_CN   LIKE '%'|| #{keyword} ||'%'
-               </otherwise>
+               </when>
            </choose>
         </if>
     </select>
@@ -47,18 +47,20 @@
                             , EXPSR_YN
                          FROM KB_NTC_INFO
                         WHERE 1=1
-                        <choose>
-                            <when test="type == 'all'">
-                                AND NTC_TTL LIKE '%'|| #{keyword} ||'%'
-                                OR NTC_CN   LIKE '%'|| #{keyword} ||'%'
-                            </when>
-                            <when test="type == 'title'">
-                                AND NTC_TTL LIKE '%'|| #{keyword} ||'%'
-                            </when>
-                            <otherwise>
-                                AND NTC_CN   LIKE '%'|| #{keyword} ||'%'
-                            </otherwise>
-                        </choose>
+                        <if test='keyword != null and keyword != ""'>
+                            <choose>
+                                <when test="type == 'all'">
+                                    AND NTC_TTL LIKE '%'|| #{keyword} ||'%'
+                                    OR NTC_CN   LIKE '%'|| #{keyword} ||'%'
+                                </when>
+                                <when test="type == 'title'">
+                                    AND NTC_TTL LIKE '%'|| #{keyword} ||'%'
+                                </when>
+                                <when test="type == 'content'">
+                                    AND NTC_CN   LIKE '%'|| #{keyword} ||'%'
+                                </when>
+                            </choose>
+                        </if>
                         ORDER BY NTC_SN DESC
                        ) NOTICE
               ) NOTICE_PAGE
@@ -142,8 +144,8 @@
              , NOTICE.SORT_NO      AS SORT_NO
              , FILES.FILE_SN       AS ATCH_FILE_SN
              , FILES.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
-             , FILES.FILE_NM       AS MAIN_FILE_NAME
-             , FILES.FILE_PATH     AS MAIN_PATH
+             , FILES.FILE_NM       AS NTC_FILE_NAME
+             , FILES.FILE_PATH     AS NTC_PATH
           FROM KB_NTC_INFO NOTICE
              , KB_FILE_INFO FILES
          WHERE NOTICE.ATCH_FILE_SN = FILES.FILE_SN(+)

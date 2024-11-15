@@ -23,4 +23,5 @@ public class NoticeDTO {
     private String origin_file_name; // 공지사항 오리지널 파일명
     private String ntc_path;         // 공지사항 파일 경로
     private int file_yn;             // 파일이 담겨있는 지 아닌지 확인
+    private String del_yn;           // 파일 삭제 여부
 }

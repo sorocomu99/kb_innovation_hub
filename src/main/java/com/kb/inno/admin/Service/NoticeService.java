@@ -174,6 +174,25 @@ public class NoticeService {
     
     // 공지사항 수정
     public int update(NoticeDTO noticeDTO, int loginId) {
+
+        // 경로 설정
+        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+
+        // 만약 파일을 삭제 한다면
+        if(noticeDTO.getDel_yn().equals("Y")) {
+            File delete = new File(path + noticeDTO.getNtc_path() + noticeDTO.getNtc_file_name());
+            int file_sn = noticeDTO.getAtch_file_sn();
+
+            // 파일 삭제
+            boolean removed = delete != null && delete.delete();
+
+            // 2. 만약 경로에 파일이 지워졌다면
+            if(removed) {
+                // 테이블에 있는 파일 삭제
+                noticeDAO.deleteFile(file_sn);
+            }
+        }
+
         // 파일을 새로 등록했는 지 확인
         int fileYn = noticeDTO.getFile_yn();
 
@@ -183,8 +202,6 @@ public class NoticeService {
             NoticeDTO basicFile = noticeDAO.select(noticeDTO.getNtc_sn());
 
             // 1. 기존 경로에 있는 파일 삭제
-            // 경로 설정
-            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
             File deleteFile = new File(path + basicFile.getNtc_path() + basicFile.getNtc_file_name());
             boolean removed = deleteFile.delete();
 

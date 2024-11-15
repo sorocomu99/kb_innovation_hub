@@ -81,6 +81,11 @@ public class NoticeController {
             noticeDTO.setNtc_yn("N");
         }
 
+        // 만약 del_yn이 null이면 N 값 강제 대입
+        if(noticeDTO.getDel_yn() == null || noticeDTO.getDel_yn().equals("")) {
+            noticeDTO.setDel_yn("N");
+        }
+
         int result = noticeService.update(noticeDTO, loginId);
 
         if(result == 1) {
