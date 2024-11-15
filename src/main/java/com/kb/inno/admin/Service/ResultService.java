@@ -27,7 +27,7 @@ public class ResultService {
         return resultDAO.select();
     }
     
-    // 주요 성과 보고 저장
+    // 주요 성과 보고 등록
     public int insert(ResultDTO resultDTO, int loginId) {
         // 로그인한 사람 최초등록자, 수정자 대입
         resultDTO.setFrst_rgtr(loginId);

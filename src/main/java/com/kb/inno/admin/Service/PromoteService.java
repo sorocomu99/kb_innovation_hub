@@ -27,7 +27,7 @@ public class PromoteService {
         return promoteDAO.select();
     }
 
-    // 육성 프로그램 - 육성 그래프 추가
+    // 육성 프로그램 - 육성 그래프 등록
     public int insert(PromoteDTO promoteDTO, int loginId) {
         // 로그인 한 아이디 대입
         promoteDTO.setFrst_rgtr(loginId);

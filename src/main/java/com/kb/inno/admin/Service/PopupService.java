@@ -11,7 +11,6 @@
 package com.kb.inno.admin.Service;
 
 import com.kb.inno.admin.DAO.PopupDAO;
-import com.kb.inno.admin.DTO.FaqDTO;
 import com.kb.inno.admin.DTO.PopupDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,7 @@ import java.util.List;
 public class PopupService {
     private final PopupDAO popupDAO;
 
-    // 팝업 리스트
+    // 팝업 리스트 조회
     public void selectList(Model model, int page) {
         // 페이지의 전체 글 갯수
         int allCount = popupDAO.selectPageCount();
@@ -55,7 +54,7 @@ public class PopupService {
         model.addAttribute("selectList", selectList);
     }
     
-    // 팝업 추가
+    // 팝업 등록
     public int insert(PopupDTO popupDTO, int loginId) {
         // 로그인 한 아이디 세팅
         popupDTO.setFrst_rgtr(loginId);
@@ -82,7 +81,7 @@ public class PopupService {
         return popupDAO.insert(popupDTO);
     }
 
-    // 팝업 조회 페이지
+    // 팝업 상세 조회
     public PopupDTO select(int popupId) {
         PopupDTO popupDTO = popupDAO.select(popupId);
 

@@ -27,8 +27,9 @@ public class RecruitService {
         return recruitDAO.select();
     }
 
-    // 채용 지원 추가
+    // 채용 지원 등록
     public int insert(RecruitDTO recruitDTO, int loginId) {
+        // 로그인 한 아이디 대입
         recruitDTO.setFrst_rgtr(loginId);
         recruitDTO.setLast_mdfr(loginId);
 
@@ -37,6 +38,7 @@ public class RecruitService {
     
     // 채용 지원 수정
     public int update(RecruitDTO recruitDTO, int loginId) {
+        // 로그인 한 아이디 대입
         recruitDTO.setLast_mdfr(loginId);
 
         return recruitDAO.update(recruitDTO);

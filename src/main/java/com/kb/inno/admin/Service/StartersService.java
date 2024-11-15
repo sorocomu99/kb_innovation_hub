@@ -27,7 +27,7 @@ public class StartersService {
         return startersDAO.select();
     }
 
-    // KB 스타터스 추가
+    // KB 스타터스 등록
     public int insert(StartersDTO startersDTO, int loginId) {
         // 로그인 한 아이디 대입
         startersDTO.setFrst_rgtr(loginId);
