@@ -1,3 +1,13 @@
+/**
+ * 파일명     : FaqDAO.java
+ * 화면명     : FAQ 관리
+ * 설명       : FAQ 조회 및 등록, 수정, 삭제 처리
+ * 최초개발일 : 2024.11.12
+ * 최초개발자 : 양윤지
+ * ==========================================================
+ *   수정일            수정자           설명
+ * ==========================================================
+ */
 package com.kb.inno.admin.DAO;
 
 import com.kb.inno.admin.DTO.FaqDTO;
@@ -10,7 +20,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface FaqDAO {
-    // FAQ 리스트 카운트
+    // FAQ 리스트 갯수 조회
     int selectPageCount(SearchDTO search);
     // FAQ 리스트 조회
     List<FaqDTO> selectList(SearchDTO search);

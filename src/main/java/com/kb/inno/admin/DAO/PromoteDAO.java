@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface PromoteDAO {
     // 육성 프로그램 - 육성 그래프 조회
     PromoteDTO select();
-    // 육성 프로그램 - 육성 그래프 추가
+    // 육성 프로그램 - 육성 그래프 등록
     int insert(PromoteDTO promoteDTO);
     // 육성 프로그램 - 육성 그래프 수정
     int update(PromoteDTO promoteDTO);

@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface NoticeDAO {
-    // 공지사항 개수 조회
+    // 공지사항 리스트 갯수 조회
     int selectPageCount(SearchDTO search);
     // 공지사항 리스트 조회
     List<FaqDTO> selectList(SearchDTO search);

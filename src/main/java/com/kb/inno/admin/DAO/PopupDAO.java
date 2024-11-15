@@ -19,11 +19,11 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PopupDAO {
-    // 팝업 전체 게시글 조회
+    // 팝업 리스트 갯수 조회
     int selectPageCount();
     // 팝업 리스트 조회
     List<PopupDTO> selectList(int start, int end);
-    // 팝업 추가
+    // 팝업 등록
     int insert(PopupDTO popupDTO);
     // 팝업 상세 조회
     PopupDTO select(int popupId);

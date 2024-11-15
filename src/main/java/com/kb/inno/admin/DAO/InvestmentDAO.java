@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface InvestmentDAO {
     // 협업 성과 - 투자 그래프 조회
     InvestmentDTO select();
-    // 협업 성과 - 투자 그래프 추가
+    // 협업 성과 - 투자 그래프 등록
     int insert(InvestmentDTO investmentDTO);
     // 협업 성과 - 투자 그래프 수정
     int update(InvestmentDTO investmentDTO);

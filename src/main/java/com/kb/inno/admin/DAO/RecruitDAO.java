@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface RecruitDAO {
     // 채용 지원 조회
     RecruitDTO select();
-    // 채용 지원 추가
+    // 채용 지원 등록
     int insert(RecruitDTO recruitDTO);
     // 채용 지원 수정
     int update(RecruitDTO recruitDTO);
