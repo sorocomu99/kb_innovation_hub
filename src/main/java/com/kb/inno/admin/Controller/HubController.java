@@ -84,7 +84,7 @@ public class HubController {
         // 수정 요망 : 임시 아이디 값
         int loginId = 1;
 
-        // 만약 ntc_yn이 null이면 N 값 강제 대입
+        // 만약 del_yn이 null이면 N 값 강제 대입
         if(hubDTO.getDel_yn() == null || hubDTO.getDel_yn().equals("")) {
             hubDTO.setDel_yn("N");
         }
