@@ -41,7 +41,7 @@ public class InterchangeController {
         return directory + "/interchange";
     }
 
-    // 현지 교류 등록 화면 이동
+    // 현지 교류 등록 페이지 이동
     @RequestMapping("/insert")
     public String insert(Model model) {
         return directory + "/interchange_insert";
@@ -66,7 +66,7 @@ public class InterchangeController {
         }
     }
 
-    // 현지 교류 수정 화면 이동
+    // 현지 교류 상세 페이지 이동
     @PostMapping("/detail")
     public String detail(@RequestParam int exch_sn, Model model) {
         InterchangeDTO interchange = interchangeService.select(exch_sn);

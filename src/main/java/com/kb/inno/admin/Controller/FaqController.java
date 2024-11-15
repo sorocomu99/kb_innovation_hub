@@ -1,3 +1,13 @@
+/**
+ * 파일명     : FaqController.java
+ * 화면명     : FAQ 관리
+ * 설명       : FAQ 조회 및 등록, 수정, 삭제 처리
+ * 최초개발일 : 2024.11.12
+ * 최초개발자 : 양윤지
+ * ==========================================================
+ *   수정일            수정자           설명
+ * ==========================================================
+ */
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.FaqDTO;
@@ -8,9 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,7 +37,7 @@ public class FaqController {
         return directory + "/faq";
     }
 
-    // FAQ 등록 화면 이동
+    // FAQ 등록 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
         return directory + "/faq_insert";
@@ -54,7 +61,7 @@ public class FaqController {
         }
     }
 
-    // FAQ 수정 화면 이동
+    // FAQ 상세 페이지 이동
     @PostMapping("/detail")
     public String detail(@RequestParam int faq_sn, Model model) {
         FaqDTO faq = faqService.select(faq_sn);

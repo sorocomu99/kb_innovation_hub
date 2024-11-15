@@ -10,14 +10,11 @@
  */
 package com.kb.inno.admin.Controller;
 
-import com.kb.inno.admin.DAO.HubDAO;
 import com.kb.inno.admin.DTO.HubDTO;
-import com.kb.inno.admin.DTO.NoticeDTO;
 import com.kb.inno.admin.Service.HubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -69,7 +66,7 @@ public class HubController {
         }
     }
 
-    // HUB 센터 소식 수정 화면 이동
+    // HUB 센터 소식 상세 페이지 이동
     @PostMapping("/detail")
     public String detail(@RequestParam int hub_sn, Model model) {
         HubDTO hub = hubService.select(hub_sn);
@@ -100,7 +97,7 @@ public class HubController {
         }
     }
 
-    // 공지사항 삭제
+    // HUB 센터 소식 삭제
     @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("hub_sn") int hub_sn) {

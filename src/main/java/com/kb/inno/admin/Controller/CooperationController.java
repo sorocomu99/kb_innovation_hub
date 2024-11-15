@@ -74,7 +74,7 @@ public class CooperationController {
         }
     }
 
-    // 제휴 사례 수정
+    // 협력 기관 수정
     @PostMapping("/update")
     public String update(RedirectAttributes redirectAttributes, CooperationDTO cooperationDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
@@ -93,7 +93,7 @@ public class CooperationController {
         }
     }
 
-    // 제휴 사례 삭제
+    // 협력 기관 삭제
     @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("coope_sn") int coope_sn) {

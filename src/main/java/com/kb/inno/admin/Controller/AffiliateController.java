@@ -41,7 +41,7 @@ public class AffiliateController {
         return directory + "/affiliate";
     }
 
-    // 제휴 사례 추가 페이지 이동
+    // 제휴 사례 등록 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
         return directory + "/affiliate_insert";
@@ -55,7 +55,7 @@ public class AffiliateController {
         return directory + "/affiliate_update";
     }
 
-    // 제휴 사례 추가
+    // 제휴 사례 등록
     @PostMapping("/insert")
     public String insert(RedirectAttributes redirectAttributes, AffiliateDTO affiliateDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
