@@ -273,18 +273,21 @@ public class PlaceService {
 
     // 육성 공간 삭제
     public void delete(int plc_sn) {
-        // 메인 비주얼 상세 조회
+        // 0. 육성 공간 상세 조회
         PlaceDTO selectInfo = placeDAO.select(plc_sn);
 
-        // 조회한 것에서 file_id 꺼내기
+        // 1. 조회한 것에서 file_id 꺼내기
         List<Integer> fileSnList = new ArrayList<>();
         fileSnList.add(selectInfo.getAtch_file_sn1());
         fileSnList.add(selectInfo.getAtch_file_sn2());
         fileSnList.add(selectInfo.getAtch_file_sn3());
 
-        // 경로 내 파일 삭제
+        // 2. 경로 설정
         Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+
+        // 3. File_sn 만큼 반복
         for(int i = 0; i < fileSnList.size(); i++) {
+
             // 변수 생성
             File deleteFile = null;
             boolean removed = false;
@@ -310,7 +313,7 @@ public class PlaceService {
                 placeDAO.deleteFile(fileSnList.get(i));
             }
         }
-        // 비주얼 삭제
+        // 4. 육성 공간 삭제
         placeDAO.delete(plc_sn);
     }
 }

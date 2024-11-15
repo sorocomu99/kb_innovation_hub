@@ -264,14 +264,13 @@ public class InterchangeService {
 
     // 현지 교류 삭제
     public void delete(int exch_sn) {
-        // 0. 기존 파일 재조회
+        // 0. 현지 교류 상세 조회
         InterchangeDTO basicFile = interchangeDAO.select(exch_sn);
 
-        // 1. 기존 경로에 있는 파일 삭제
-        // 경로 설정
+        // 1. 경로 설정
         Path path = Paths.get(System.getProperty("user.dir"), staticPath);
 
-        // File_sn 담기
+        // 2. File_sn 담기
         ArrayList<Integer> list = new ArrayList<>();
 
         int file_sn1 = basicFile.getAtch_file_sn1();
@@ -282,10 +281,10 @@ public class InterchangeService {
         list.add(file_sn2);
         list.add(file_sn3);
 
-        // File_sn 만큼 반복
+        // 3. File_sn 만큼 반복
         for(int i = 0; i < list.size(); i++) {
 
-            // file_sn이 있으면
+            // 1. file_sn이 있으면
             if(list.get(i) != 0) {
 
                 // 변수 생성
@@ -310,10 +309,10 @@ public class InterchangeService {
                     file_sn = basicFile.getAtch_file_sn3();
                 }
 
-                // 파일 삭제
+                // 2. 파일 삭제
                 boolean removed = deleteFile != null && deleteFile.delete();
 
-                // 2. 만약 경로에 파일이 지워졌다면
+                // 3. 만약 경로에 파일이 지워졌다면
                 if(removed) {
                     // 테이블에 있는 파일 삭제
                     interchangeDAO.deleteFile(file_sn);
@@ -321,6 +320,7 @@ public class InterchangeService {
             }
         }
         
+        // 4. 현지 교류 삭제
         interchangeDAO.delete(exch_sn);
     }
 }

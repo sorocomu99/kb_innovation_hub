@@ -171,17 +171,19 @@ public class AffiliateService {
 
     // 제휴 사례 삭제
     public void delete(int affiliate_sn) {
-        // 메인 비주얼 상세 조회
+        // 0. 제휴 사례 상세 조회
         AffiliateDTO selectInfo = affiliateDAO.select(affiliate_sn);
 
-        // 조회한 것에서 file_id 꺼내기
+        // 1. 조회한 것에서 file_id 꺼내기
         int file_sn = selectInfo.getAtch_file_sn();
 
+        // 2. fileId가 빈 값이 아니면(파일이 있으면)
         if(file_sn != 0) {
             // 경로 내 파일 삭제
             Path path = Paths.get(System.getProperty("user.dir"), staticPath);
             File deleteFile = new File(path + selectInfo.getAffiliate_path() + selectInfo.getAffiliate_file_name());
             boolean removed = deleteFile.delete();
+
             // 만약 경로에 파일이 지워졌다면
             if(removed) {
                 // 파일 삭제

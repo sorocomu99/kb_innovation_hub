@@ -220,7 +220,6 @@ public class HubService {
 
         // 만약 파일을 삭제 한다면
         if(hubDTO.getDel_yn().equals("Y")) {
-            // 만약 세 번째라면
             File delete = new File(path + hubDTO.getHub_path() + hubDTO.getHub_file_name());
             int file_sn = hubDTO.getAtch_file_sn3();
 
@@ -302,7 +301,7 @@ public class HubService {
             }
         }
 
-        // 파일 순번 리스트에 담기
+        // 파일 번호 담기
         for(int k = 0; k < fileSnList.size(); k++) {
             if(k == 0) {
                 hubDTO.setAtch_file_sn1(fileSnList.get(k));
@@ -325,14 +324,13 @@ public class HubService {
 
     // HUB 센터 소식 삭제
     public void delete(int hub_sn) {
-        // 0. 기존 파일 재조회
+        // 0. HUB 센터 소식 상세 조회
         HubDTO basicFile = hubDAO.select(hub_sn);
 
-        // 1. 기존 경로에 있는 파일 삭제
-        // 경로 설정
+        // 1. 경로 설정
         Path path = Paths.get(System.getProperty("user.dir"), staticPath);
 
-        // File_sn 담기
+        // 2. File_sn 담기
         ArrayList<Integer> list = new ArrayList<>();
 
         int file_sn1 = basicFile.getAtch_file_sn1();
@@ -343,10 +341,10 @@ public class HubService {
         list.add(file_sn2);
         list.add(file_sn3);
 
-        // File_sn 만큼 반복
+        // 3. File_sn의 리스트 만큼 반복
         for(int i = 0; i < list.size(); i++) {
 
-            // file_sn이 있으면
+            // 1. file_sn이 있으면
             if(list.get(i) != 0) {
 
                 // 변수 생성
@@ -371,17 +369,18 @@ public class HubService {
                     file_sn = basicFile.getAtch_file_sn3();
                 }
 
-                // 파일 삭제
+                // 2. 파일 삭제
                 boolean removed = deleteFile != null && deleteFile.delete();
 
-                // 2. 만약 경로에 파일이 지워졌다면
+                // 3. 만약 경로에 파일이 지워졌다면
                 if(removed) {
                     // 테이블에 있는 파일 삭제
                     hubDAO.deleteFile(file_sn);
                 }
             }
         }
-
+        
+        // 4. HUB 센터 소식 삭제
         hubDAO.delete(hub_sn);
     }
 }

@@ -175,10 +175,10 @@ public class NoticeService {
     // 공지사항 수정
     public int update(NoticeDTO noticeDTO, int loginId) {
 
-        // 경로 설정
+        // 0. 경로 설정
         Path path = Paths.get(System.getProperty("user.dir"), staticPath);
 
-        // 만약 파일을 삭제 한다면
+        // 1. 만약 파일을 삭제 한다면
         if(noticeDTO.getDel_yn().equals("Y")) {
             File delete = new File(path + noticeDTO.getNtc_path() + noticeDTO.getNtc_file_name());
             int file_sn = noticeDTO.getAtch_file_sn();
@@ -193,10 +193,10 @@ public class NoticeService {
             }
         }
 
-        // 파일을 새로 등록했는 지 확인
+        // 2. 파일을 새로 등록했는 지 확인
         int fileYn = noticeDTO.getFile_yn();
 
-        // 만약 파일을 새로 등록했다면 파일 테이블 포함 저장
+        // 3. 만약 파일을 새로 등록했다면 파일 테이블 포함 저장
         if(fileYn != 0) {
             // 0. 기존 파일 재조회
             NoticeDTO basicFile = noticeDAO.select(noticeDTO.getNtc_sn());
@@ -221,32 +221,36 @@ public class NoticeService {
             }
         }
 
-        // 최종 수정자 대입
+        // 4. 최종 수정자 대입
         noticeDTO.setLast_mdfr(loginId);
 
+        // 5. 공지사항 수정
         return noticeDAO.update(noticeDTO);
     }
     
     // 공지사항 삭제
     public void delete(int ntc_sn) {
-        // 메인 비주얼 상세 조회
+        // 0. 메인 비주얼 상세 조회
         NoticeDTO selectInfo = noticeDAO.select(ntc_sn);
-        // 조회한 것에서 file_id 꺼내기
+
+        // 1. 조회한 것에서 file_id 꺼내기
         int file_sn = selectInfo.getAtch_file_sn();
 
+        // 2. file_sn가 빈 값이 아니면(파일이 있으면)
         if(file_sn != 0){
-            // 경로 내 파일 삭제
+            // 1. 경로 내 파일 삭제
             Path path = Paths.get(System.getProperty("user.dir"), staticPath);
             File deleteFile = new File(path + selectInfo.getNtc_path() + selectInfo.getNtc_file_name());
             boolean removed = deleteFile.delete();
-            // 만약 경로에 파일이 지워졌다면
+
+            // 2.만약 경로에 파일이 지워졌다면
             if(removed) {
                 // 파일 삭제
                 noticeDAO.deleteFile(file_sn);
             }
         }
 
-        // 비주얼 삭제
+        // 3. 비주얼 삭제
         noticeDAO.delete(ntc_sn);
     }
 }
