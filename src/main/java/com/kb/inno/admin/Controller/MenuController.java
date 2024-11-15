@@ -36,7 +36,7 @@ public class MenuController {
     @Value("/menu")
     private String directory;
 
-    // 메뉴 리스트 조회 : 메뉴 조회
+    // 공통 메뉴 조회
     @RequestMapping("/")
     public ResponseEntity<Object> index() {
         List<MenuDTO> selectList = menuService.selectListConfig();

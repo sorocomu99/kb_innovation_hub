@@ -56,7 +56,7 @@ public class PopupController {
         return directory + "/popup";
     }
     
-    // 팝업 추가 페이지 이동
+    // 팝업 등록 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
         return directory + "/popup_insert";
@@ -99,7 +99,7 @@ public class PopupController {
         return ResponseEntity.ok(responseMap);
     }
 
-    // 팝업 추가
+    // 팝업 등록
     @PostMapping("/insert")
     public String insert(RedirectAttributes redirectAttributes, PopupDTO popupDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것

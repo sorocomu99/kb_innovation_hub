@@ -32,7 +32,7 @@ public class NoticeController {
         return directory + "/notice";
     }
 
-    // 공지사항 등록 화면 이동
+    // 공지사항 등록 페이지 이동
     @RequestMapping("/insert")
     public String insert() {
         return directory + "/notice_insert";
@@ -61,7 +61,7 @@ public class NoticeController {
         }
     }
 
-    // 공지사항 수정 화면 이동
+    // 공지사항 수정 페이지 이동
     @PostMapping("/detail")
     public String detail(@RequestParam int ntc_sn, Model model) {
         NoticeDTO notice = noticeService.select(ntc_sn);
