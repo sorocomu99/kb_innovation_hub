@@ -135,6 +135,7 @@
     </insert>
     <!-- 공지사항 상세 조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.NoticeDTO">
+        /* 공지사항 상세 조회 */
         SELECT NOTICE.NTC_SN       AS NTC_SN
              , NOTICE.NTC_TTL      AS NTC_TTL
              , NOTICE.NTC_CN       AS NTC_CN

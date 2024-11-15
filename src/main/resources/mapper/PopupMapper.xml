@@ -4,6 +4,7 @@
 <mapper namespace="com.kb.inno.admin.DAO.PopupDAO">
     <!-- 팝업 게시글 갯수 조회 -->
     <select id="selectPageCount" resultType="int">
+        /* 팝업 게시글 갯수 조회 */
         SELECT COUNT(*)
           FROM KB_POPUP_INFO
     </select>
