@@ -81,7 +81,6 @@
         </main>
     </div>
 
-<script th:src="@{/js/admin.js}"></script>
 <script th:inline="javascript">
     // 페이지 로드 시 실행
     window.onload = function () {
@@ -93,6 +92,24 @@
 
     // 수정 시 메시지
     function confirmMsg() {
+        // 1. 조회 했는 지의 여부
+        if(!$('.menu-setup ol li a').hasClass('on')) {
+            alert("메뉴 조회를 먼저 해 주세요.");
+            return false;
+        }
+
+        var use_yn = $('input[name=use_yn]').val();
+        if(use_yn == null) {
+            alert("사용 여부를 체크 하세요.");
+            return false;
+        }
+
+        var menu_nm = $('input[name=menu_nm]').val();
+        if(menu_nm == "") {
+            alert("메뉴명을 입력하세요.");
+            return false;
+        }
+
         let result = confirm("수정 하시겠습니까?");
         if(result) {
             // PK 값 세팅
@@ -136,5 +153,6 @@
         });
     });
 </script>
+<script th:src="@{/js/admin.js}"></script>
 </body>
 </html>
