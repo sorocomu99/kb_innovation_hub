@@ -24,7 +24,7 @@
             <div class="mt-4">
               <form name="main_form" th:action="@{/visual/update}" method="post" enctype="multipart/form-data">
                 <input id="main_sn" type="hidden" name="main_sn" th:value="${visual.main_sn}"/>
-                <input type="hidden" name="atch_file_sn" th:value="${visual?.atch_file_sn}"/>
+                <input type="hidden" name="atch_file_sn" th:value="${visual.atch_file_sn}"/>
                 <input type="hidden" id="file_yn" name="file_yn" value="0"/>
                 <table class="table table-bordered align-middle">
                   <tbody>
@@ -35,7 +35,7 @@
                         <input class="form-control w-auto" type="file" id="formFile" name="main_file" onchange="preview()">
 <!--                        <button type="button" onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2" style="display: none;">삭제</button>-->
                       </div>
-                      <img id="previewFrame" th:src="${affiliate?.main_path == null ? '' : affiliate?.main_path + affiliate?.main_file_name}" width="200" class="img-fluid mt-2" style="display:none" />
+                      <img id="previewFrame" th:src="${visual.main_path + visual.main_file_name}" width="200" class="img-fluid mt-2" style="display:none" />
                       <p class="mb-0 mt-2">
                         * 권장 사이즈 : 1920x978px
                         <!-- 업로드 가능한 파일: <span class="fw-bold">mp4</span> / <span class="fw-bold text-danger">10MB 미만</span> -->
@@ -66,7 +66,7 @@
                     <th class="bg-light">정렬</th>
                     <td>
                       <div class="d-flex">
-                        <input class="form-control" type="number" id="formIndex" name="sort_no" th:value="${visual?.sort_no}" style="width:100px">
+                        <input class="form-control" type="number" id="formIndex" name="sort_no" th:value="${visual.sort_no}" style="width:100px">
                         <p class="mb-0 mt-2 ms-3">* 숫자가 낮을수록 상위 노출됩니다.</p>
                       </div>
                     </td>
@@ -109,10 +109,14 @@
 
   // 컨펌 메시지 띄우는 함수
   function confirmMsg(type) {
-    let result = confirm("수정 하시겠습니까?");
-    if(!result) {
+    var previewFrame = $('#previewFrame')[0].src;
+    if(previewFrame == null || previewFrame == "") {
+      alert("파일을 선택 해 주세요.");
       return false;
-    } else {
+    }
+
+    let result = confirm("수정 하시겠습니까?");
+    if(result) {
       // 폼 태그 서브밋 보내기
       f=document.main_form;
       f.submit();
