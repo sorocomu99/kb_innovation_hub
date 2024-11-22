@@ -23,6 +23,7 @@
                             <h2 class="h4">국내 프로그램 - 협력기관 관리</h2>
                             <div class="mt-4">
                                 <form th:action="@{/cooperation/insert}" method="post" enctype="multipart/form-data" name="cooperation_form">
+                                    <input type="hidden" id="file_yn" name="file_yn" value="0" />
                                     <table class="table table-bordered align-middle">
                                         <tbody>
                                             <tr>
@@ -49,11 +50,11 @@
                                                 <th class="bg-light">노출여부</th>
                                                 <td>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y">
+                                                        <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y">
                                                         <label class="form-check-label" for="expsr_y">노출</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N">
+                                                        <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N">
                                                         <label class="form-check-label" for="expsr_n">미노출</label>
                                                     </div>
                                                 </td>
@@ -62,7 +63,7 @@
                                                 <th class="bg-light">정렬</th>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <input class="form-control" type="number" name="sort_no" style="width:100px">
+                                                        <input class="form-control" type="number" name="sort_no" style="width:100px" value="1">
                                                         <p class="mb-0 mt-2 ms-3">* 숫자가 낮을수록 상위 노출됩니다.</p>
                                                     </div>
                                                 </td>
@@ -91,11 +92,31 @@
         // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
         function preview() {
             previewFrame.src = URL.createObjectURL(event.target.files[0]);
+            document.querySelector('#file_yn').value = 1;
             document.querySelector('#previewFrame').style.display = "block";
         }
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
+            // 로고 등록 확인
+            var coope_file = $('input[name=coope_file]').val();
+            if(coope_file == "") {
+                alert("로고 파일을 등록하세요.");
+                return false;
+            }
+
+            // 업체명 입력 확인
+            var bzenty_nm = $('input[name=bzenty_nm]').val();
+            if(bzenty_nm.trim() == "") {
+                alert("업체명을 입력하세요.");
+                return false;
+            }
+
+            // sort_no를 비웠을 경우 1을 대입
+            if($("input[name=sort_no]").val() == '') {
+                $("input[name=sort_no]").val(1)
+            }
+
             let result = confirm('등록 하시겠습니까?');
             if(!result) {
                 return false;

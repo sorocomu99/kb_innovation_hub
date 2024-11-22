@@ -32,7 +32,7 @@
                                                 <th class="bg-light">이미지</th>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <input class="form-control w-auto" type="file" id="formFile" onchange="preview()">
+                                                        <input class="form-control w-auto" type="file" id="formFile" name="coope_file" onchange="preview()">
                                                     </div>
                                                     <img id="previewFrame" th:src="${cooperation?.coope_path == null ? '' : cooperation?.coope_path + cooperation?.coope_file_name}" width="200" class="img-fluid mt-2" style="display:none" />
                                                     <p class="mb-0 mt-2">
@@ -108,6 +108,24 @@
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
+            // 로고 등록 확인
+            var previewFrame = $('#previewFrame')[0].src;
+            if(previewFrame == null || previewFrame == "") {
+                alert("파일을 선택 해 주세요.");
+                return false;
+            }
+
+            // 업체명 입력 확인
+            var bzenty_nm = $('input[name=bzenty_nm]').val();
+            if(bzenty_nm.trim() == "") {
+                alert("업체명을 입력하세요.");
+                return false;
+            }
+
+            // sort_no를 비웠을 경우 1을 대입
+            if($("input[name=sort_no]").val() == '') {
+                $("input[name=sort_no]").val(1)
+            }
             let result = confirm('수정 하시겠습니까?');
             if(!result) {
                 return false;

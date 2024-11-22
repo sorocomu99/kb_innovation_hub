@@ -13,6 +13,7 @@ package com.kb.inno.admin.Service;
 import com.kb.inno.admin.DAO.CooperationDAO;
 import com.kb.inno.admin.DTO.CooperationDTO;
 import com.kb.inno.admin.DTO.FileDTO;
+import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -110,10 +111,15 @@ public class CooperationService {
 
         if(fileYn == 1) {
             // 파일 저장
-            FileDTO fileSave = insertFile(cooperationDTO, loginId);
+             MultipartFile file = cooperationDTO.getCoope_file();
+
+            FileUploader fileUploader = new FileUploader();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            int result = cooperationDAO.insertFile(fileSave);
 
             // 게시글 저장
-            if(fileSave != null) {
+            if(fileSave != null && result == 1) {
                 // 파일 일련번호 대입
                 cooperationDTO.setAtch_file_id(fileSave.getFile_sn());
             }
@@ -133,15 +139,13 @@ public class CooperationService {
         int fileYn = cooperationDTO.getFile_yn();
 
         // 만약 파일을 새로 등록했다면 파일 테이블 포함 저장
-        if(fileYn != 0) {
+         if(fileYn == 1) {
             // 0. 기존 파일 재조회
             CooperationDTO basicFile = cooperationDAO.select(cooperationDTO.getCoope_sn());
 
             // 1. 기존 경로에 있는 파일 삭제
-            // 경로 설정
-            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-            File deleteFile = new File(path + basicFile.getCoope_path() + basicFile.getCoope_file_name());
-            boolean removed = deleteFile.delete();
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(basicFile.getCoope_path(), basicFile.getCoope_file_name());
 
             // 2. 만약 경로에 파일이 지워졌다면
             if(removed) {
@@ -150,10 +154,13 @@ public class CooperationService {
             }
 
             // 3. 새로운 파일 경로에 저장
-            FileDTO fileSave = insertFile(cooperationDTO, loginId);
+            MultipartFile file = cooperationDTO.getCoope_file();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            int result = cooperationDAO.insertFile(fileSave);
 
             // 4. 새로운 파일 테이블에 저장
-            if(fileSave != null) {
+            if(fileSave != null && result == 1) {
                 // 파일 일련번호 대입
                 cooperationDTO.setAtch_file_id(fileSave.getFile_sn());
             }
@@ -176,9 +183,8 @@ public class CooperationService {
         // 2. fileId가 빈 값이 아니면(파일이 있으면)
         if(fileId != 0) {
             // 경로 내 파일 삭제
-            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-            File deleteFile = new File(path + selectInfo.getCoope_path() + selectInfo.getCoope_file_name());
-            boolean removed = deleteFile.delete();
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(selectInfo.getCoope_path(), selectInfo.getCoope_file_name());
 
             // 만약 경로에 파일이 지워졌다면
             if(removed) {
