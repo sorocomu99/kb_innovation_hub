@@ -35,8 +35,8 @@ public class InvestmentController {
     // 협업 성과 - 투자 그래프 조회
     @RequestMapping("/info")
     public String select(Model model) {
-        InvestmentDTO select = investmentService.select();
-        model.addAttribute("select", select);
+        InvestmentDTO investment = investmentService.select();
+        model.addAttribute("investment", investment);
         return directory + "/investment";
     }
 
