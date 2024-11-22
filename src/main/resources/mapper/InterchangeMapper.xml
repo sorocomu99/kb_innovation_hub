@@ -15,7 +15,7 @@
           FROM KB_EXCH_INFO EXCH
              , KB_FILE_INFO FILES
          WHERE EXCH.ATCH_FILE_SN1 = FILES.FILE_SN(+)
-         ORDER BY EXCH.EXCH_SN
+         ORDER BY EXCH.EXCH_SN DESC
     </select>
     <!-- 현지 교류 파일 추가 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO">

@@ -85,11 +85,11 @@
                                                 <th class="bg-light">노출여부</th>
                                                 <td>
                                                     <div class="form-check form-check-inline">
-                                                        <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y">
+                                                        <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y">
                                                         <label class="form-check-label" for="expsr_y">노출</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N">
+                                                        <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N">
                                                         <label class="form-check-label" for="expsr_n">미노출</label>
                                                     </div>
                                                 </td>
@@ -98,7 +98,7 @@
                                                 <th class="bg-light">정렬</th>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <input class="form-control" type="number" name="sort_no" value="" style="width:100px">
+                                                        <input class="form-control" type="number" name="sort_no" value="1" style="width:100px">
                                                         <p class="mb-0 mt-2 ms-3">* 숫자가 낮을수록 상위 노출됩니다.</p>
                                                     </div>
                                                 </td>
@@ -140,6 +140,32 @@
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
+            // 썸네일 이미지 등록 확인
+            var inter_file1 = $('input[name=inter_file1]').val();
+            if(inter_file1 == "") {
+                alert("썸네일 이미지를 등록하세요.");
+                return false;
+            }
+
+            // 제목 입력 확인
+            var exch_ttl = $('input[name=exch_ttl]').val();
+            if(exch_ttl.trim() == "") {
+                alert("제목을 입력하세요.");
+                return false;
+            }
+
+            // 내용 입력 확인
+            var exch_cn = $('input[name=exch_cn]').val();
+            if(exch_cn.trim() == "") {
+                alert("내용을 입력하세요.");
+                return false;
+            }
+
+            // sort_no를 비웠을 경우 1을 대입
+            if($("input[name=sort_no]").val() == '') {
+                $("input[name=sort_no]").val(1)
+            }
+
             let result = confirm('등록 하시겠습니까?');
             if(!result) {
                 return false;
