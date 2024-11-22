@@ -25,29 +25,42 @@ $.ajax({
         <nav class="sidebar" id="sidebarMenu">
             <div class="position-sticky pt-3">
                 <div class="sidebar-nav accordion accordion-flush" id="accordionSideBarNavigation">`;
+                    let level1 = [];
+                    let level2 = [];
                     for( let i = 0; i < response.length; i++) {
+                        if(response[i].menu_depth == 1) {
+                            level1.push(response[i]);
+                        }
+
+                        if(response[i].menu_depth == 2) {
+                            level2.push(response[i]);
+                        }
+                    };
+
+                    for(let i = 0; i < level1.length; i++) {
                         var idx;
                         htmlCode += `<div class="accordion-item">`;
-                        if(response[i].menu_depth == 1) {
-                            idx = i;
-                            htmlCode += `    <h2 class="accordion-header">`;
-                            htmlCode += `        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pannel`+ idx + `" aria-expanded="false" aria-controls="pannel`+ idx + `">`;
-                            htmlCode += `            <i data-feather="settings"></i>`;
-                            htmlCode +=              response[i].menu_nm;
-                            htmlCode += `        </button>`;
-                            htmlCode += `    </h2>`;
+                        idx = i;
+                        htmlCode += `    <h2 class="accordion-header">`;
+                        htmlCode += `        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pannel`+ idx + `" aria-expanded="false" aria-controls="pannel`+ idx + `">`;
+                        htmlCode += `            <i data-feather="settings"></i>`;
+                        htmlCode +=              level1[i].menu_nm;
+                        htmlCode += `        </button>`;
+                        htmlCode += `    </h2>`;
+                        htmlCode += `    <div id="pannel` + idx + `" class="accordion-collapse collapse">`;
+                        htmlCode += `        <div class="accordion-body">`;
+                        for(let j = 0; j < level2.length; j++) {
+                            if(level1[i].menu_sn == level2[j].menu_up_sn) {
+                                htmlCode += `    <input type="hidden" id="menu_id_` + level2[j].menu_sn +  `" value="` + level2[j].menu_sn + `"/>`;
+                                htmlCode += `    <a id="` + i + `" class="nav-link" href="` + level2[j].menu_link +`/` + level2[j].menu_sn + `">`;
+                                htmlCode +=         level2[j].menu_nm;
+                                htmlCode += `    </a>`;
+                            }
                         }
-                        if(response[i].menu_depth == 2) {
-                            htmlCode += `    <div id="pannel` + idx + `" class="accordion-collapse collapse">`;
-                            htmlCode += `        <div class="accordion-body">`;
-                            htmlCode += `            <a class="nav-link" href="` + response[i].menu_link +`">`;
-                            htmlCode +=                 response[i].menu_nm;
-                            htmlCode += `            </a>`;
-                            htmlCode += `        </div>`;
-                            htmlCode += `    </div>`;
-                        }
+                        htmlCode += `        </div>`;
+                        htmlCode += `    </div>`;
                         htmlCode += `</div>`;
-                    };
+                    }
                     htmlCode +=
                 `</div>
             </div>
