@@ -117,7 +117,7 @@ public class HubService {
         }
 
         // 파일 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+        Path path = Paths.get("D:\\");
         String savePath = path + "\\upload\\";
 
         // 파일 디렉토리 생성(없으면)
@@ -214,7 +214,7 @@ public class HubService {
     public int update(HubDTO hubDTO, int loginId) {
 
         // 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+        Path path = Paths.get("D:\\");
         // 0. 기존 파일 재조회
         HubDTO basicFile = hubDAO.select(hubDTO.getHub_sn());
 
@@ -328,7 +328,7 @@ public class HubService {
         HubDTO basicFile = hubDAO.select(hub_sn);
 
         // 1. 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+        Path path = Paths.get("D:\\");
 
         // 2. File_sn 담기
         ArrayList<Integer> list = new ArrayList<>();
