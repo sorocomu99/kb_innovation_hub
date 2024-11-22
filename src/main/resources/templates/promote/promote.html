@@ -48,7 +48,7 @@
                                         <td>
 <!--                                            <input type="number" class="form-control" name="graph1_yr" th:value="${result?.graph1_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph1_yr">
-                                                <option value="none" th:disabled th:hidden="true">-선택-</option>
+                                                <option value="" th:disabled th:hidden="true">-선택-</option>
                                                 <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}"></option>
                                             </select>
                                         </td>
@@ -56,7 +56,7 @@
                                         <td>
 <!--                                            <input type="number" class="form-control" name="graph2_yr" th:value="${result?.graph2_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph2_yr">
-                                                <option value="none" th:disabled th:hidden="true">-선택-</option>
+                                                <option value="" th:disabled th:hidden="true">-선택-</option>
                                                 <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}"></option>
                                             </select>
                                         </td>
@@ -64,7 +64,7 @@
                                         <td>
 <!--                                            <input type="number" class="form-control" name="graph3_yr" th:value="${result?.graph3_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph3_yr">
-                                                <option value="none" th:disabled th:hidden="true">-선택-</option>
+                                                <option value="" th:disabled th:hidden="true">-선택-</option>
                                                 <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}"></option>
                                             </select>
                                         </td>
@@ -72,7 +72,7 @@
                                         <td>
 <!--                                            <input type="number" class="form-control" name="graph4_yr" th:value="${result?.graph4_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph4_yr">
-                                                <option value="none" th:disabled th:hidden="true">-선택-</option>
+                                                <option value="" th:disabled th:hidden="true">-선택-</option>
                                                 <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}"></option>
                                             </select>
                                         </td>
@@ -80,7 +80,7 @@
                                         <td>
 <!--                                            <input type="number" class="form-control" name="graph5_yr" th:value="${result?.graph5_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph5_yr">
-                                                <option value="none" th:disabled th:hidden="true">-선택-</option>
+                                                <option value="" th:disabled th:hidden="true">-선택-</option>
                                                 <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}"></option>
                                             </select>
                                         </td>
@@ -130,25 +130,55 @@
         // 현재 년도 기준으로 셀렉트 박스 선택 되게 하기
         // 만약 값이 없으면 세팅(등록)
         var year = new Date().getFullYear();
-        // 셀렉트 박스들
-        var selects = document.getElementsByClassName("form-select");
-        // 셀렉트 박스들 만큼 반복
-        for(var i = 0; i < selects.length; i++) {
-            // 셀렉트 박스 한 개와 옵션들
-            var select = selects[i];
-            var options = select.options;
-
-            // debugger;
-
-            for(var j = 0; j < options.length; j++) {
-                if(options[j].value == String(year) && options[options.selectedIndex].value == 'none') {
-                    options[j].selected = true;
-                }
+        var select = document.getElementsByName("graph1_yr");
+        var options = select[0].options;
+        // 옵션들 중에서 해당 되는 년도를 선택
+        for(var i = 0; i < options.length; i++) {
+            if(options[i].value == String(year) && options[options.selectedIndex].value == '') {
+                options[i].selected = true;
             }
         }
     }
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {
+        // 기준년월 입력 확인
+        var crtr_ym = $('input[name=crtr_ym]').val();
+        if(crtr_ym.trim() == "") {
+            alert("기준년월을 입력 해 주세요.");
+            return false;
+        }
+
+        // 그래프 1의 기업 수 입력 확인
+        var graph1_nocs = $('input[name=graph1_nocs]').val();
+        if(graph1_nocs.trim() == "") {
+            alert("기업 수를 입력 해 주세요.");
+            return false;
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph2_nocs = $('input[name=graph2_nocs]').val();
+        if(graph2_nocs.trim() == "") {
+            $('input[name=graph2_nocs]').val(0);
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph3_nocs = $('input[name=graph3_nocs]').val();
+        if(graph3_nocs.trim() == "") {
+            $('input[name=graph3_nocs]').val(0);
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph4_nocs = $('input[name=graph4_nocs]').val();
+        if(graph4_nocs.trim() == "") {
+            $('input[name=graph4_nocs]').val(0);
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph5_nocs = $('input[name=graph5_nocs]').val();
+        if(graph5_nocs.trim() == "") {
+            $('input[name=graph5_nocs]').val(0);
+        }
+
         let result = confirm("저장 하시겠습니까?");
         if(!result) {
             return false;

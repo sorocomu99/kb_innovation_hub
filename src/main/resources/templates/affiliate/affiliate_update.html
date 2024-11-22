@@ -44,28 +44,28 @@
                                             <th class="bg-light">KB 계열사명</th>
                                             <td>
                                                 <p class="mb-2">최대 20자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="affiliate_nm" th:value="${affiliate?.affiliate_nm}">
+                                                <input type="text" class="form-control" name="affiliate_nm" th:value="${affiliate?.affiliate_nm}" maxlength="20">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="bg-light">KB 스타터스명</th>
                                             <td>
                                                 <p class="mb-2">최대 20자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="starter_nm" th:value="${affiliate?.starter_nm}">
+                                                <input type="text" class="form-control" name="starter_nm" th:value="${affiliate?.starter_nm}" maxlength="20">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="bg-light">서비스명</th>
                                             <td>
                                                 <p class="mb-2">최대 40자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="srvc_nm" th:value="${affiliate?.srvc_nm}">
+                                                <input type="text" class="form-control" name="srvc_nm" th:value="${affiliate?.srvc_nm}" maxlength="40">
                                             </td>
                                         </tr>
                                         <tr>
                                             <th class="bg-light">카테고리명</th>
                                             <td>
                                                 <p class="mb-2">최대 44자까지 입력 가능합니다.</p>
-                                                <input type="text" class="form-control" name="ctgry_nm" th:value="${affiliate?.ctgry_nm}">
+                                                <input type="text" class="form-control" name="ctgry_nm" th:value="${affiliate?.ctgry_nm}" maxlength="44">
                                             </td>
                                         </tr>
                                         <tr>
@@ -129,6 +129,41 @@
 
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {
+        // 썸네일 이미지 등록 확인
+        var previewFrame = $('#previewFrame')[0].src;
+        if(previewFrame == null || previewFrame == "") {
+            alert("파일을 선택 해 주세요.");
+            return false;
+        }
+
+        // KB 계열사명 입력 확인
+        var affiliate_nm = $('input[name=affiliate_nm]').val();
+        if(affiliate_nm.trim() == "") {
+            alert("KB 계열사명을 입력하세요.");
+            return false;
+        }
+
+        // KB 스타터스명 입력 확인
+        var starter_nm = $('input[name=starter_nm]').val();
+        if(starter_nm.trim() == "") {
+            alert("KB 스타터스명을 입력하세요.");
+            return false;
+        }
+
+        // 서비스명 입력 확인
+        var srvc_nm = $('input[name=srvc_nm]').val();
+        if(srvc_nm.trim() == "") {
+            alert("서비스명을 입력하세요.");
+            return false;
+        }
+
+        // 카테고리 입력 확인
+        var ctgry_nm = $('input[name=ctgry_nm]').val();
+        if(ctgry_nm.trim() == "") {
+            alert("카테고리를 입력하세요.");
+            return false;
+        }
+
         let result = confirm("수정 하시겠습니까?");
         if(!result) {
             return false;

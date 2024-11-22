@@ -77,12 +77,12 @@
                                             <div class="col-lg-6">
                                                 <div class="input-group mb-2" style="width:275px">
                                                     <span class="input-group-text">X</span>
-                                                    <input type="text" class="form-control" name="popup_left_pstn">
+                                                    <input type="number" class="form-control" name="popup_left_pstn">
                                                     <span class="input-group-text">px</span>
                                                 </div>
                                                 <div class="input-group mb-2" style="width:275px">
                                                     <span class="input-group-text">Y</span>
-                                                    <input type="text" class="form-control" name="popup_top_pstn">
+                                                    <input type="number" class="form-control" name="popup_top_pstn">
                                                     <span class="input-group-text">px</span>
                                                 </div>
                                             </div>
@@ -102,6 +102,7 @@
                                         <th class="bg-light" width="20%">내용</th>
                                         <td>
                                             <!-- 에디터 -->
+<!--                                            <div id="editor"></div>-->
                                             <div id="summernote"></div>
                                             <!-- 에디터의 내용 복사하여 붙혀넣기 -->
                                             <textarea id="popup_cn" name="popup_cn" style="display:none;"></textarea>
@@ -169,12 +170,41 @@
 
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {
+        // 팝업 위치 왼쪽 입력 확인
+        var popup_left_pstn = $('input[name=popup_left_pstn]').val();
+        if(popup_left_pstn.trim() == "") {
+            alert("X 축 값을 입력하세요.");
+            return false;
+        }
+
+        // 팝업 위치 위쪽 입력 확인
+        var popup_top_pstn = $('input[name=popup_top_pstn]').val();
+        if(popup_top_pstn.trim() == "") {
+            alert("Y 축 값을 입력하세요.");
+            return false;
+        }
+
+        // 팝업 제목 입력 확인
+        var mngr_ttl = $('input[name=mngr_ttl]').val();
+        if(mngr_ttl.trim() == "") {
+            alert("제목을 입력하세요.");
+            return false;
+        }
+
+        // 팝업 내용 입력 확인
+        var summernote_value = $("#summernote").summernote('code');
+        $("#popup_cn").val(summernote_value);
+
+        var popup_cn = $("#popup_cn").val();
+        if(popup_cn.trim() == "<p><br></p>") {
+            alert("내용을 입력하세요.");
+            return false;
+        }
+
         let result = confirm("등록 하시겠습니까?");
         if(!result) {
             return false;
         } else {
-            var summernote_value = $("#summernote").summernote('code');
-            $("#popup_cn").val(summernote_value);
             // 폼 태그 서브밋 보내기
             f=document.popup_form;
             f.submit();
@@ -185,19 +215,16 @@
     function uploadImage(file) {
         var formData = new FormData();
         formData.append('file', file);
-
         $.ajax({
             data : formData,
             type : "POST",
-            url: /*[[@{/popup/uploadImage}]]*/, // 요청 URL
+            url: /*[[@{/popup/upload/image}]]*/, // 요청 URL
             contentType : false,
             enctype : 'multipart/form-data',
             processData : false,
             success : function(data) {
-                debugger;
-                $('#summernote').summernote('insertImage', "/upload/" + data.url);
+                $('#summernote').summernote('insertImage', data.url);
             }, error: function(xhr, status, error) {
-                debugger;
                 console.error('Error uploading image:', error);
                 alert('이미지 업로드를 실패하였습니다.');
             }

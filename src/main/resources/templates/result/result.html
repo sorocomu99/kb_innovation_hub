@@ -107,6 +107,48 @@
     }
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {
+        // 육성기업 - 선발기업 수 입력 확인
+        var ent_nocs = $('input[name=ent_nocs]').val();
+        if(ent_nocs.trim() == "") {
+            alert("선발기업 수를 입력 해 주세요.");
+            return false;
+        }
+
+        // 육성기업 - 기준년월 입력 확인
+        var ent_crtr_ymd = $('input[name=ent_crtr_ymd]').val();
+        if(ent_crtr_ymd.trim() == "") {
+            alert("육성기업 기준년월을 입력 해 주세요.");
+            return false;
+        }
+
+        // 투자 - 투자 수 입력 확인
+        var invest_nocs = $('input[name=invest_nocs]').val();
+        if(invest_nocs.trim() == "") {
+            alert("투자 수를 입력 해 주세요.");
+            return false;
+        }
+
+        // 투자 - 기준년월 입력 확인
+        var invest_crtr_ymd = $('input[name=invest_crtr_ymd]').val();
+        if(invest_crtr_ymd.trim() == "") {
+            alert("투자 기준년월을 입력 해 주세요.");
+            return false;
+        }
+
+        // 계열사 제휴 - 제휴 건수 입력 확인
+        var affiliate_nocs = $('input[name=affiliate_nocs]').val();
+        if(affiliate_nocs.trim() == "") {
+            alert("제휴 건수를 입력 해 주세요.");
+            return false;
+        }
+
+        // 계열사 제휴 - 기준년월 입력 확인
+        var affiliate_crtr_ymd = $('input[name=affiliate_crtr_ymd]').val();
+        if(affiliate_crtr_ymd.trim() == "") {
+            alert("계열사 제휴 기준년월을 입력 해 주세요.");
+            return false;
+        }
+
         let result = confirm("저장 하시겠습니까?");
         if(!result) {
             return false;

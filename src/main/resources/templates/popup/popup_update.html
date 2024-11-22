@@ -144,7 +144,7 @@
         // 페이지 로드 시 실행
         window.onload = function () {
             var popup_cn = document.getElementById('popup_cn').value;
-            $('#summenrnote').summernote('code', popup_cn);
+            $('#summernote').summernote('code', popup_cn);
         }
 
         // 시작/종료 일시 체크
@@ -177,6 +177,37 @@
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
+            // 팝업 위치 왼쪽 입력 확인
+            var popup_left_pstn = $('input[name=popup_left_pstn]').val();
+            if(popup_left_pstn.trim() == "") {
+                alert("X 축 값을 입력하세요.");
+                return false;
+            }
+
+            // 팝업 위치 위쪽 입력 확인
+            var popup_top_pstn = $('input[name=popup_top_pstn]').val();
+            if(popup_top_pstn.trim() == "") {
+                alert("Y 축 값을 입력하세요.");
+                return false;
+            }
+
+            // 팝업 제목 입력 확인
+            var mngr_ttl = $('input[name=mngr_ttl]').val();
+            if(mngr_ttl.trim() == "") {
+                alert("제목을 입력하세요.");
+                return false;
+            }
+
+            // 팝업 내용 입력 확인
+            var summernote_value = $("#summernote").summernote('code');
+            $("#popup_cn").val(summernote_value);
+
+            var popup_cn = $("#popup_cn").val();
+            if(popup_cn.trim() == "<p><br></p>") {
+                alert("내용을 입력하세요.");
+                return false;
+            }
+
             let result = confirm("수정 하시겠습니까?");
             if(!result) {
                 return false;
@@ -197,12 +228,12 @@
             $.ajax({
                 data : formData,
                 type : "POST",
-                url : '/popup/uploadImage',
+                url: /*[[@{/popup/upload/image}]]*/, // 요청 URL
                 contentType : false,
-                processData : false,
                 enctype : 'multipart/form-data',
+                processData : false,
                 success : function(data) {
-                    $('#summernote').summernote('insertImage', "/upload/" + data);
+                    $('#summernote').summernote('insertImage', data.url);
                 }, error: function(xhr, status, error) {
                     console.error('Error uploading image:', error);
                     alert('이미지 업로드를 실패하였습니다.');
