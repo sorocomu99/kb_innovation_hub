@@ -13,6 +13,7 @@ package com.kb.inno.admin.Service;
 import com.kb.inno.admin.DAO.VisualDAO;
 import com.kb.inno.admin.DTO.FileDTO;
 import com.kb.inno.admin.DTO.VisualDTO;
+import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,65 +42,6 @@ public class VisualService {
     public List<VisualDTO> selectList() {
         return visualDAO.selectList();
     }
-
-    // 파일 저장
-    public FileDTO insertFile(VisualDTO visualDTO, int loginId) {
-        // 파일 꺼내기
-        MultipartFile file = visualDTO.getMain_file();
-
-        // 오리지널 파일 이름
-        String originalFileName = file.getOriginalFilename();
-
-        // 파일 확장자 설정
-        String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-        // 파일 이름 설정
-        String fileName = UUID.randomUUID().toString() + fileExtension;
-
-        // 파일 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-        String savePath = path + "\\upload\\";
-
-        // 디렉토리 없으면 생성
-        File directory = new File(savePath);
-        if(!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        // 파일 저장
-        try {
-            file.transferTo(new File(savePath, fileName));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        // 파일 사이즈 구하기
-        int bytes = (int) file.getSize();
-
-        // 빈 DTO 생성
-        FileDTO fileDTO = new FileDTO();
-
-        // 파일 DTO에 값 저장
-        fileDTO.setFile_nm(fileName);
-        fileDTO.setOrgnl_file_nm(originalFileName);
-        fileDTO.setFile_sz(bytes);
-        fileDTO.setFile_extn(fileExtension);
-        fileDTO.setFile_path("\\upload\\");
-
-        // 파일 DTO에 로그인 한 사람 추가 (임시로 나중에 수정 요망!)
-        fileDTO.setFrst_rgtr(loginId);
-        fileDTO.setLast_mdfr(loginId);
-
-        // 파일 테이블에 저장
-        int result = visualDAO.insertFile(fileDTO);
-
-        // 결과가 있으면 fileDTO return
-        if(result == 1) {
-            return fileDTO;
-        }
-
-        return null;
-    }
     
     // 메인 비주얼 등록
     public int insert(VisualDTO visualDTO, int loginId) {
@@ -112,10 +54,16 @@ public class VisualService {
 
         if(fileYn == 1) {
             // 파일 저장
-            FileDTO fileSave = insertFile(visualDTO, loginId);
+            MultipartFile file = visualDTO.getMain_file();
+
+            FileUploader fileUploader = new FileUploader();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            // 파일 테이블에 저장
+            int result = visualDAO.insertFile(fileSave);
 
             // 게시글 저장
-            if(fileSave != null) {
+            if(fileSave != null && result == 1) {
                 // 파일 일련번호 대입
                 visualDTO.setAtch_file_sn(fileSave.getFile_sn());
             }
@@ -136,27 +84,28 @@ public class VisualService {
 
         // 만약 파일을 새로 등록했다면 파일 테이블 포함 저장
         if(fileYn != 0) {
+
             // 0. 기존 파일 재조회
             VisualDTO basicFile = visualDAO.select(visualDTO.getMain_sn());
 
             // 1. 기존 경로에 있는 파일 삭제
-            // 경로 설정
-            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-            File deleteFile = new File(path + basicFile.getMain_path() + basicFile.getMain_file_name());
-            boolean removed = deleteFile.delete();
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(basicFile.getMain_path(), basicFile.getMain_file_name());
 
-            // 2. 만약 경로에 파일이 지워졌다면
+            // 2. 만약 경로에 파일이 지워졌다면 테이블에 있는 파일 삭제
             if(removed) {
-                // 테이블에 있는 파일 삭제
                 visualDAO.deleteFile(basicFile.getAtch_file_sn());
             }
+            
+            // 3. 새로운 파일 저장
+            MultipartFile file = visualDTO.getMain_file();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
 
-            // 3. 새로운 파일 경로에 저장
-            FileDTO fileSave = insertFile(visualDTO, loginId);
+            // 파일 테이블에 저장
+            int result = visualDAO.insertFile(fileSave);
 
             // 4. 새로운 파일 테이블에 저장
-            if(fileSave != null) {
-                // 파일 일련번호 대입
+            if(fileSave != null && result == 1) {
                 visualDTO.setAtch_file_sn(fileSave.getFile_sn());
             }
         }
@@ -178,9 +127,8 @@ public class VisualService {
         // 2. fileId가 빈 값이 아니면(파일이 있으면)
         if(file_sn != 0) {
             // 경로 내 파일 삭제
-            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-            File deleteFile = new File(path + selectInfo.getMain_path() + selectInfo.getMain_file_name());
-            boolean removed = deleteFile.delete();
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(selectInfo.getMain_path(), selectInfo.getMain_file_name());
 
             // 만약 경로에 파일이 지워졌다면
             if(removed) {
