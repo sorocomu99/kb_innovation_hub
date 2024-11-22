@@ -35,8 +35,8 @@ public class RecruitController {
     // 채용 지원 조회
     @RequestMapping("/info")
     public String select(Model model) {
-        RecruitDTO select = recruitService.select();
-        model.addAttribute("select", select);
+        RecruitDTO recruit = recruitService.select();
+        model.addAttribute("recruit", recruit);
         return directory + "/recruit";
     }
 

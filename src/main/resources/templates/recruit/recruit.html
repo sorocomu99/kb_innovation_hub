@@ -23,31 +23,35 @@
                             <h2 class="h4">육성프로그램 - 채용 지원 관리</h2>
                             <div class="mt-4">
                                 <form th:action="@{/recruit/save}" method="post" name="recruit_form">
-                                    <input type="hidden" th:value="${select?.employ_sn}" name="employ_sn"/>
+                                    <input type="hidden" th:value="${recruit?.employ_sn}" name="employ_sn"/>
                                     <table class="table table-bordered align-middle">
                                         <tbody>
                                             <tr>
                                                 <th class="bg-light" width="20%">연도</th>
                                                 <td>
-                                                    <input type="text" class="form-control" name="employ_yr" placeholder="ex) 2024" th:value="${select?.employ_yr}">
+<!--                                                    <input type="text" class="form-control" name="employ_yr" placeholder="ex) 2024" th:value="${recruit?.employ_yr}">-->
+                                                    <select class="form-select" name="employ_yr">
+                                                        <option value="" th:disabled th:hidden="true">-선택-</option>
+                                                        <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${recruit?.employ_yr} == ${i}"></option>
+                                                    </select>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-light" width="20%">채용 수</th>
                                                 <td>
-                                                    <input type="text" class="form-control" name="employ_emp_nocs" placeholder="ex) 1,142" th:value="${select?.employ_emp_nocs}">
+                                                    <input type="number" class="form-control" name="employ_emp_nocs" placeholder="ex) 1142" th:value="${recruit?.employ_emp_nocs}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-light" width="20%">지원 금액</th>
                                                 <td>
-                                                    <input type="text" class="form-control" name="sprt_amt" placeholder=" ex) 6억 7천 2백만원" th:value="${select?.sprt_amt}">
+                                                    <input type="text" class="form-control" name="sprt_amt" placeholder=" ex) 6억 7천 2백만원" th:value="${recruit?.sprt_amt}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-light" width="20%">채용 기업 수</th>
                                                 <td>
-                                                    <input type="text" class="form-control" name="employ_ent_nocs" placeholder=" ex) 116" th:value="${select?.employ_ent_nocs}">
+                                                    <input type="number" class="form-control" name="employ_ent_nocs" placeholder=" ex) 116" th:value="${recruit?.employ_ent_nocs}">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -74,10 +78,43 @@
         // 수정 및 등록 시 띄울 알림창
         const msg = /*[[${msg}]]*/ '';
         if (msg) alert(msg);
+
+        // 현재 년도 기준으로 셀렉트 박스 선택 되게 하기
+        // 만약 값이 없으면 세팅(등록)
+        var year = new Date().getFullYear();
+        var select = document.getElementsByName("employ_yr");
+        var options = select[0].options;
+        // 옵션들 중에서 해당 되는 년도를 선택
+        for(var i = 0; i < options.length; i++) {
+            if(options[i].value == String(year) && options[options.selectedIndex].value == '') {
+                options[i].selected = true;
+            }
+        }
     };
 
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {
+        // 채용 수 입력 확인
+        var employ_emp_nocs = $('input[name=employ_emp_nocs]').val();
+        if(employ_emp_nocs == "") {
+            alert("채용 수를 입력하세요.");
+            return false;
+        }
+
+        // 지원 금액 입력 확인
+        var sprt_amt = $('input[name=sprt_amt]').val();
+        if(sprt_amt.trim() == "") {
+            alert("지원 금액을 입력하세요.");
+            return false;
+        }
+
+        // 채용 기업 수 입력 확인
+        var employ_ent_nocs = $('input[name=employ_ent_nocs]').val();
+        if(employ_ent_nocs == "") {
+            alert("채용 기업 수를 입력하세요.");
+            return false;
+        }
+
         let result = confirm("저장 하시겠습니까?");
         if(!result) {
             return false;
