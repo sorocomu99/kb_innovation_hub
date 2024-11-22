@@ -34,24 +34,27 @@ public class VisualController {
     private String directory;
     
     // 메인 비주얼 리스트 조회
-    @RequestMapping("/list")
-    public String visualList(Model model) {
+    @RequestMapping("/list/{menuId}")
+    public String visualList(@PathVariable int menuId, Model model) {
         List<VisualDTO> selectList = visualService.selectList();
         model.addAttribute("selectList", selectList);
+        model.addAttribute("menuId", menuId);
         return directory + "/visual";
     }
 
     // 메인 비주얼 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert() {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/visual_insert";
     }
 
     // 메인 비주얼 상세 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int main_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int main_sn, Model model) {
         VisualDTO visual = visualService.select(main_sn);
         model.addAttribute("visual", visual);
+        model.addAttribute("menuId", menuId);
         return directory + "/visual_update";
     }
 
@@ -67,7 +70,7 @@ public class VisualController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + visualDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/visual_insert";
