@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Service;
 
 import com.kb.inno.admin.DAO.PopupDAO;
+import com.kb.inno.admin.DTO.MenuDTO;
 import com.kb.inno.admin.DTO.PopupDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class PopupService {
     private final PopupDAO popupDAO;
 
     // 팝업 리스트 조회
-    public void selectList(Model model, int page) {
+    public void selectList(Model model, int page, int menuId) {
         // 페이지의 전체 글 갯수
         int allCount = popupDAO.selectPageCount();
 
@@ -52,6 +53,7 @@ public class PopupService {
         model.addAttribute("repeat", repeat);
         model.addAttribute("currentPage", page);
         model.addAttribute("selectList", selectList);
+        model.addAttribute("menuId", menuId);
     }
     
     // 팝업 등록

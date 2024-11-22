@@ -10,20 +10,34 @@
  */
 package com.kb.inno.admin.Controller;
 
+import com.kb.inno.admin.DTO.MenuDTO;
 import com.kb.inno.admin.DTO.PopupDTO;
+import com.kb.inno.admin.Service.MenuService;
 import com.kb.inno.admin.Service.PopupService;
+import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.net.MalformedURLException;
+import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -41,18 +55,17 @@ public class PopupController {
     // 서비스 연결
     private final PopupService popupService;
 
+    // 메뉴 서비스 연결
+    private final MenuService menuService;
+
     // 디렉터리 공통
     @Value("/popup")
     private String directory;
 
-    // 파일 경로
-    @Value("src/main/resources/static/")
-    private String staticPath;
-
     // 팝업 리스트 조회
-    @RequestMapping("/list")
-    public String selectList(Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        popupService.selectList(model, page);
+    @RequestMapping("/list/{menuId}")
+    public String selectList(@PathVariable int menuId, Model model, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+        popupService.selectList(model, page, menuId);
         return directory + "/popup";
     }
     
@@ -71,32 +84,11 @@ public class PopupController {
     }
 
     // 이미지 업로드
-    @PostMapping("/uploadImage")
+    @ResponseBody
+    @PostMapping("/upload/image")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file) {
-        Map<String, String> responseMap = new HashMap<>();
-
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath).toAbsolutePath().normalize();
-        String savePath = path + "\\upload\\";
-
-        String originalFileName = file.getOriginalFilename();	// 원래 파일명
-        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	// 파일 확장자
-        String savedFileName = UUID.randomUUID() + extension;	// 저장될 파일명
-
-        File targetFile = new File(savePath + savedFileName);
-        try {
-            InputStream fileStream = file.getInputStream();
-            Files.copy(fileStream, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-            responseMap.put("url", "/upload/" + savedFileName);
-            responseMap.put("responseCode", "success");
-
-        } catch (IOException e) {
-            targetFile.delete();  // 저장된 파일 삭제
-            responseMap.put("responseCode", "error");
-            e.printStackTrace();
-        }
-
-        // json으로 리턴하면 오류나기 때문에 string으로 리턴
-        return ResponseEntity.ok(responseMap);
+        FileUploader fileUploader = new FileUploader();
+        return ResponseEntity.ok(fileUploader.summernoteInsertImage(file));
     }
 
     // 팝업 등록
