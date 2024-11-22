@@ -70,11 +70,11 @@
                                             <th class="bg-light">노출여부</th>
                                             <td>
                                                 <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y">
+                                                    <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_y" value="Y">
                                                     <label class="form-check-label" for="expsr_y">노출</label>
                                                 </div>
                                                 <div class="form-check form-check-inline">
-                                                    <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N">
+                                                    <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N">
                                                     <label class="form-check-label" for="expsr_n">미노출</label>
                                                 </div>
                                             </td>
@@ -153,6 +153,11 @@
         if(ctgry_nm.trim() == "") {
             alert("카테고리를 입력하세요.");
             return false;
+        }
+
+        // sort_no를 비웠을 경우 1을 대입
+        if($("input[name=sort_no]").val() == '') {
+            $("input[name=sort_no]").val(1)
         }
 
         let result = confirm('등록 하시겠습니까?');
