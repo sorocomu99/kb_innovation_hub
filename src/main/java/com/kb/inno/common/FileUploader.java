@@ -8,9 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class FileUploader {
     // summernote 이미지 업로드
@@ -51,6 +49,64 @@ public class FileUploader {
         }
 
         return resultMap;
+    }
+
+    public List<FileDTO> insertFiles(List<MultipartFile> files, int loginId) {
+
+        // 경로 설정
+        Path path = Paths.get("D:\\").toAbsolutePath().normalize();
+        String savePath = path + "\\upload\\";
+
+        // 디렉토리 없으면 생성
+        File directory = new File(savePath);
+
+        if(!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        List<FileDTO> fileList = new ArrayList<>();
+
+        // 파일 Array 길이만큼 반복
+        for(int i = 0; i < files.size(); i++) {
+            // 파일이 null 이면 패스, 아니면 파일 저장 실행
+            if(files.get(i).getSize() == 0) {
+                continue;
+            } else {
+                // 오리지널 파일 이름
+                String originalFilename = files.get(i).getOriginalFilename();
+                // 확장자 꺼내기
+                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                // 파일 이름 설정
+                String fileName = UUID.randomUUID().toString() + fileExtension;
+                // 파일 저장
+                try {
+                    files.get(i).transferTo(new File(savePath, fileName));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // 파일 사이즈 구하기
+                int bytes = (int) files.get(i).getSize();
+
+                // 빈 DTO 생성
+                FileDTO fileDTO = new FileDTO();
+
+                // DTO에 객체 담기
+                fileDTO.setFile_nm(fileName);
+                fileDTO.setOrgnl_file_nm(originalFilename);
+                fileDTO.setFile_extn(fileExtension);
+                fileDTO.setFile_path("\\upload\\");
+                fileDTO.setFile_sz(bytes);
+
+                // 로그인 한 사람 대입
+                fileDTO.setFrst_rgtr(loginId);
+                fileDTO.setLast_mdfr(loginId);
+
+                fileList.add(fileDTO);
+            }
+        }
+
+        return fileList;
     }
 
     // 파일 저장
