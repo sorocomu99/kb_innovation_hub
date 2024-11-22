@@ -80,6 +80,32 @@
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
+            // 카테고리 입력 확인
+            var faq_ctgry = $('input[name=faq_ctgry]').val();
+            if(faq_ctgry.trim() == "") {
+                alert("카테고리를 입력하세요.");
+                return false;
+            }
+
+            // 질문 텍스트 입력 확인
+            var faq_qstn = $('input[name=faq_qstn]').val();
+            if(faq_qstn.trim() == "") {
+                alert("질문 텍스트를 입력하세요.");
+                return false;
+            }
+
+            // 답변 텍스트 입력 확인
+            var faq_ans = $('input[name=faq_ans]').val();
+            if(faq_ans.trim() == "") {
+                alert("답변 텍스트를 입력하세요.");
+                return false;
+            }
+
+            // sort_no를 비웠을 경우 1을 대입
+            if($("input[name=sort_no]").val() == '') {
+                $("input[name=sort_no]").val(1)
+            }
+
             let result = confirm("수정 하시겠습니까?");
             if(!result) {
                 return false;

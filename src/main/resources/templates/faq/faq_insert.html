@@ -35,20 +35,20 @@
                                             <tr>
                                                 <th class="bg-light" width="20%">질문 텍스트</th>
                                                 <td>
-                                                    <textarea class="form-control" id="formText1" rows="5" name="faq_qstn"></textarea>
+                                                    <textarea class="form-control" id="faq_qstn" rows="5" name="faq_qstn"></textarea>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-light" width="20%">답변 텍스트</th>
                                                 <td>
-                                                    <textarea class="form-control" id="formText2" rows="5" name="faq_ans"></textarea>
+                                                    <textarea class="form-control" id="faq_ans" rows="5" name="faq_ans"></textarea>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-light">정렬</th>
                                                 <td>
                                                     <div class="d-flex">
-                                                        <input class="form-control" type="number" name="sort_no" style="width:100px">
+                                                        <input class="form-control" type="number" name="sort_no" style="width:100px" value="1">
                                                         <p class="mb-0 mt-2 ms-3">* 숫자가 낮을수록 상위 노출됩니다.</p>
                                                     </div>
                                                 </td>
@@ -56,7 +56,7 @@
                                         </tbody>
                                     </table>
                                     <div class="button-container">
-                                        <button type="submit" class="btn btn-primary">등록하기</button>
+                                        <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
                                         <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
                                         <a href="javascript:" class="btn btn-outline-dark" th:onclick="@{/faq/list}">목록보기</a>
                                     </div>
@@ -79,6 +79,32 @@
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
+            // 카테고리 입력 확인
+            var faq_ctgry = $('input[name=faq_ctgry]').val();
+            if(faq_ctgry.trim() == "") {
+                alert("카테고리를 입력하세요.");
+                return false;
+            }
+
+            // 질문 텍스트 입력 확인
+            var faq_qstn = $('#faq_qstn').val();
+            if(faq_qstn.trim() == "") {
+                alert("질문 텍스트를 입력하세요.");
+                return false;
+            }
+
+            // 답변 텍스트 입력 확인
+            var faq_ans = $('#faq_ans').val();
+            if(faq_ans.trim() == "") {
+                alert("답변 텍스트를 입력하세요.");
+                return false;
+            }
+
+            // sort_no를 비웠을 경우 1을 대입
+            if($("input[name=sort_no]").val() == '') {
+                $("input[name=sort_no]").val(1)
+            }
+
             let result = confirm("등록 하시겠습니까?");
             if(!result) {
                 return false;
