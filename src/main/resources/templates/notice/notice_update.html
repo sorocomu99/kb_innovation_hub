@@ -27,6 +27,8 @@
                                     <input type="hidden" id="file_yn" name="file_yn" value="0">
                                     <input type="hidden" name="ntc_sn" th:value="${notice.ntc_sn}">
                                     <input type="hidden" name="atch_file_sn" th:value="${notice.atch_file_sn}">
+                                    <input type="hidden" id="ntc_path" name="ntc_path" th:value="${notice.ntc_path}">
+                                    <input type="hidden" id="ntc_file_name" name="ntc_file_name" th:value="${notice.ntc_file_name}">
                                     <table class="table table-bordered align-middle">
                                         <tbody>
                                             <tr>
@@ -118,6 +120,28 @@
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
+            // 제목 입력 확인
+            var ntc_ttl = $('input[name=ntc_ttl]').val();
+            if(ntc_ttl.trim() == "") {
+                alert("제목을 입력하세요.");
+                return false;
+            }
+
+            // 내용 입력 확인
+            var summernote_value = $("#summernote").summernote('code');
+            $("#ntc_cn").val(summernote_value);
+
+            var ntc_cn = $("#ntc_cn").val();
+            if(ntc_cn.trim() == "<p><br></p>") {
+                alert("내용을 입력하세요.");
+                return false;
+            }
+
+            // sort_no를 비웠을 경우 1을 대입
+            if($("input[name=sort_no]").val() == '') {
+                $("input[name=sort_no]").val(1)
+            }
+
             let result = confirm("수정 하시겠습니까?");
             if(!result) {
                 return false;

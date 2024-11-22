@@ -2,6 +2,7 @@ package com.kb.inno.admin.Service;
 
 import com.kb.inno.admin.DAO.NoticeDAO;
 import com.kb.inno.admin.DTO.*;
+import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -143,28 +144,27 @@ public class NoticeService {
         noticeDTO.setFrst_rgtr(loginId);
         noticeDTO.setLast_mdfr(loginId);
 
-        int result = 0;
-
         // 파일을 등록했는 지 확인
         int fileYn = noticeDTO.getFile_yn();
 
         if(fileYn == 1) {
             // 파일 저장
-            FileDTO fileSave = insertFile(noticeDTO, loginId);
+            MultipartFile file = noticeDTO.getNtc_file();
+
+            FileUploader fileUploader = new FileUploader();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            // 파일 테이블에 저장
+            int result = noticeDAO.insertFile(fileSave);
 
             // 게시글 저장
-            if(fileSave != null) {
+            if(fileSave != null && result == 1) {
                 // 파일 일련번호 대입
                 noticeDTO.setAtch_file_sn(fileSave.getFile_sn());
             }
         }
 
-        // 최초 등록자, 최종 수정자 대입
-        noticeDTO.setFrst_rgtr(loginId);
-        noticeDTO.setLast_mdfr(loginId);
-        result = noticeDAO.insert(noticeDTO);
-
-        return result;
+        return noticeDAO.insert(noticeDTO);
     }
 
     // 공지사항 상세 조회
@@ -175,22 +175,19 @@ public class NoticeService {
     // 공지사항 수정
     public int update(NoticeDTO noticeDTO, int loginId) {
 
-        // 0. 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-
         // 1. 만약 파일을 삭제 한다면
         if(noticeDTO.getDel_yn().equals("Y")) {
-            File delete = new File(path + noticeDTO.getNtc_path() + noticeDTO.getNtc_file_name());
-            int file_sn = noticeDTO.getAtch_file_sn();
-
             // 파일 삭제
-            boolean removed = delete != null && delete.delete();
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(noticeDTO.getNtc_path(), noticeDTO.getNtc_file_name());
 
-            // 2. 만약 경로에 파일이 지워졌다면
+            // 경로에 파일이 지워졌다면 테이블에 있는 파일 삭제
             if(removed) {
-                // 테이블에 있는 파일 삭제
-                noticeDAO.deleteFile(file_sn);
+                noticeDAO.deleteFile(noticeDTO.getAtch_file_sn());
             }
+
+            // 파일 일련번호 대입
+            noticeDTO.setAtch_file_sn(0);
         }
 
         // 2. 파일을 새로 등록했는 지 확인
@@ -202,8 +199,8 @@ public class NoticeService {
             NoticeDTO basicFile = noticeDAO.select(noticeDTO.getNtc_sn());
 
             // 1. 기존 경로에 있는 파일 삭제
-            File deleteFile = new File(path + basicFile.getNtc_path() + basicFile.getNtc_file_name());
-            boolean removed = deleteFile.delete();
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(basicFile.getNtc_path(), basicFile.getNtc_file_name());
 
             // 2. 만약 경로에 파일이 지워졌다면
             if(removed) {
@@ -212,10 +209,14 @@ public class NoticeService {
             }
 
             // 3. 새로운 파일 경로에 저장
-            FileDTO fileSave = insertFile(noticeDTO, loginId);
+            MultipartFile file = noticeDTO.getNtc_file();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            // 파일 테이블에 저장
+            int result = noticeDAO.insertFile(fileSave);
 
             // 4. 새로운 파일 테이블에 저장
-            if(fileSave != null) {
+            if(fileSave != null && result == 1) {
                 // 파일 일련번호 대입
                 noticeDTO.setAtch_file_sn(fileSave.getFile_sn());
             }
@@ -238,10 +239,9 @@ public class NoticeService {
 
         // 2. file_sn가 빈 값이 아니면(파일이 있으면)
         if(file_sn != 0){
-            // 1. 경로 내 파일 삭제
-            Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-            File deleteFile = new File(path + selectInfo.getNtc_path() + selectInfo.getNtc_file_name());
-            boolean removed = deleteFile.delete();
+            // 경로 내 파일 삭제
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(selectInfo.getNtc_path(), selectInfo.getNtc_file_name());
 
             // 2.만약 경로에 파일이 지워졌다면
             if(removed) {
@@ -250,7 +250,7 @@ public class NoticeService {
             }
         }
 
-        // 3. 비주얼 삭제
+        // 3. 공지사항 삭제
         noticeDAO.delete(ntc_sn);
     }
 }
