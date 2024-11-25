@@ -17,5 +17,5 @@ public class ResultDTO {
     private Date frst_reg_dt;           // 최초 등록 일시
     private int last_mdfr;              // 최종 수정자
     private Date last_mdfcn_dt;         // 최종 수정 일시
-
+    private int menu_id;                // 메뉴 ID
 }

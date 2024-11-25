@@ -25,7 +25,6 @@
                                 <div class="row">
                                     <div class="col">
                                         <div class="menu-setup">
-                                            <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                             <ul>
                                                 <li th:each="list : ${selectList}">
                                                     <p class="mb-2 fs-6 fw-bold" th:if="${list.menu_depth == 1}">
@@ -44,6 +43,7 @@
                                     </div>
                                     <div class="col">
                                         <form th:action="@{/menu/update}" method="post" name="menu_form">
+                                            <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                             <input type="hidden" name="menu_sn">
                                             <table class="table align-middle">
                                                 <tbody>

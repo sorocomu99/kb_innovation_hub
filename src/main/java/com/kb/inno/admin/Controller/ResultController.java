@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,10 +34,11 @@ public class ResultController {
     private final ResultService resultService;
     
     // 주요 성과보고 조회
-    @RequestMapping("/info")
-    public String select(Model model) {
+    @RequestMapping("/info/{menuId}")
+    public String select(@PathVariable int menuId, Model model) {
         ResultDTO result = resultService.select();
         model.addAttribute("result", result);
+        model.addAttribute("menuId", menuId);
         return directory + "/result";
     }
 
@@ -58,10 +60,10 @@ public class ResultController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "저장이 완료되었습니다.");
-            return "redirect:" + directory + "/info";
+            return "redirect:" + directory + "/info/" + resultDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
-            return directory + "/result";
+            return directory + "/result/" + resultDTO.getMenu_id();
         }
     }
 }

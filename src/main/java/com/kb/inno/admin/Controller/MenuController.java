@@ -63,10 +63,10 @@ public class MenuController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "저장이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + menuDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
-            return directory + "/menu";
+            return directory + "/menu/" + menuDTO.getMenu_id();
         }
     }
 }
