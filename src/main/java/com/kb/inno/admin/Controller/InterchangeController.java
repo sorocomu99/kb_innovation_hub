@@ -34,16 +34,18 @@ public class InterchangeController {
     private String directory;
 
     // 현지 교류 리스트 조회
-    @RequestMapping("/list")
-    public String list(Model model) {
+    @RequestMapping("/list/{menuId}")
+    public String list(@PathVariable int menuId, Model model) {
         List<InterchangeDTO> selectList = interchangeService.selectList();
         model.addAttribute("selectList", selectList);
+        model.addAttribute("menuId", menuId);
         return directory + "/interchange";
     }
 
     // 현지 교류 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert(Model model) {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/interchange_insert";
     }
 
@@ -59,7 +61,7 @@ public class InterchangeController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + interchangeDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/interchange_insert";
@@ -68,9 +70,10 @@ public class InterchangeController {
 
     // 현지 교류 상세 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int exch_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int exch_sn, Model model) {
         InterchangeDTO interchange = interchangeService.select(exch_sn);
         model.addAttribute("interchange", interchange);
+        model.addAttribute("menuId", menuId);
         return directory + "/interchange_update";
     }
 
@@ -86,7 +89,7 @@ public class InterchangeController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + interchangeDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return "redirect:" + directory + "/place_update";

@@ -23,6 +23,7 @@
                             <h2 class="h4">글로벌 - 현지교류 지원 관리</h2>
                             <div class="mt-4">
                                 <form th:action="@{/interchange/insert}" method="post" enctype="multipart/form-data" name="interchange_form">
+                                    <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                     <input type="hidden" id="file_yn1" name="file_yn1" value="0" />
                                     <input type="hidden" id="file_yn2" name="file_yn2" value="0" />
                                     <input type="hidden" id="file_yn3" name="file_yn3" value="0" />
@@ -107,7 +108,7 @@
                                     </table>
                                     <div class="button-container">
                                         <button type="submit" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
-                                        <a class="btn btn-outline-primary" th:href="@{/interchange/list}">목록보기</a>
+                                        <a class="btn btn-outline-primary" th:href="@{/interchange/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                     </div>
                                 </form>
                             </div>
@@ -124,6 +125,15 @@
             // 수정 및 등록 시 띄울 알림창
             const msg = /*[[${msg}]]*/ '';
             if (msg) alert(msg);
+
+            // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
+            // 메뉴를 활성화 시킴(삭제 금지)
+            var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
+            if(menu_id.val() == $("input[name=menu_id]").val()) {
+                menu_id.parent().parent().prev().children().removeClass("collapsed");
+                menu_id.parent().parent().addClass("show");
+                menu_id.next().addClass("active");
+            }
         }
 
         // 썸네일 미리보기
