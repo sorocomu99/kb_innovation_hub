@@ -70,16 +70,18 @@ public class PopupController {
     }
     
     // 팝업 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert() {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/popup_insert";
     }
 
     // 팝업 상세 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int popup_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int popup_sn, Model model) {
         PopupDTO popup = popupService.select(popup_sn);
         model.addAttribute("popup", popup);
+        model.addAttribute("menuId", menuId);
         return directory + "/popup_update";
     }
 
@@ -103,7 +105,7 @@ public class PopupController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + popupDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/popup_insert";
@@ -122,7 +124,7 @@ public class PopupController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + popupDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/popup_update";

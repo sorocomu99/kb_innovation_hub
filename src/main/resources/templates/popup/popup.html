@@ -28,7 +28,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="button-wrap d-flex justify-content-end">
-                                            <a class="btn btn-primary" th:href="@{/popup/insert/}">
+                                            <a class="btn btn-primary" th:href="@{/popup/insert/{menuId}(menuId=${menuId})}">
                                                 <i data-feather="edit"></i> 신규 등록
                                             </a>
                                         </div>
@@ -60,7 +60,7 @@
                                         <td th:text="${list.bgng_ymd}"></td>
                                         <td th:text="${list.end_ymd}"></td>
                                         <td>
-                                            <button th:onclick="updatePage([[${list.popup_sn}]])" class="btn btn-outline-dark btn-sm">수정</button>
+                                            <button th:onclick="updatePage([[${list.popup_sn}]], [[${menuId}]])" class="btn btn-outline-dark btn-sm">수정</button>
                                             <button th:onclick="deleteAlert([[${list.popup_sn}]])" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
                                         </td>
                                     </tr>
@@ -133,7 +133,7 @@
     };
 
     // 수정 페이지 이동
-    function updatePage(popup_sn) {
+    function updatePage(popup_sn, menuId) {
         // 빈 form 전달
         let pageMoveForm = document.createElement('form');
         // 인수 값 전달
@@ -142,6 +142,12 @@
         obj.setAttribute('name', 'popup_sn');
         obj.setAttribute('value', popup_sn);
         pageMoveForm.appendChild(obj);
+
+        let obj2 = document.createElement('input');
+        obj2.setAttribute('type', 'hidden');
+        obj2.setAttribute('name', 'menuId');
+        obj2.setAttribute('value', menuId);
+        pageMoveForm.appendChild(obj2);
 
         pageMoveForm.setAttribute('method', 'post');
         pageMoveForm.setAttribute('action', '/popup/detail');

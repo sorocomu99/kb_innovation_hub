@@ -23,8 +23,9 @@
                             <h2 class="h4">팝업 관리</h2>
                             <div class="mt-4">
                                 <form name="popup_form" th:action="@{/popup/update}" method="post">
+                                    <input th:if="${popup?.popup_sn != 0}" type="hidden" name="popup_sn" th:value="${popup?.popup_sn}"/>
+                                    <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                     <table class="table table-bordered align-middle">
-                                        <input th:if="${popup?.popup_sn != 0}" type="hidden" name="popup_sn" th:value="${popup?.popup_sn}"/>
                                         <tbody>
                                         <tr>
                                             <th class="bg-light" width="20%">시작일시</th>
@@ -145,6 +146,15 @@
         window.onload = function () {
             var popup_cn = document.getElementById('popup_cn').value;
             $('#summernote').summernote('code', popup_cn);
+
+            // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
+            // 메뉴를 활성화 시킴(삭제 금지)
+            var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
+            if(menu_id.val() == $("input[name=menu_id]").val()) {
+                menu_id.parent().parent().prev().children().removeClass("collapsed");
+                menu_id.parent().parent().addClass("show");
+                menu_id.next().addClass("active");
+            }
         }
 
         // 시작/종료 일시 체크
