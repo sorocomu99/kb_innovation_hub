@@ -24,6 +24,7 @@
                             <h2 class="h4">공지사항 관리</h2>
                             <div class="mt-4">
                                 <form th:action="@{/notice/insert}" method="post" enctype="multipart/form-data" name="notice_form">
+                                    <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                     <input type="hidden" id="file_yn" name="file_yn" value="0">
                                     <table class="table table-bordered align-middle">
                                         <tbody>
@@ -83,7 +84,7 @@
                                     <div class="button-container">
                                         <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
                                         <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
-                                        <a class="btn btn-outline-dark" th:href="@{/notice/list}">목록보기</a>
+                                        <a class="btn btn-outline-dark" th:href="@{/notice/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                     </div>
                                 </form>
                             </div>
@@ -101,6 +102,15 @@
             // 수정 및 등록 시 띄울 알림창
             const msg = /*[[${msg}]]*/ '';
             if (msg) alert(msg);
+
+            // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
+            // 메뉴를 활성화 시킴(삭제 금지)
+            var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
+            if(menu_id.val() == $("input[name=menu_id]").val()) {
+                menu_id.parent().parent().prev().children().removeClass("collapsed");
+                menu_id.parent().parent().addClass("show");
+                menu_id.next().addClass("active");
+            }
         }
 
         // 파일 추가 시 상태 값 변경

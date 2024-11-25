@@ -24,17 +24,19 @@ public class NoticeController {
     public String directory;
 
     // 공지사항 리스트 조회
-    @RequestMapping("/list")
-    public String selectList(Model model, @RequestParam(value = "type", required = false, defaultValue = "") String type,
+    @RequestMapping("/list/{menuId}")
+    public String selectList(@PathVariable int menuId, Model model,
+                             @RequestParam(value = "type", required = false, defaultValue = "") String type,
                              @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                              @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        noticeService.selectList(model, type, keyword, page);
+        noticeService.selectList(menuId, model, type, keyword, page);
         return directory + "/notice";
     }
 
     // 공지사항 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert() {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/notice_insert";
     }
 
@@ -54,7 +56,7 @@ public class NoticeController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + noticeDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/notice_insert";
@@ -63,9 +65,10 @@ public class NoticeController {
 
     // 공지사항 수정 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int ntc_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int ntc_sn, Model model) {
         NoticeDTO notice = noticeService.select(ntc_sn);
         model.addAttribute("notice", notice);
+        model.addAttribute("menuId", menuId);
         return directory + "/notice_update";
     }
 
@@ -90,7 +93,7 @@ public class NoticeController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + noticeDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/notice_update";
