@@ -25,7 +25,8 @@
                             <div class="mt-4">
                                 <div class="top-search d-flex mt-4">
                                     <div class="col">
-                                        <form th:action="@{/faq/list}" method="get">
+                                        <form th:action="@{/faq/list/{menuId}(menuId=${menuId})}" method="get">
+                                            <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                             <div class="d-flex align-items-center">
                                                 <div class="input-group">
                                                     <select class="form-select" aria-label="" name="type">
@@ -43,7 +44,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="button-wrap d-flex justify-content-end">
-                                            <a th:href="@{/faq/insert}" class="btn btn-primary">
+                                            <a th:href="@{/faq/insert/{menuId}(menuId=${menuId})}" class="btn btn-primary">
                                                 <i data-feather="edit"></i> 신규 등록
                                             </a>
                                         </div>
@@ -75,7 +76,7 @@
                                             <td th:text="${list.faq_ans}"></td>
                                             <td th:text="${list.sort_no}"></td>
                                             <td>
-                                                <button th:onclick="updatePage([[${list.faq_sn}]])" class="btn btn-outline-dark btn-sm">수정</button>
+                                                <button th:onclick="updatePage([[${list.faq_sn}]], [[${menuId}]])" class="btn btn-outline-dark btn-sm">수정</button>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" th:onclick="deleteAlert([[${list.faq_sn}]])">삭제</button>
                                             </td>
                                         </tr>
@@ -94,31 +95,30 @@
                                      -->
                                     <!-- 맨 앞페이지 이동 버튼 -->
                                     <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                                        <a class="page-link" th:href="@{/faq/list(page=1)}" aria-label="Previous">
+                                        <a class="page-link" th:href="@{|/faq/list/${menuId}?page=1|}" aria-label="Previous">
                                             <span data-feather="chevrons-left" aria-hidden="true"></span>
                                         </a>
                                     </li>
                                     <!-- 이전으로 이동하는 버튼 -->
                                     <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled' : ''">
-                                        <a class="page-link" th:href="@{/faq/list(page=${currentPage - 1 < 1 ? 1 : currentPage - 1})}" aria-label="Previous">
+                                        <a class="page-link" th:href="@{|/faq/list/${menuId}?page=${currentPage - 1 < 1 ? 1 : currentPage - 1}|}" aria-label="Previous">
                                             <span data-feather="chevron-left" aria-hidden="true"></span>
                                         </a>
                                     </li>
-                                    <!-- 페이지 넘버 -->
                                     <th:block th:if="${repeat != null}" th:each="num : ${#numbers.sequence(1, repeat)}">
                                         <li class="page-item" aria-current="page" th:classappend="${currentPage != null ? num == currentPage : num == 1} ? 'active' : ''">
-                                            <a th:id="${'page' + num}" class="page-link" th:href="@{/faq/list(page=${num})}" th:text="${num}"></a>
+                                            <a th:id="${'page' + num}" class="page-link" th:href="@{|/faq/list/${menuId}?page=${num}|}" th:text="${num}"></a>
                                         </li>
                                     </th:block>
                                     <!-- 다음으로 이동하는 버튼 -->
                                     <li class="page-item" th:classappend="${currentPage == repeat} ? 'disabled' : ''">
-                                        <a class="page-link" th:href="@{/faq/list(page=${currentPage + 1 > repeat ? repeat : currentPage + 1})}" aria-label="Next">
+                                        <a class="page-link" th:href="@{|/faq/list/${menuId}?page=${currentPage + 1 > repeat ? repeat : currentPage + 1}|}" aria-label="Next">
                                             <span data-feather="chevron-right" aria-hidden="true"></span>
                                         </a>
                                     </li>
                                     <!-- 맨 끝페이지 이동 버튼 -->
                                     <li class="page-item" th:classappend="${currentPage == repeat} ? 'disabled' : ''">
-                                        <a class="page-link" th:href="@{/faq/list(page=${repeat})}" aria-label="Next">
+                                        <a class="page-link" th:href="@{|/faq/list/${menuId}?page=${repeat}|}" aria-label="Next">
                                             <span data-feather="chevrons-right" aria-hidden="true"></span>
                                         </a>
                                     </li>
@@ -137,10 +137,19 @@
             // 수정 및 등록 시 띄울 알림창
             const msg = /*[[${msg}]]*/ '';
             if (msg) alert(msg);
+
+            // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
+            // 메뉴를 활성화 시킴(삭제 금지)
+            var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
+            if(menu_id.val() == $("input[name=menu_id]").val()) {
+                menu_id.parent().parent().prev().children().removeClass("collapsed");
+                menu_id.parent().parent().addClass("show");
+                menu_id.next().addClass("active");
+            }
         }
 
         // 수정 페이지 이동
-        function updatePage(faq_sn) {
+        function updatePage(faq_sn, menuId) {
             // 빈 form 전달
             let pageMoveForm = document.createElement('form');
             // 인수 값 전달
@@ -149,6 +158,12 @@
             obj.setAttribute('name', 'faq_sn');
             obj.setAttribute('value', faq_sn);
             pageMoveForm.appendChild(obj);
+
+            let obj2 = document.createElement('input');
+            obj2.setAttribute('type', 'hidden');
+            obj2.setAttribute('name', 'menuId');
+            obj2.setAttribute('value', menuId);
+            pageMoveForm.appendChild(obj2);
 
             pageMoveForm.setAttribute('method', 'post');
             pageMoveForm.setAttribute('action', '/faq/detail');

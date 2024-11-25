@@ -28,7 +28,7 @@ public class FaqService {
     private final FaqDAO faqDAO;
 
     // FAQ 리스트 조회
-    public void selectList(Model model, String type, String keyword, int page) {
+    public void selectList(int menuId, Model model, String type, String keyword, int page) {
         // Search DTO에 담기
         SearchDTO search = new SearchDTO();
         search.setType(type);
@@ -77,6 +77,7 @@ public class FaqService {
         model.addAttribute("repeat", repeat);
         model.addAttribute("currentPage", page);
         model.addAttribute("selectList", selectList);
+        model.addAttribute("menuId", menuId);
     }
 
     // FAQ 등록

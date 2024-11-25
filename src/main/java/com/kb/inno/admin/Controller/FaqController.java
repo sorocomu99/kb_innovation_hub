@@ -31,15 +31,19 @@ public class FaqController {
     private String directory;
     
     // FAQ 리스트 조회
-    @RequestMapping("/list")
-    public String selectList(Model model, @RequestParam(value="type", required=false, defaultValue = "") String type, @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword, @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        faqService.selectList(model, type, keyword, page);
+    @RequestMapping("/list/{menuId}")
+    public String selectList(Model model, @PathVariable int menuId,
+                             @RequestParam(value="type", required=false, defaultValue = "") String type,
+                             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
+                             @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
+        faqService.selectList(menuId, model, type, keyword, page);
         return directory + "/faq";
     }
 
     // FAQ 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert() {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/faq_insert";
     }
 
@@ -54,7 +58,7 @@ public class FaqController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + faqDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/faq";
@@ -63,9 +67,10 @@ public class FaqController {
 
     // FAQ 상세 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int faq_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int faq_sn, Model model) {
         FaqDTO faq = faqService.select(faq_sn);
         model.addAttribute("faq", faq);
+        model.addAttribute("menuId", menuId);
         return directory + "/faq_update";
     }
 
@@ -80,7 +85,7 @@ public class FaqController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+             return "redirect:" + directory + "/list/" + faqDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/faq";
