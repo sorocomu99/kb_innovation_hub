@@ -34,24 +34,27 @@ public class AffiliateController {
     private String directory;
 
     // 제휴 사례 리스트 조회
-    @RequestMapping("/list")
-    public String selectList(Model model) {
+    @RequestMapping("/list/{menuId}")
+    public String selectList(@PathVariable int menuId, Model model) {
         List<AffiliateDTO> selectList = affiliateService.selectList();
         model.addAttribute("selectList", selectList);
+        model.addAttribute("menuId", menuId);
         return directory + "/affiliate";
     }
 
     // 제휴 사례 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert() {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/affiliate_insert";
     }
     
     // 제휴 사례 상세 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int affiliate_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int affiliate_sn, Model model) {
         AffiliateDTO affiliate = affiliateService.select(affiliate_sn);
         model.addAttribute("affiliate", affiliate);
+        model.addAttribute("menuId", menuId);
         return directory + "/affiliate_update";
     }
 
@@ -67,7 +70,7 @@ public class AffiliateController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + affiliateDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/affiliate_insert";
@@ -86,7 +89,7 @@ public class AffiliateController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + affiliateDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/affiliate_update";
