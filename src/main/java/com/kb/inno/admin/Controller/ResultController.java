@@ -63,7 +63,7 @@ public class ResultController {
             return "redirect:" + directory + "/info/" + resultDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
-            return directory + "/result/" + resultDTO.getMenu_id();
+            return directory + "/result";
         }
     }
 }

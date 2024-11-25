@@ -66,7 +66,7 @@ public class MenuController {
             return "redirect:" + directory + "/list/" + menuDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
-            return directory + "/menu/" + menuDTO.getMenu_id();
+            return directory + "/menu";
         }
     }
 }
