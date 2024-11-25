@@ -34,17 +34,19 @@ public class HubController {
     private String directory;
 
     // HUB 센터 소식 리스트 조회
-    @RequestMapping("/list")
-    public String selectList(Model model, @RequestParam(value = "type", required = false, defaultValue = "") String type,
+    @RequestMapping("/list/{menuId}")
+    public String selectList(Model model, @PathVariable int menuId,
+                             @RequestParam(value = "type", required = false, defaultValue = "") String type,
                              @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                              @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        hubService.selectList(model, type, keyword, page);
+        hubService.selectList(menuId, model, type, keyword, page);
         return directory + "/hub";
     }
 
     // HUB 센터 소식 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert(Model model) {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/hub_insert";
     }
     
@@ -59,7 +61,7 @@ public class HubController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + hubDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/notice_insert";
@@ -68,9 +70,10 @@ public class HubController {
 
     // HUB 센터 소식 상세 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int hub_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int hub_sn, Model model) {
         HubDTO hub = hubService.select(hub_sn);
         model.addAttribute("hub", hub);
+        model.addAttribute("menuId", menuId);
         return directory + "/hub_update";
     }
 
@@ -90,7 +93,7 @@ public class HubController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + hubDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/notice_update";
