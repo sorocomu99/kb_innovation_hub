@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,10 +34,11 @@ public class RecruitController {
     private String directory;
     
     // 채용 지원 조회
-    @RequestMapping("/info")
-    public String select(Model model) {
+    @RequestMapping("/info/{menuId}")
+    public String select(@PathVariable int menuId, Model model) {
         RecruitDTO recruit = recruitService.select();
         model.addAttribute("recruit", recruit);
+        model.addAttribute("menuId", menuId);
         return directory + "/recruit";
     }
 
@@ -58,7 +60,7 @@ public class RecruitController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "저장이 완료 되었습니다.");
-            return "redirect:" + directory + "/info";
+            return "redirect:" + directory + "/info/" + recruitDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "저장이 실패했습니다.");
             return directory + "/recruit";
