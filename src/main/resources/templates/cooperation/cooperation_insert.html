@@ -23,6 +23,7 @@
                             <h2 class="h4">국내 프로그램 - 협력기관 관리</h2>
                             <div class="mt-4">
                                 <form th:action="@{/cooperation/insert}" method="post" enctype="multipart/form-data" name="cooperation_form">
+                                    <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                     <input type="hidden" id="file_yn" name="file_yn" value="0" />
                                     <table class="table table-bordered align-middle">
                                         <tbody>
@@ -73,7 +74,7 @@
                                     <div class="button-container">
                                         <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
                                         <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
-                                        <a class="btn btn-outline-primary" th:href="@{/cooperation/list/}">목록보기</a>
+                                        <a class="btn btn-outline-primary" th:href="@{/cooperation/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                     </div>
                                 </form>
                             </div>
@@ -84,6 +85,17 @@
         </main>
     </div>
     <script>
+        window.onload = function () {
+            // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
+            // 메뉴를 활성화 시킴(삭제 금지)
+            var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
+            if(menu_id.val() == $("input[name=menu_id]").val()) {
+                menu_id.parent().parent().prev().children().removeClass("collapsed");
+                menu_id.parent().parent().addClass("show");
+                menu_id.next().addClass("active");
+            }
+        }
+
         // 썸네일 미리보기
         // 게시글 수정 시, 썸네일이 등록되어있으면 다음 두개 태그에 인라인 스타일을 제거해주세요.
         // #previewFrame, #deleteThumbnail

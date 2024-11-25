@@ -16,9 +16,10 @@ public class CooperationDTO {
     private Date frst_reg_dt;             // 최초 등록 일시
     private int last_mdfr;                // 최종 수정자
     private Date last_mdfcn_dt;           // 최종 수정 일시
-    private MultipartFile coope_file; // 협력 기관 파일
-    private String coope_file_name;   // 협력 기관 파일명
+    private MultipartFile coope_file;     // 협력 기관 파일
+    private String coope_file_name;       // 협력 기관 파일명
     private String origin_file_name;      // 협력 기관 오리지널 파일명
-    private String coope_path;        // 협력 기관 파일 경로
+    private String coope_path;            // 협력 기관 파일 경로
     private int file_yn;                  // 파일 첨부 유무
+    private int menu_id;                  // 메뉴 ID
 }

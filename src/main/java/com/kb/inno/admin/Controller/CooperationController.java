@@ -34,24 +34,27 @@ public class CooperationController {
     private String directory;
 
     // 협력 기관 리스트 조회
-    @RequestMapping("/list")
-    public String selectList(Model model) {
+    @RequestMapping("/list/{menuId}")
+    public String selectList(@PathVariable int menuId, Model model) {
         List<CooperationDTO> selectList = cooperationService.selectList();
         model.addAttribute("selectList", selectList);
+        model.addAttribute("menuId", menuId);
         return directory + "/cooperation";
     }
 
     // 협력 기관 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert() {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/cooperation_insert";
     }
 
     // 협력 기관 상세 페이지 이동
     @PostMapping("/detail")
-    public String detail(@RequestParam int coope_sn, Model model) {
+    public String detail(@RequestParam int menuId, @RequestParam int coope_sn, Model model) {
         CooperationDTO cooperation = cooperationService.select(coope_sn);
         model.addAttribute("cooperation", cooperation);
+        model.addAttribute("menuId", menuId);
         return directory + "/cooperation_update";
     }
 
@@ -67,7 +70,7 @@ public class CooperationController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + cooperationDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/cooperation_insert";
@@ -86,7 +89,7 @@ public class CooperationController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + cooperationDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/cooperation_update";
