@@ -22,6 +22,7 @@ public class HubDTO {
     private String hub_cn;          // 허브 내용
     private String expsr_yn;        // 노출 여부
     private int sort_no;            // 정렬 번호
+    private String ctgry;           // 카테고리
     private int atch_file_sn1;      // 첨부파일 일련번호(썸네일)
     private int atch_file_sn2;      // 첨부파일 일련번호(동영상)
     private int atch_file_sn3;      // 첨부파일 일련번호

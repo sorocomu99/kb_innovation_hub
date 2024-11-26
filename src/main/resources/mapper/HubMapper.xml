@@ -127,6 +127,7 @@
        , HUB_CN
        , EXPSR_YN
        , SORT_NO
+       , CTGRY
        , ATCH_FILE_SN1
        , ATCH_FILE_SN2
        , ATCH_FILE_SN3
@@ -142,6 +143,7 @@
        , #{hub_cn}
        , #{expsr_yn}
        , #{sort_no}
+       , #{ctgry}
        , #{atch_file_sn1}
        , #{atch_file_sn2}
        , #{atch_file_sn3}
@@ -159,6 +161,7 @@
              , HUB.HUB_CN          AS HUB_CN
              , HUB.EXPSR_YN        AS EXPSR_YN
              , HUB.SORT_NO         AS SORT_NO
+             , HUB.CTGRY           AS CTGRY
              , HUB.ATCH_FILE_SN1   AS ATCH_FILE_SN1
              , HUB.ATCH_FILE_SN2   AS ATCH_FILE_SN2
              , HUB.ATCH_FILE_SN3   AS ATCH_FILE_SN3
@@ -187,6 +190,7 @@
              , ATCH_FILE_SN3  = #{atch_file_sn3}
              , EXPSR_YN       = #{expsr_yn}
              , SORT_NO        = #{sort_no}
+             , CTGRY          = #{ctgry}
              , LAST_MDFR      = #{last_mdfr}
              , LAST_MDFCN_DT  = SYSDATE
         WHERE HUB_SN          = #{hub_sn}
