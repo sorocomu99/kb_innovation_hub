@@ -1,7 +1,7 @@
 /**
  * 파일명     : PlaceDAO.java
- * 화면명     : 육성 공간 관리
- * 설명       : 육성 공간 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 육성공간 관리
+ * 설명       : 육성공간 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.06
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -21,18 +21,18 @@ import java.util.List;
 @Mapper
 @Repository
 public interface PlaceDAO {
-    // 육성 공간 리스트 조회
+    // 육성공간 리스트 조회
     List<PlaceDTO> selectList();
-    // 육성 공간 파일 추가
+    // 육성공간 파일 추가
     int insertFile(FileDTO fileDTO);
-    // 육성 공간 등록
+    // 육성공간 등록
     int insert(PlaceDTO placeDTO);
-    // 육성 공간 상세 조회
+    // 육성공간 상세 조회
     PlaceDTO select(int plc_sn);
-    // 육성 공간 수정
+    // 육성공간 수정
     int update(PlaceDTO placeDTO);
-    // 육성 공간 파일 삭제
+    // 육성공간 파일 삭제
     void deleteFile(int file_sn);
-    // 육성 공간 삭제
+    // 육성공간 삭제
     void delete(Integer integer);
 }

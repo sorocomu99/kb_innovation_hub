@@ -2,17 +2,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kb.inno.admin.DAO.PlaceDAO">
-    <!-- 육성 공간 리스트 조회 -->
+    <!-- 육성공간 리스트 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.PlaceDTO">
-        /* 육성 공간 리스트 조회 */
+        /* 육성공간 리스트 조회 */
         SELECT PLC_SN
              , PLC_NM
           FROM KB_PLC_INFO
          ORDER BY PLC_SN DESC
     </select>
-    <!-- 육성 공간 파일 추가 -->
+    <!-- 육성공간 파일 추가 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO">
-        /* 육성 공간 파일 추가 */
+        /* 육성공간 파일 추가 */
         INSERT INTO KB_FILE_INFO
         (
          FILE_SN
@@ -45,9 +45,9 @@
               FROM KB_FILE_INFO
         </selectKey>
     </insert>
-    <!-- 육성 공간 등록 -->
+    <!-- 육성공간 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.PlaceDTO">
-        /* 육성 공간 등록 */
+        /* 육성공간 등록 */
         INSERT INTO KB_PLC_INFO
         (
          PLC_SN
@@ -77,9 +77,9 @@
        , SYSDATE
         )
     </insert>
-    <!-- 육성 공간 상세 조회 -->
+    <!-- 육성공간 상세 조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.PlaceDTO">
-        /* 육성 공간 상세 조회 */
+        /* 육성공간 상세 조회 */
         SELECT PLC.PLC_SN           AS PLC_SN
              , PLC.PLC_NM           AS PLC_NM
              , PLC.PLC_ADDR         AS PLC_ADDR
@@ -102,9 +102,9 @@
           AND PLC.ATCH_FILE_SN2 = FILES2.FILE_SN(+)
           AND PLC.ATCH_FILE_SN3 = FILES3.FILE_SN(+)
     </select>
-    <!-- 육성 공간 수정 -->
+    <!-- 육성공간 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.PlaceDTO">
-        /* 육성 공간 수정 */
+        /* 육성공간 수정 */
         UPDATE KB_PLC_INFO
            SET PLC_NM        = #{plc_nm}
              , PLC_ADDR      = #{plc_addr}
@@ -116,16 +116,16 @@
              , LAST_MDFCN_DT = SYSDATE
          WHERE PLC_SN        = #{plc_sn}
     </update>
-    <!-- 육성 공간 삭제 -->
+    <!-- 육성공간 삭제 -->
     <delete id="delete" parameterType="int">
-        /* 육성 공간 삭제 */
+        /* 육성공간 삭제 */
         DELETE
           FROM KB_PLC_INFO
          WHERE PLC_SN = #{plc_sn}
     </delete>
-    <!-- 육성 공간 파일 삭제 -->
+    <!-- 육성공간 파일 삭제 -->
     <delete id="deleteFile" parameterType="int">
-        /* 육성 공간 파일 삭제 */
+        /* 육성공간 파일 삭제 */
         DELETE
           FROM KB_FILE_INFO
          WHERE FILE_SN = #{file_sn}

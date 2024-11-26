@@ -1,7 +1,7 @@
 /**
  * 파일명     : PlaceController.java
- * 화면명     : 육성 공간 관리
- * 설명       : 육성 공간 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 육성공간 관리
+ * 설명       : 육성공간 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.06
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -36,7 +36,7 @@ public class PlaceController {
     @Value("/place")
     private String directory;
 
-    // 육성 공간 리스트 조회
+    // 육성공간 리스트 조회
     @RequestMapping("/list/{menuId}")
     public String selectList(@PathVariable int menuId, Model model) {
         List<PlaceDTO> selectList = placeService.selectList();
@@ -45,14 +45,14 @@ public class PlaceController {
         return directory + "/place";
     }
 
-    // 육성 공간 등록 페이지 이동
+    // 육성공간 등록 페이지 이동
     @RequestMapping("/insert/{menuId}")
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/place_insert";
     }
 
-    // 육성 공간 상세 페이지 이동
+    // 육성공간 상세 페이지 이동
     @PostMapping("/detail")
     public String update(@RequestParam int menuId, @RequestParam int plc_sn, Model model) {
         PlaceDTO place = placeService.select(plc_sn);
@@ -61,7 +61,7 @@ public class PlaceController {
         return directory + "/place_update";
     }
 
-    // 육성 공간 등록
+    // 육성공간 등록
     @PostMapping("/insert")
     public String insert(RedirectAttributes redirectAttributes, PlaceDTO placeDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
@@ -80,7 +80,7 @@ public class PlaceController {
         }
     }
 
-    // 육성 공간 수정
+    // 육성공간 수정
     @PostMapping("/update")
     public String update(RedirectAttributes redirectAttributes, PlaceDTO placeDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
@@ -99,7 +99,7 @@ public class PlaceController {
         }
     }
 
-    // 육성 공간 삭제
+    // 육성공간 삭제
     @PostMapping("/delete")
     public String delete(@RequestParam("plc_sn") int plc_sn) {
         placeService.delete(plc_sn);

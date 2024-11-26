@@ -1,7 +1,7 @@
 /**
  * 파일명     : PlaceService.java
- * 화면명     : 육성 공간 관리
- * 설명       : 육성 공간 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 육성공간 관리
+ * 설명       : 육성공간 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.06
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -39,12 +39,12 @@ public class PlaceService {
     @Value("src/main/resources/static/")
     private String staticPath;
 
-    // 육성 공간 리스트 조회
+    // 육성공간 리스트 조회
     public List<PlaceDTO> selectList() {
         return placeDAO.selectList();
     }
 
-    // 육성 공간 등록
+    // 육성공간 등록
     public int insert(PlaceDTO placeDTO, int loginId) {
         // 파일을 등록했는 지 확인
         int fileYn1 = placeDTO.getFile_yn1();
@@ -92,12 +92,12 @@ public class PlaceService {
         return placeDAO.insert(placeDTO);
     }
 
-    // 육성 공간 상세 조회
+    // 육성공간 상세 조회
     public PlaceDTO select(int plc_sn) {
         return placeDAO.select(plc_sn);
     }
 
-    // 육성 공간 수정
+    // 육성공간 수정
     public int update(PlaceDTO placeDTO, int loginId) {
         // 파일을 새로 등록했는 지 확인
         List<Integer> fileYnList = new ArrayList<>();
@@ -229,9 +229,9 @@ public class PlaceService {
         return placeDAO.update(placeDTO);
     }
 
-    // 육성 공간 삭제
+    // 육성공간 삭제
     public void delete(int plc_sn) {
-        // 0. 육성 공간 상세 조회
+        // 0. 육성공간 상세 조회
         PlaceDTO basicFile = placeDAO.select(plc_sn);
 
         // 1. 조회한 것에서 file_id 꺼내기
@@ -279,7 +279,7 @@ public class PlaceService {
                 placeDAO.deleteFile(file_sn);
             }
         }
-        // 4. 육성 공간 삭제
+        // 4. 육성공간 삭제
         placeDAO.delete(plc_sn);
     }
 }
