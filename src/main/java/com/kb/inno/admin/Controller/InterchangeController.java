@@ -1,7 +1,7 @@
 /**
  * 파일명     : InterchangeController.java
- * 화면명     : 현지 교류 관리
- * 설명       : 현지 교류 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 글로벌 – 현지교류 지원 관리
+ * 설명       : 글로벌 – 현지교류 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.11
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -33,7 +33,7 @@ public class InterchangeController {
     @Value("/interchange")
     private String directory;
 
-    // 현지 교류 리스트 조회
+    // 글로벌 – 현지교류 리스트 조회
     @RequestMapping("/list/{menuId}")
     public String list(@PathVariable int menuId, Model model) {
         List<InterchangeDTO> selectList = interchangeService.selectList();
@@ -42,14 +42,14 @@ public class InterchangeController {
         return directory + "/interchange";
     }
 
-    // 현지 교류 등록 페이지 이동
+    // 글로벌 – 현지교류 등록 페이지 이동
     @RequestMapping("/insert/{menuId}")
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/interchange_insert";
     }
 
-    // 현지 교류 등록
+    // 글로벌 – 현지교류 등록
     @PostMapping("/insert")
     public String insert(RedirectAttributes redirectAttributes,InterchangeDTO interchangeDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
@@ -68,7 +68,7 @@ public class InterchangeController {
         }
     }
 
-    // 현지 교류 상세 페이지 이동
+    // 글로벌 – 현지교류 상세 페이지 이동
     @PostMapping("/detail")
     public String detail(@RequestParam int menuId, @RequestParam int exch_sn, Model model) {
         InterchangeDTO interchange = interchangeService.select(exch_sn);
@@ -77,7 +77,7 @@ public class InterchangeController {
         return directory + "/interchange_update";
     }
 
-    // 현지 교류 수정
+    // 글로벌 – 현지교류 수정
     @PostMapping("/update")
     public String update(RedirectAttributes redirectAttributes,InterchangeDTO interchangeDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
@@ -96,7 +96,7 @@ public class InterchangeController {
         }
     }
 
-    // 현지 교류 삭제
+    // 글로벌 – 현지교류 삭제
     @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("exch_sn") int exch_sn) {

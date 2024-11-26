@@ -1,7 +1,7 @@
 /**
  * 파일명     : InterchangeService.java
- * 화면명     : 현지 교류 관리
- * 설명       : 현지 교류 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 글로벌 – 현지교류 관리
+ * 설명       : 글로벌 – 현지교류 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.11
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -40,12 +40,12 @@ public class InterchangeService {
     @Value("src/main/resources/static/")
     private String staticPath;
 
-    // 현지 교류 리스트 조회
+    // 글로벌 – 현지교류 리스트 조회
     public List<InterchangeDTO> selectList() {
         return interchangeDAO.selectList();
     }
 
-    // 현지 교류 등록
+    // 글로벌 – 현지교류 등록
     public int insert(InterchangeDTO interchangeDTO, int loginId) {
 
         // 0. 로그인 한 아이디 세팅
@@ -76,12 +76,12 @@ public class InterchangeService {
         return interchangeDAO.insert(interchangeDTO);
     }
 
-    // 현지 교류 상세 조회
+    // 글로벌 – 현지교류 상세 조회
     public InterchangeDTO select(int exch_sn) {
         return interchangeDAO.select(exch_sn);
     }
 
-    // 현지 교류 수정
+    // 글로벌 – 현지교류 수정
     public int update(InterchangeDTO interchangeDTO, int loginId) {
         // 파일을 새로 등록했는 지 확인
         int fileYn = interchangeDTO.getFile_yn1();
@@ -119,7 +119,7 @@ public class InterchangeService {
         return interchangeDAO.update(interchangeDTO);
     }
 
-    // 현지 교류 삭제
+    // 글로벌 – 현지교류 삭제
     public void delete(int exch_sn) {
         // 0. 현지 교류 상세 조회
         InterchangeDTO selectInfo = interchangeDAO.select(exch_sn);
