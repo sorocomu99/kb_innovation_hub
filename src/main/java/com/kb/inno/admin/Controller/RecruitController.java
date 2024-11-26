@@ -1,7 +1,7 @@
 /**
  * 파일명     : RecruitController.java
- * 화면명     : 채용 지원 관리
- * 설명       : 채용 지원 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 국내 프로그램 - 채용 지원 관리
+ * 설명       : 국내 프로그램 - 채용 지원 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.04
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -33,7 +33,7 @@ public class RecruitController {
     @Value("/recruit")
     private String directory;
     
-    // 채용 지원 조회
+    // 국내 프로그램 - 채용 지원 조회
     @RequestMapping("/info/{menuId}")
     public String select(@PathVariable int menuId, Model model) {
         RecruitDTO recruit = recruitService.select();
@@ -42,7 +42,7 @@ public class RecruitController {
         return directory + "/recruit";
     }
 
-    // 채용 지원 저장
+    // 국내 프로그램 - 채용 지원 저장
     @PostMapping("/save")
     public String save(RedirectAttributes redirectAttributes, RecruitDTO recruitDTO) {
         // 로그인 한 아이디 session 추가 작업 필요

@@ -2,9 +2,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kb.inno.admin.DAO.RecruitDAO">
-    <!-- 채용 지원 조회 -->
+    <!-- 국내 프로그램 - 채용 지원 조회 -->
     <select id="select" resultType="com.kb.inno.admin.DTO.RecruitDTO">
-        /* 채용 지원 조회 */
+        /* 국내 프로그램 - 채용 지원 조회 */
         SELECT EMPLOY_SN
              , EMPLOY_YR
              , EMPLOY_EMP_NOCS
@@ -16,9 +16,9 @@
              , LAST_MDFCN_DT
         FROM KB_EMPLOY_INFO
     </select>
-    <!-- 채용 지원 등록 -->
+    <!-- 국내 프로그램 - 채용 지원 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.RecruitDTO">
-        /* 채용 지원 등록 */
+        /* 국내 프로그램 - 채용 지원 등록 */
         INSERT INTO KB_EMPLOY_INFO
         (
          EMPLOY_SN
@@ -44,9 +44,9 @@
        , SYSDATE
         )
     </insert>
-    <!-- 채용 지원 수정 -->
+    <!-- 국내 프로그램 - 채용 지원 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.RecruitDTO">
-        /* 채용 지원 수정 */
+        /* 국내 프로그램 - 채용 지원 수정 */
         UPDATE KB_EMPLOY_INFO
            SET EMPLOY_YR       = #{employ_yr}
              , EMPLOY_EMP_NOCS = #{employ_emp_nocs}
