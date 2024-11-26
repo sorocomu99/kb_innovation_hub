@@ -1,7 +1,7 @@
 /**
  * 파일명     : AffiliateController.java
- * 화면명     : 제휴 사례 관리
- * 설명       : 제휴 사례 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 국내 프로그램 - 제휴 사례 관리
+ * 설명       : 국내 프로그램 - 제휴 사례 조회 및 등록, 수정, 삭제 처리
  * 최초개발일  : 2024.10.31
  * 최초개발자  : 양윤지
  * ==========================================================
@@ -33,7 +33,7 @@ public class AffiliateController {
     @Value("/affiliate")
     private String directory;
 
-    // 제휴 사례 리스트 조회
+    // 국내 프로그램 - 제휴 사례 리스트 조회
     @RequestMapping("/list/{menuId}")
     public String selectList(@PathVariable int menuId, Model model) {
         List<AffiliateDTO> selectList = affiliateService.selectList();
@@ -42,14 +42,14 @@ public class AffiliateController {
         return directory + "/affiliate";
     }
 
-    // 제휴 사례 등록 페이지 이동
+    // 국내 프로그램 - 제휴 사례 등록 페이지 이동
     @RequestMapping("/insert/{menuId}")
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/affiliate_insert";
     }
     
-    // 제휴 사례 상세 페이지 이동
+    // 국내 프로그램 - 제휴 사례 상세 페이지 이동
     @PostMapping("/detail")
     public String detail(@RequestParam int menuId, @RequestParam int affiliate_sn, Model model) {
         AffiliateDTO affiliate = affiliateService.select(affiliate_sn);
@@ -58,7 +58,7 @@ public class AffiliateController {
         return directory + "/affiliate_update";
     }
 
-    // 제휴 사례 등록
+    // 국내 프로그램 - 제휴 사례 등록
     @PostMapping("/insert")
     public String insert(RedirectAttributes redirectAttributes, AffiliateDTO affiliateDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
@@ -77,7 +77,7 @@ public class AffiliateController {
         }
     }
 
-    // 제휴 사례 수정
+    // 국내 프로그램 - 제휴 사례 수정
     @PostMapping("/update")
     public String update(RedirectAttributes redirectAttributes, AffiliateDTO affiliateDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
@@ -96,7 +96,7 @@ public class AffiliateController {
         }
     }
 
-    // 제휴 사례 삭제
+    // 국내 프로그램 - 제휴 사례 삭제
     @ResponseBody
     @PostMapping("/delete")
     public String delete(@RequestParam("affiliate_sn") int affiliate_sn) {

@@ -20,18 +20,18 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AffiliateDAO {
-    // 제휴 사례 리스트 조회
+    // 국내 프로그램 - 제휴 사례 리스트 조회
     List<AffiliateDTO> selectList();
-    // 제휴 사례 파일 저장
+    // 국내 프로그램 - 제휴 사례 파일 저장
     int insertFile(FileDTO fileDTO);
-    // 제휴 사례 등록
+    // 국내 프로그램 - 제휴 사례 등록
     int insert(AffiliateDTO affiliateDTO);
-    // 제휴 사례 상세 조회
+    // 국내 프로그램 - 제휴 사례 상세 조회
     AffiliateDTO select(int affiliate_sn);
-    // 제휴 사례 파일 삭제
+    // 국내 프로그램 - 제휴 사례 파일 삭제
     void deleteFile(int file_sn);
-    // 제휴 사례 수정
+    // 국내 프로그램 - 제휴 사례 수정
     int update(AffiliateDTO affiliateDTO);
-    // 제휴 사례 삭제
+    // 국내 프로그램 - 제휴 사례 삭제
     void delete(int affiliate_sn);
 }

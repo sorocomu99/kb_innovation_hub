@@ -1,7 +1,7 @@
 /**
  * 파일명     : AffiliateService.java
- * 화면명     : 제휴 사례 관리
- * 설명       : 제휴 사례 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 국내 프로그램 - 제휴 사례 관리
+ * 설명       : 국내 프로그램 - 제휴 사례 조회 및 등록, 수정, 삭제 처리
  * 최초개발일  : 2024.10.31
  * 최초개발자  : 양윤지
  * ==========================================================
@@ -36,12 +36,12 @@ public class AffiliateService {
     // DAO 연결
     private final AffiliateDAO affiliateDAO;
 
-    // 제휴 사례 리스트 조회
+    // 국내 프로그램 - 제휴 사례 리스트 조회
     public List<AffiliateDTO> selectList() {
         return affiliateDAO.selectList();
     }
 
-    // 제휴 사례 등록
+    // 국내 프로그램 - 제휴 사례 등록
     public int insert(AffiliateDTO affiliateDTO, int loginId) {
         // 로그인 한 사람 대입
         affiliateDTO.setFrst_rgtr(loginId);
@@ -70,12 +70,12 @@ public class AffiliateService {
         return affiliateDAO.insert(affiliateDTO);
     }
 
-    // 제휴 사례 상세 조회
+    // 국내 프로그램 - 제휴 사례 상세 조회
     public AffiliateDTO select(int affiliate_sn) {
         return affiliateDAO.select(affiliate_sn);
     }
 
-    // 제휴 사례 수정
+    // 국내 프로그램 - 제휴 사례 수정
     public int update(AffiliateDTO affiliateDTO, int loginId) {
 
         // 파일을 새로 등록했는 지 확인
@@ -115,9 +115,9 @@ public class AffiliateService {
         return affiliateDAO.update(affiliateDTO);
     }
 
-    // 제휴 사례 삭제
+    // 국내 프로그램 - 제휴 사례 삭제
     public void delete(int affiliate_sn) {
-        // 0. 제휴 사례 상세 조회
+        // 0. 국내 프로그램 - 제휴 사례 상세 조회
         AffiliateDTO selectInfo = affiliateDAO.select(affiliate_sn);
 
         // 1. 조회한 것에서 file_id 꺼내기
@@ -136,7 +136,7 @@ public class AffiliateService {
             }
         }
 
-        // 3. 제휴 사례 삭제
+        // 3. 국내 프로그램 - 제휴 사례 삭제
         affiliateDAO.delete(affiliate_sn);
     }
 }

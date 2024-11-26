@@ -2,9 +2,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kb.inno.admin.DAO.AffiliateDAO">
-    <!-- 제휴 사례 목록 조회 -->
+    <!-- 국내 프로그램 - 제휴 사례 목록 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.AffiliateDTO">
-        /* 제휴 사례 목록 조회 */
+        /* 국내 프로그램 - 제휴 사례 목록 조회 */
         SELECT AFFI.AFFILIATE_SN AS AFFILIATE_SN
              , AFFI.SRVC_NM      AS SRVC_NM
              , AFFI.EXPSR_YN     AS EXPSR_YN
@@ -16,9 +16,9 @@
          WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
          ORDER BY AFFILIATE_SN DESC
     </select>
-    <!-- 제휴 사례 파일 저장 -->
+    <!-- 국내 프로그램 - 제휴 사례 파일 저장 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO">
-        /* 제휴 사례 파일 저장 */
+        /* 국내 프로그램 - 제휴 사례 파일 저장 */
         INSERT INTO KB_FILE_INFO
         (
          FILE_SN
@@ -51,9 +51,9 @@
             FROM KB_FILE_INFO
         </selectKey>
     </insert>
-    <!-- 제휴 사례 등록 -->
+    <!-- 국내 프로그램 - 제휴 사례 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.AffiliateDTO">
-        /* 제휴 사례 등록 */
+        /* 국내 프로그램 - 제휴 사례 등록 */
         INSERT INTO KB_AFFILIATE_INFO
         (
          AFFILIATE_SN
@@ -85,9 +85,9 @@
        , SYSDATE
         )
     </insert>
-    <!-- 제휴 사례 상세 조회 -->
+    <!-- 국내 프로그램 - 제휴 사례 상세 조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.AffiliateDTO">
-        /* 제휴 사례 상세 조회 */
+        /* 국내 프로그램 - 제휴 사례 상세 조회 */
         SELECT AFFI.AFFILIATE_SN   AS AFFILIATE_SN
              , AFFI.AFFILIATE_NM   AS AFFILIATE_NM
              , AFFI.STARTER_NM     AS STARTER_NM
@@ -104,9 +104,9 @@
         WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
           AND AFFI.AFFILIATE_SN = #{affiliate_sn}
     </select>
-    <!-- 제휴 사례 수정 -->
+    <!-- 국내 프로그램 - 제휴 사례 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.AffiliateDTO">
-        /* 제휴 사례 수정 */
+        /* 국내 프로그램 - 제휴 사례 수정 */
         UPDATE KB_AFFILIATE_INFO
            SET AFFILIATE_NM  = #{affiliate_nm}
              , STARTER_NM    = #{starter_nm}
@@ -119,16 +119,16 @@
              , LAST_MDFCN_DT = SYSDATE
          WHERE AFFILIATE_SN  = #{affiliate_sn}
     </update>
-    <!-- 제휴 사례 삭제 -->
+    <!-- 국내 프로그램 - 제휴 사례 삭제 -->
     <delete id="delete" parameterType="int">
-        /* 제휴 사례 삭제 */
+        /* 국내 프로그램 - 제휴 사례 삭제 */
         DELETE
           FROM KB_AFFILIATE_INFO
          WHERE AFFILIATE_SN = #{affiliate_sn}
     </delete>
-    <!-- 제휴 사례 파일 삭제 -->
+    <!-- 국내 프로그램 - 제휴 사례 파일 삭제 -->
     <delete id="deleteFile" parameterType="int">
-        /* 제휴 사례 파일 삭제 */
+        /* 국내 프로그램 - 제휴 사례 파일 삭제 */
         DELETE
           FROM KB_FILE_INFO
          WHERE FILE_SN = #{file_sn}
