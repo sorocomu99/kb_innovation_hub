@@ -2,9 +2,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kb.inno.admin.DAO.PromoteDAO">
-    <!-- 육성 프로그램 - 육성 그래프 조회 -->
+    <!-- 국내 프로그램 - 육성 그래프 조회 -->
     <select id="select" resultType="com.kb.inno.admin.DTO.PromoteDTO">
-        /* 육성 프로그램 - 육성 그래프 조회 */
+        /* 국내 프로그램 - 육성 그래프 조회 */
         SELECT GRAPH_SN
              , CRTR_YM
              , GRAPH1_YR
@@ -23,9 +23,9 @@
              , LAST_MDFCN_DT
           FROM KB_ENT_GRAPH_INFO
     </select>
-    <!-- 육성 프로그램 - 육성 그래프 등록 -->
+    <!-- 국내 프로그램 - 육성 그래프 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.PromoteDTO">
-        /* 육성 프로그램 - 육성 그래프 등록 */
+        /* 국내 프로그램 - 육성 그래프 등록 */
         INSERT INTO KB_ENT_GRAPH_INFO
         (
          GRAPH_SN
@@ -65,9 +65,9 @@
        , SYSDATE
         )
     </insert>
-    <!-- 육성 프로그램 - 육성 그래프 수정 -->
+    <!-- 국내 프로그램 - 육성 그래프 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.PromoteDTO">
-        /* 육성 프로그램 - 육성 그래프 수정 */
+        /* 국내 프로그램 - 육성 그래프 수정 */
         UPDATE KB_ENT_GRAPH_INFO
            SET CRTR_YM       = #{crtr_ym}
              , GRAPH1_YR     = #{graph1_yr}

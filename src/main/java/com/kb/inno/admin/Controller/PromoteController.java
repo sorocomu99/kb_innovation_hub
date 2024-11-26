@@ -1,7 +1,7 @@
 /**
  * 파일명     : PromoteController.java
- * 화면명     : 육성 프로그램 - 육성 그래프 관리
- * 설명       : 육성 프로그램 - 육성 그래프 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 국내 프로그램 - 육성 그래프 관리
+ * 설명       : 국내 프로그램 - 육성 그래프 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.10.31
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -34,7 +34,7 @@ public class PromoteController {
     @Value("/promote")
     private String directory;
 
-    // 육성 프로그램 - 육성 그래프 조회
+    // 국내 프로그램 - 육성 그래프 조회
     @GetMapping("/info/{menuId}")
     public String select(@PathVariable int menuId, Model model) {
         PromoteDTO result = promoteService.select();
@@ -43,7 +43,7 @@ public class PromoteController {
         return directory + "/promote";
     }
 
-    // 육성 프로그램 - 육성 그래프 저장
+    // 국내 프로그램 - 육성 그래프 저장
     @PostMapping("/save")
     public String save(RedirectAttributes redirectAttributes, PromoteDTO promoteDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
