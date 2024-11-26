@@ -14,8 +14,8 @@ public class InterchangeDTO {
     private int sort_no;                // 정렬 번호
 
     private int atch_file_sn1;          // 첨부파일 일련번호1
-    private int atch_file_sn2;          // 첨부파일 일련번호2
-    private int atch_file_sn3;          // 첨부파일 일련번호3
+//    private int atch_file_sn2;          // 첨부파일 일련번호2
+//    private int atch_file_sn3;          // 첨부파일 일련번호3
 
     private int frst_rgtr;              // 최초 등록자
     private Date frst_reg_dt;           // 최초 등록 일시
@@ -27,19 +27,19 @@ public class InterchangeDTO {
     private String origin_file_name1;   // 교류 오리지널 파일명1
     private String inter_path1;         // 교류 파일 경로1
 
-    private MultipartFile inter_file2;  // 교류 파일2
-    private String inter_file_name2;    // 교류 파일명2
-    private String origin_file_name2;   // 교류 오리지널 파일명2
-    private String inter_path2;         // 교류 파일 경로2
-
-    private MultipartFile inter_file3;  // 교류 파일3
-    private String inter_file_name3;    // 교류 파일명3
-    private String origin_file_name3;   // 교류 오리지널 파일명3
-    private String inter_path3;         // 교류 파일 경로3
+//    private MultipartFile inter_file2;  // 교류 파일2
+//    private String inter_file_name2;    // 교류 파일명2
+//    private String origin_file_name2;   // 교류 오리지널 파일명2
+//    private String inter_path2;         // 교류 파일 경로2
+//
+//    private MultipartFile inter_file3;  // 교류 파일3
+//    private String inter_file_name3;    // 교류 파일명3
+//    private String origin_file_name3;   // 교류 오리지널 파일명3
+//    private String inter_path3;         // 교류 파일 경로3
 
     private int file_yn1;               // 파일1이 담겨있는 지 아닌지 확인
-    private int file_yn2;               // 파일2이 담겨있는 지 아닌지 확인
-    private int file_yn3;               // 파일3이 담겨있는 지 아닌지 확인
+//    private int file_yn2;               // 파일2이 담겨있는 지 아닌지 확인
+//    private int file_yn3;               // 파일3이 담겨있는 지 아닌지 확인
 
     private int menu_id;                // 메뉴 ID
 }

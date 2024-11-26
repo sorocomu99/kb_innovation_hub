@@ -14,6 +14,7 @@ import com.kb.inno.admin.DAO.InterchangeDAO;
 import com.kb.inno.admin.DTO.FileDTO;
 import com.kb.inno.admin.DTO.InterchangeDTO;
 import com.kb.inno.admin.DTO.PlaceDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,49 +44,32 @@ public class InterchangeService {
     public List<InterchangeDTO> selectList() {
         return interchangeDAO.selectList();
     }
-    
+
     // 현지 교류 등록
     public int insert(InterchangeDTO interchangeDTO, int loginId) {
-        // 0. 파일 꺼내기
-        List<MultipartFile> files = new ArrayList<>();
 
-        MultipartFile file1 = interchangeDTO.getInter_file1();
-        MultipartFile file2 = interchangeDTO.getInter_file2();
-        MultipartFile file3 = interchangeDTO.getInter_file3();
+        // 0. 로그인 한 아이디 세팅
+        interchangeDTO.setFrst_rgtr(loginId);
+        interchangeDTO.setLast_mdfr(loginId);
 
-        if(file1.getSize() > 0) {
-            files.add(file1);
-        }
-
-        if(file2.getSize() > 0) {
-            files.add(file2);
-        }
-
-        if(file3.getSize() > 0) {
-            files.add(file3);
-        }
-
-        // 1. 파일 디렉토리에 저장
-        FileUploader fileUploader = new FileUploader();
-        List<FileDTO> fileSave = fileUploader.insertFiles(files, loginId);
+        // 1. 파일을 등록했는 지 확인
+        int fileYn = interchangeDTO.getFile_yn1();
 
         // 2. 현지 교류 저장
-         if(!fileSave.isEmpty() || fileSave != null) {
-            // 파일 일련 번호 대입
-            for (int i = 0; i < fileSave.size(); i++) {
-                if (i == 0 && fileSave.get(i) != null) {
-                    // 2. 파일 테이블에 저장
-                    interchangeDAO.insertFile(fileSave.get(i));
-                    interchangeDTO.setAtch_file_sn1(fileSave.get(i).getFile_sn());
-                }
-                if (i == 1 && fileSave.get(i) != null) {
-                    interchangeDAO.insertFile(fileSave.get(i));
-                    interchangeDTO.setAtch_file_sn2(fileSave.get(i).getFile_sn());
-                }
-                if (i == 2 && fileSave.get(i) != null) {
-                    interchangeDAO.insertFile(fileSave.get(i));
-                    interchangeDTO.setAtch_file_sn3(fileSave.get(i).getFile_sn());
-                }
+        if(fileYn == 1) {
+            // 파일 저장
+            MultipartFile file = interchangeDTO.getInter_file1();
+
+            FileUploader fileUploader = new FileUploader();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            // 파일 테이블에 저장
+            int result = interchangeDAO.insertFile(fileSave);
+
+            // 게시글 저장
+            if(fileSave != null && result == 1) {
+                // 파일 일련번호 대입
+                interchangeDTO.setAtch_file_sn1(fileSave.getFile_sn());
             }
         }
 
@@ -100,126 +84,32 @@ public class InterchangeService {
     // 현지 교류 수정
     public int update(InterchangeDTO interchangeDTO, int loginId) {
         // 파일을 새로 등록했는 지 확인
-        List<Integer> fileYnList = new ArrayList<>();
-
-        // 파일 등록 여부를 리스트에 담기
-        fileYnList.add(interchangeDTO.getFile_yn1());
-        fileYnList.add(interchangeDTO.getFile_yn2());
-        fileYnList.add(interchangeDTO.getFile_yn3());
-
-        // 파일 여부
-        List<Integer> fileSnList = new ArrayList<>();
+        int fileYn = interchangeDTO.getFile_yn1();
 
         // 만약 파일을 새로 등록했다면 파일 테이블 포함 저장
-        for(int i = 0; i < fileYnList.size(); i++) {
-            // 새로 등록한 파일이 아니면
-            if(fileYnList.get(i) == 0) {
-                if(i == 0) {
-                    fileSnList.add(interchangeDTO.getAtch_file_sn1());
-                }
+        if(fileYn != 0) {
+            // 0. 기존 파일 재조회
+            InterchangeDTO basicFile = interchangeDAO.select(interchangeDTO.getExch_sn());
 
-                if(i == 1) {
-                    fileSnList.add(interchangeDTO.getAtch_file_sn2());
-                }
+            // 1. 기존 경로에 있는 파일 삭제
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(basicFile.getInter_path1(), basicFile.getInter_file_name1());
 
-                if(i == 2) {
-                    fileSnList.add(interchangeDTO.getAtch_file_sn3());
-                }
-            } else {
-                // 0. 기존 파일 재조회
-                InterchangeDTO basicFile = interchangeDAO.select(interchangeDTO.getExch_sn());
-
-                // 1. 기존 경로에 있는 파일 삭제
-                // 경로 설정
-                Path path = Paths.get("D:\\").toAbsolutePath().normalize();
-
-                int file_sn = 0;
-                File deleteFile = null;
-
-                // 만약 첫 번째라면
-                if(i == 0) {
-                    deleteFile = new File(path + basicFile.getInter_path1() + basicFile.getInter_file_name1());
-                    file_sn = basicFile.getAtch_file_sn1();
-                }
-
-                // 만약 두 번째라면
-                if(i == 1) {
-                    deleteFile = new File(path + basicFile.getInter_path2() + basicFile.getInter_file_name2());
-                    file_sn = basicFile.getAtch_file_sn2();
-                }
-
-                // 만약 세 번째라면
-                if(i == 2) {
-                    deleteFile = new File(path + basicFile.getInter_path3() + basicFile.getInter_file_name3());
-                    file_sn = basicFile.getAtch_file_sn3();
-                }
-
-                // 파일 삭제
-                boolean removed = deleteFile != null && deleteFile.delete();
-
-                // 2. 만약 경로에 파일이 지워졌다면
-                if(removed) {
-                    // 테이블에 있는 파일 삭제
-                    interchangeDAO.deleteFile(file_sn);
-                }
-
-                // 3. 파일 꺼내기
-                List<MultipartFile> files = new ArrayList<>();
-
-                MultipartFile file1 = interchangeDTO.getInter_file1();
-                MultipartFile file2 = interchangeDTO.getInter_file2();
-                MultipartFile file3 = interchangeDTO.getInter_file3();
-
-                if(file1.getSize() > 0) {
-                    files.add(file1);
-                }
-
-                if(file2.getSize() > 0) {
-                    files.add(file2);
-                }
-
-                if(file3.getSize() > 0) {
-                    files.add(file3);
-                }
-
-                // 4. 파일 디렉토리에 저장
-                FileUploader fileUploader = new FileUploader();
-                List<FileDTO> fileSave = fileUploader.insertFiles(files, loginId);
-
-                // 5. 현지 교류 저장
-                if(!fileSave.isEmpty() || fileSave != null) {
-                    // 파일 일련 번호 대입
-                    for (int j = 0; j < fileSave.size(); j++) {
-                        if (j == 0 && fileSave.get(j) != null) {
-                            // 2. 파일 테이블에 저장
-                            interchangeDAO.insertFile(fileSave.get(j));
-                            fileSnList.add(fileSave.get(j).getFile_sn());
-                        }
-                        if (j == 1 && fileSave.get(j) != null) {
-                            interchangeDAO.insertFile(fileSave.get(j));
-                            fileSnList.add(fileSave.get(j).getFile_sn());
-                        }
-                        if (j == 2 && fileSave.get(j) != null) {
-                            interchangeDAO.insertFile(fileSave.get(j));
-                            fileSnList.add(fileSave.get(j).getFile_sn());
-                        }
-                    }
-                }
-            }
-        }
-
-        // 파일 순번 리스트에 담기
-        for(int k = 0; k < fileSnList.size(); k++) {
-            if(k == 0) {
-                interchangeDTO.setAtch_file_sn1(fileSnList.get(k));
+            // 2. 만약 경로에 파일이 지워졌다면 테이블에 있는 파일 삭제
+            if(removed) {
+                interchangeDAO.deleteFile(basicFile.getAtch_file_sn1());
             }
 
-            if(k == 1) {
-                interchangeDTO.setAtch_file_sn2(fileSnList.get(k));
-            }
+            // 3. 새로운 파일 저장
+            MultipartFile file = interchangeDTO.getInter_file1();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
 
-            if(k == 2) {
-                interchangeDTO.setAtch_file_sn3(fileSnList.get(k));
+            // 파일 테이블에 저장
+            int result = interchangeDAO.insertFile(fileSave);
+
+            // 4. 새로운 파일 테이블에 저장
+            if(fileSave != null && result == 1) {
+                interchangeDTO.setAtch_file_sn1(fileSave.getFile_sn());
             }
         }
 
@@ -232,58 +122,17 @@ public class InterchangeService {
     // 현지 교류 삭제
     public void delete(int exch_sn) {
         // 0. 현지 교류 상세 조회
-        InterchangeDTO basicFile = interchangeDAO.select(exch_sn);
+        InterchangeDTO selectInfo = interchangeDAO.select(exch_sn);
 
-        // 1. 경로 설정
-        Path path = Paths.get("D:\\").toAbsolutePath().normalize();
+        int file_sn = selectInfo.getAtch_file_sn1();
 
-        // 2. File_sn 담기
-        ArrayList<Integer> list = new ArrayList<>();
+        if(file_sn != 0) {
+            // 경로 내 파일 삭제
+            FileUploader fileUploader = new FileUploader();
+            boolean removed = fileUploader.deleteFile(selectInfo.getInter_path1(), selectInfo.getInter_file_name1());
 
-        int file_sn1 = basicFile.getAtch_file_sn1();
-        int file_sn2 = basicFile.getAtch_file_sn2();
-        int file_sn3 = basicFile.getAtch_file_sn3();
-
-        list.add(file_sn1);
-        list.add(file_sn2);
-        list.add(file_sn3);
-
-        // 3. File_sn 만큼 반복
-        for(int i = 0; i < list.size(); i++) {
-
-            // 1. file_sn이 있으면
-            if(list.get(i) != 0) {
-
-                // 변수 생성
-                int file_sn = 0;
-                File deleteFile = null;
-
-                // 만약 첫 번째라면
-                if(i == 0) {
-                    deleteFile = new File(path + basicFile.getInter_path1() + basicFile.getInter_file_name1());
-                    file_sn = basicFile.getAtch_file_sn1();
-                }
-
-                // 만약 두 번째라면
-                if(i == 1) {
-                    deleteFile = new File(path + basicFile.getInter_path2() + basicFile.getInter_file_name2());
-                    file_sn = basicFile.getAtch_file_sn2();
-                }
-
-                // 만약 세 번째라면
-                if(i == 2) {
-                    deleteFile = new File(path + basicFile.getInter_path3() + basicFile.getInter_file_name3());
-                    file_sn = basicFile.getAtch_file_sn3();
-                }
-
-                // 2. 파일 삭제
-                boolean removed = deleteFile != null && deleteFile.delete();
-
-                // 3. 만약 경로에 파일이 지워졌다면
-                if(removed) {
-                    // 테이블에 있는 파일 삭제
-                    interchangeDAO.deleteFile(file_sn);
-                }
+            if(removed) {
+                interchangeDAO.deleteFile(file_sn);
             }
         }
         
