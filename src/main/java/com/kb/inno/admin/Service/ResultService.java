@@ -1,7 +1,7 @@
 /**
  * 파일명     : ResultService.java
- * 화면명     : 주요 성과보고 관리
- * 설명       : 주요 성과보고 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 육성 현황 관리
+ * 설명       : 육성 현황 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.10.29
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -22,12 +22,12 @@ public class ResultService {
     // DAO 연결
     private final ResultDAO resultDAO;
     
-    // 주요 성과 보고 조회
+    // 육성 현황 조회
     public ResultDTO select() {
         return resultDAO.select();
     }
     
-    // 주요 성과 보고 등록
+    // 육성 현황 등록
     public int insert(ResultDTO resultDTO, int loginId) {
         // 로그인한 사람 최초등록자, 수정자 대입
         resultDTO.setFrst_rgtr(loginId);
@@ -35,7 +35,7 @@ public class ResultService {
         return resultDAO.insert(resultDTO);
     }
     
-    // 주요 성과 보고 수정
+    // 육성 현황 수정
     public int update(ResultDTO resultDTO, int loginId) {
         // 로그인한 사람 수정자 대입
         resultDTO.setLast_mdfr(loginId);

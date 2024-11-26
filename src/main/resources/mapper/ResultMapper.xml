@@ -2,9 +2,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kb.inno.admin.DAO.ResultDAO">
-    <!-- 주요 성과 보고 관리 조회 -->
+    <!-- 육성 현황 관리 조회 -->
     <select id="select" resultType="com.kb.inno.admin.DTO.ResultDTO">
-        /* 주요 성과 보고 관리 조회 */
+        /* 육성 현황 관리 조회 */
         SELECT RSLT_SN
              , ENT_NOCS
              , ENT_CRTR_YMD
@@ -18,9 +18,9 @@
              , LAST_MDFCN_DT
           FROM KB_RSLT_INFO
     </select>
-    <!-- 주요 성과 보고 관리 등록 -->
+    <!-- 육성 현황 관리 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.ResultDTO">
-        /* 주요 성과 보고 관리 등록 */
+        /* 육성 현황 관리 등록 */
         INSERT INTO KB_RSLT_INFO
         (
          RSLT_SN
@@ -50,9 +50,9 @@
        , SYSDATE
         )
     </insert>
-    <!-- 주요 성과 보고 관리 수정 -->
+    <!-- 육성 현황 관리 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.ResultDTO">
-        /* 주요 성과 보고 관리 수정 */
+        /* 육성 현황 관리 수정 */
         UPDATE KB_RSLT_INFO
            SET ENT_NOCS            = #{ent_nocs}
              , ENT_CRTR_YMD        = #{ent_crtr_ymd}

@@ -1,7 +1,7 @@
 /**
  * 파일명     : ResultController.java
- * 화면명     : 주요 성과보고 관리
- * 설명       : 주요 성과보고 조회 및 등록, 수정, 삭제 처리
+ * 화면명     : 육성 현황 관리
+ * 설명       : 육성 현황 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.10.29
  * 최초개발자 : 양윤지
  * ==========================================================
@@ -33,7 +33,7 @@ public class ResultController {
     // 서비스 연결
     private final ResultService resultService;
     
-    // 주요 성과보고 조회
+    // 육성 현황 조회
     @RequestMapping("/info/{menuId}")
     public String select(@PathVariable int menuId, Model model) {
         ResultDTO result = resultService.select();
@@ -42,7 +42,7 @@ public class ResultController {
         return directory + "/result";
     }
 
-    // 주요 성과보고 저장
+    // 육성 현황 저장
     @PostMapping("/save")
     public String save(RedirectAttributes redirectAttributes, ResultDTO resultDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
