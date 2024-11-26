@@ -1,6 +1,6 @@
 /**
  * 파일명     : InvestmentController.java
- * 화면명     : 협업 성과 - 투자 그래프 관리
+ * 화면명     : 국내 프로그램 - 투자 그래프 관리
  * 설명       : 투자 그래프 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.05
  * 최초개발자 : 양윤지
@@ -33,7 +33,7 @@ public class InvestmentController {
     @Value("/investment")
     private String directory;
 
-    // 협업 성과 - 투자 그래프 조회
+    // 국내 프로그램 - 투자 그래프 조회
     @RequestMapping("/info/{menuId}")
     public String select(@PathVariable int menuId, Model model) {
         InvestmentDTO investment = investmentService.select();
@@ -42,7 +42,7 @@ public class InvestmentController {
         return directory + "/investment";
     }
 
-    // 협업 성과 - 투자 그래프 저장
+    // 국내 프로그램 - 투자 그래프 저장
     @PostMapping("/save")
     public String save(RedirectAttributes redirectAttributes, InvestmentDTO investmentDTO) {
         // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것

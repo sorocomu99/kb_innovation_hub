@@ -1,6 +1,6 @@
 /**
  * 파일명     : InvestmentDAO.java
- * 화면명     : 협업 성과 - 투자 그래프 관리
+ * 화면명     : 국내 프로그램 - 투자 그래프 관리
  * 설명       : 투자 그래프 조회 및 등록, 수정, 삭제 처리
  * 최초개발일 : 2024.11.05
  * 최초개발자 : 양윤지
@@ -17,10 +17,10 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface InvestmentDAO {
-    // 협업 성과 - 투자 그래프 조회
+    // 국내 프로그램 - 투자 그래프 조회
     InvestmentDTO select();
-    // 협업 성과 - 투자 그래프 등록
+    // 국내 프로그램 - 투자 그래프 등록
     int insert(InvestmentDTO investmentDTO);
-    // 협업 성과 - 투자 그래프 수정
+    // 국내 프로그램 - 투자 그래프 수정
     int update(InvestmentDTO investmentDTO);
 }
