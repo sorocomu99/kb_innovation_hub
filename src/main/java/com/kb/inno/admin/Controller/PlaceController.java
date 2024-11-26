@@ -37,24 +37,27 @@ public class PlaceController {
     private String directory;
 
     // 육성 공간 리스트 조회
-    @RequestMapping("/list")
-    public String selectList(Model model) {
+    @RequestMapping("/list/{menuId}")
+    public String selectList(@PathVariable int menuId, Model model) {
         List<PlaceDTO> selectList = placeService.selectList();
         model.addAttribute("selectList", selectList);
+        model.addAttribute("menuId", menuId);
         return directory + "/place";
     }
 
     // 육성 공간 등록 페이지 이동
-    @RequestMapping("/insert")
-    public String insert(Model model) {
+    @RequestMapping("/insert/{menuId}")
+    public String insert(@PathVariable int menuId, Model model) {
+        model.addAttribute("menuId", menuId);
         return directory + "/place_insert";
     }
 
     // 육성 공간 상세 페이지 이동
-    @RequestMapping("/update/{plc_sn}")
-    public String update(@PathVariable int plc_sn, Model model) {
+    @PostMapping("/detail")
+    public String update(@RequestParam int menuId, @RequestParam int plc_sn, Model model) {
         PlaceDTO place = placeService.select(plc_sn);
         model.addAttribute("place", place);
+        model.addAttribute("menuId", menuId);
         return directory + "/place_update";
     }
 
@@ -70,7 +73,7 @@ public class PlaceController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + placeDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/place_insert";
@@ -89,7 +92,7 @@ public class PlaceController {
         // 결과 메시지 설정
         if (result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-            return "redirect:" + directory + "/list";
+            return "redirect:" + directory + "/list/" + placeDTO.getMenu_id();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return "redirect:" + directory + "/place_update";

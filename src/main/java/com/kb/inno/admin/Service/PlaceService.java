@@ -14,6 +14,7 @@ import com.kb.inno.admin.DAO.PlaceDAO;
 import com.kb.inno.admin.DTO.AffiliateDTO;
 import com.kb.inno.admin.DTO.FileDTO;
 import com.kb.inno.admin.DTO.PlaceDTO;
+import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -43,130 +44,52 @@ public class PlaceService {
         return placeDAO.selectList();
     }
 
-    // 파일 저장
-    public List<FileDTO> insertFile(PlaceDTO placeDTO, int loginId) {
-
+    // 육성 공간 등록
+    public int insert(PlaceDTO placeDTO, int loginId) {
         // 파일을 등록했는 지 확인
         int fileYn1 = placeDTO.getFile_yn1();
         int fileYn2 = placeDTO.getFile_yn2();
         int fileYn3 = placeDTO.getFile_yn3();
 
         // 파일 꺼내기
-        // 리스트에 담기
-        MultipartFile file1, file2, file3;
         List<MultipartFile> files = new ArrayList<>();
 
         if(fileYn1 == 1) {
-            file1 = placeDTO.getPlc_file1();
-            files.add(file1);
+            files.add(placeDTO.getPlc_file1());
         }
 
         if(fileYn2 == 1) {
-            file2 = placeDTO.getPlc_file2();
-            files.add(file2);
+            files.add(placeDTO.getPlc_file2());
         }
 
         if(fileYn3 == 1) {
-            file3 = placeDTO.getPlc_file3();
-            files.add(file3);
+            files.add(placeDTO.getPlc_file3());
         }
 
-        // 파일 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
-        String savePath = path + "\\upload\\";
+        // 1. 파일 디렉토리에 저장
+        FileUploader fileUploader = new FileUploader();
+        List<FileDTO> fileSave = fileUploader.insertFiles(files, loginId);
 
-        // 파일 디렉토리 생성(없으면)
-        File directory = new File(savePath);
-        if (!directory.exists()) {
-            directory.mkdirs();
-        }
-
-        List<FileDTO> fileList = new ArrayList<>();
-
-        // 파일 Array 길이만큼 반복
-        for(int i = 0; i < files.size(); i++) {
-            // 파일이 null 이면 패스, 아니면 파일 저장 실행
-            if(files.get(i).getSize() == 0) {
-                continue;
-            } else {
-                // 오리지널 파일 이름
-                String originalFilename = files.get(i).getOriginalFilename();
-                // 확장자 꺼내기
-                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                // 파일 이름 설정
-                String fileName = UUID.randomUUID().toString() + fileExtension;
-                // 파일 저장
-                try {
-                    files.get(i).transferTo(new File(savePath, fileName));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+        if(fileSave.isEmpty() || fileSave != null) {
+            for(int i = 0; i < fileSave.size(); i++) {
+                // 파일이 null 이면 패스, 아니면 파일 저장 실행
+                if (i == 0 && fileSave.get(i) != null) {
+                    // 2. 파일 테이블에 저장
+                    placeDAO.insertFile(fileSave.get(i));
+                    placeDTO.setAtch_file_sn1(fileSave.get(i).getFile_sn());
                 }
-
-                // 파일 사이즈 구하기
-                int bytes = (int) files.get(i).getSize();
-
-                // 빈 DTO 생성
-                FileDTO fileDTO = new FileDTO();
-
-                // DTO에 객체 담기
-                fileDTO.setFile_nm(fileName);
-                fileDTO.setOrgnl_file_nm(originalFilename);
-                fileDTO.setFile_extn(fileExtension);
-                fileDTO.setFile_path("\\upload\\");
-                fileDTO.setFile_sz(bytes);
-
-                // 파일 DTO에 로그인 한 사람 추가
-                fileDTO.setFrst_rgtr(loginId);
-                fileDTO.setLast_mdfr(loginId);
-
-                // 파일 테이블 저장
-                int result = placeDAO.insertFile(fileDTO);
-
-                // 결과가 있으면 fileDTO return
-                if(result == 1) {
-                    fileList.add(fileDTO);
+                if (i == 1 && fileSave.get(i) != null) {
+                    placeDAO.insertFile(fileSave.get(i));
+                    placeDTO.setAtch_file_sn2(fileSave.get(i).getFile_sn());
+                }
+                if (i == 2 && fileSave.get(i) != null) {
+                    placeDAO.insertFile(fileSave.get(i));
+                    placeDTO.setAtch_file_sn3(fileSave.get(i).getFile_sn());
                 }
             }
         }
 
-        return fileList;
-    }
-
-    // 육성 공간 등록
-    public int insert(PlaceDTO placeDTO, int loginId) {
-        // 로그인 한 사람 대입
-        placeDTO.setFrst_rgtr(loginId);
-        placeDTO.setLast_mdfr(loginId);
-
-        int result = 0;
-
-        // 1. 파일 디렉토리 및 테이블에 저장
-        List<FileDTO> files = insertFile(placeDTO, loginId);
-
-        // 2. 제휴 사례 저장
-        if(!files.isEmpty()) {
-            // 파일 일련 번호 대입
-            for(int i = 0; i < files.size(); i++) {
-                if(i == 0) {
-                    placeDTO.setAtch_file_sn1(files.get(i).getFile_sn());
-                }
-                if(i == 1) {
-                    placeDTO.setAtch_file_sn2(files.get(i).getFile_sn());
-                }
-                if(i == 2) {
-                    placeDTO.setAtch_file_sn3(files.get(i).getFile_sn());
-                }
-            }
-
-            // 로그인 한 사람 대입
-            placeDTO.setFrst_rgtr(loginId);
-            placeDTO.setLast_mdfr(loginId);
-
-
-            result = placeDAO.insert(placeDTO);
-        }
-
-        return result;
+        return placeDAO.insert(placeDTO);
     }
 
     // 육성 공간 상세 조회
@@ -208,7 +131,7 @@ public class PlaceService {
 
                 // 1. 기존 경로에 있는 파일 삭제
                 // 경로 설정
-                Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+                Path path = Paths.get("D:\\").toAbsolutePath().normalize();
 
                 int file_sn = 0;
                 File deleteFile = null;
@@ -240,12 +163,47 @@ public class PlaceService {
                     placeDAO.deleteFile(file_sn);
                 }
 
-                // 3. 새로운 파일 경로에 저장
-                List<FileDTO> fileSave = insertFile(placeDTO, loginId);
+                // 3. 파일 꺼내기
+                List<MultipartFile> files = new ArrayList<>();
+
+                MultipartFile file1 = placeDTO.getPlc_file1();
+                MultipartFile file2 = placeDTO.getPlc_file2();
+                MultipartFile file3 = placeDTO.getPlc_file3();
+
+                if(file1.getSize() > 0) {
+                    files.add(file1);
+                }
+
+                if(file2.getSize() > 0) {
+                    files.add(file2);
+                }
+
+                if(file3.getSize() > 0) {
+                    files.add(file3);
+                }
+
+                // 4. 파일 디렉토리에 저장
+                FileUploader fileUploader = new FileUploader();
+                List<FileDTO> fileSave = fileUploader.insertFiles(files, loginId);
                 
-                // 4. 저장된 파일의 PK 값을 SN LIST에 추가
-                for(int j = 0; j < fileSave.size(); j++) {
-                    fileSnList.add(fileSave.get(j).getFile_sn());
+                // 5. 저장된 파일의 PK 값을 SN LIST에 추가
+                if(!fileSave.isEmpty() || fileSave != null) {
+                    // 파일 일련 번호 대입
+                    for (int j = 0; j < fileSave.size(); j++) {
+                        if (j == 0 && fileSave.get(j) != null) {
+                            // 2. 파일 테이블에 저장
+                            placeDAO.insertFile(fileSave.get(j));
+                            fileSnList.add(fileSave.get(j).getFile_sn());
+                        }
+                        if (j == 1 && fileSave.get(j) != null) {
+                            placeDAO.insertFile(fileSave.get(j));
+                            fileSnList.add(fileSave.get(j).getFile_sn());
+                        }
+                        if (j == 2 && fileSave.get(j) != null) {
+                            placeDAO.insertFile(fileSave.get(j));
+                            fileSnList.add(fileSave.get(j).getFile_sn());
+                        }
+                    }
                 }
             }
         }
@@ -274,43 +232,51 @@ public class PlaceService {
     // 육성 공간 삭제
     public void delete(int plc_sn) {
         // 0. 육성 공간 상세 조회
-        PlaceDTO selectInfo = placeDAO.select(plc_sn);
+        PlaceDTO basicFile = placeDAO.select(plc_sn);
 
         // 1. 조회한 것에서 file_id 꺼내기
-        List<Integer> fileSnList = new ArrayList<>();
-        fileSnList.add(selectInfo.getAtch_file_sn1());
-        fileSnList.add(selectInfo.getAtch_file_sn2());
-        fileSnList.add(selectInfo.getAtch_file_sn3());
+        List<Integer> list = new ArrayList<>();
+
+        int file_sn1 = basicFile.getAtch_file_sn1();
+        int file_sn2 = basicFile.getAtch_file_sn2();
+        int file_sn3 = basicFile.getAtch_file_sn3();
+
+        list.add(file_sn1);
+        list.add(file_sn2);
+        list.add(file_sn3);
 
         // 2. 경로 설정
-        Path path = Paths.get(System.getProperty("user.dir"), staticPath);
+        Path path = Paths.get("D:\\").toAbsolutePath().normalize();
 
         // 3. File_sn 만큼 반복
-        for(int i = 0; i < fileSnList.size(); i++) {
+        for(int i = 0; i < list.size(); i++) {
 
             // 변수 생성
+            int file_sn = 0;
             File deleteFile = null;
-            boolean removed = false;
 
             if(i == 0) {
-                deleteFile = new File(path + selectInfo.getPlc_path1() + selectInfo.getPlc_file_name1());
+                deleteFile = new File(path + basicFile.getPlc_path1() + basicFile.getPlc_file_name1());
+                file_sn = basicFile.getAtch_file_sn1();
             }
             
             if(i == 1) {
-                deleteFile = new File(path + selectInfo.getPlc_path2() + selectInfo.getPlc_file_name2());
+                deleteFile = new File(path + basicFile.getPlc_path2() + basicFile.getPlc_file_name2());
+                file_sn = basicFile.getAtch_file_sn2();
             }
             
             if(i == 2) {
-                deleteFile = new File(path + selectInfo.getPlc_path3() + selectInfo.getPlc_file_name3());
+                deleteFile = new File(path + basicFile.getPlc_path3() + basicFile.getPlc_file_name3());
+                file_sn = basicFile.getAtch_file_sn3();
             }
             
             // 파일 삭제
-            removed = deleteFile.delete();
+            boolean removed = deleteFile != null && deleteFile.delete();
 
             // 만약 경로에 파일이 지워졌다면
             if(removed) {
                 // 파일 삭제
-                placeDAO.deleteFile(fileSnList.get(i));
+                placeDAO.deleteFile(file_sn);
             }
         }
         // 4. 육성 공간 삭제
