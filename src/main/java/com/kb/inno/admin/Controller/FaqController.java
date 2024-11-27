@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/faq")
@@ -43,8 +45,11 @@ public class FaqController {
 
     // FAQ 등록 페이지 이동
     @RequestMapping("/insert/{menuId}")
-    public String insert(@PathVariable int menuId, Model model) {
+    public String insert(@PathVariable int menuId, @RequestParam(value = "ctgry", required = false) int ctgry, Model model) {
+        Map<String, Object> result = faqService.selectCategory(ctgry);
         model.addAttribute("menuId", menuId);
+        model.addAttribute("ctgry_sn", result.get("CTGRY_SN"));
+        model.addAttribute("ctgry_nm", result.get("CTGRY_NM"));
         return directory + "/faq_insert";
     }
 
@@ -59,7 +64,7 @@ public class FaqController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-            return "redirect:" + directory + "/list/" + faqDTO.getMenu_id();
+            return "redirect:" + directory + "/list/" + faqDTO.getMenu_id() + "?ctgry=" + faqDTO.getFaq_ctgry_sn();
         } else {
             redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
             return directory + "/faq";
@@ -86,7 +91,7 @@ public class FaqController {
 
         if(result == 1) {
             redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
-             return "redirect:" + directory + "/list/" + faqDTO.getMenu_id();
+             return "redirect:" + directory + "/list/" + faqDTO.getMenu_id() + "?ctgry=" + faqDTO.getFaq_ctgry_sn();
         } else {
             redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
             return directory + "/faq";

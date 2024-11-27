@@ -25,12 +25,13 @@
                             <div class="mt-4">
                                 <form th:action="@{/faq/insert}" method="post" name="faq_form">
                                     <input type="hidden" name="menu_id" th:value="${menuId}"/>
+                                    <input type="hidden" name="faq_ctgry_sn" th:value="${ctgry_sn}"/>
                                     <table class="table table-bordered align-middle">
                                         <tbody>
                                             <tr>
                                                 <th class="bg-light" width="20%">카테고리</th>
-                                                <td>
-                                                    <input type="text" class="form-control" name="faq_ctgry">
+                                                <td th:text="${ctgry_nm}">
+<!--                                                    <input type="text" class="form-control" name="faq_ctgry">-->
                                                 </td>
                                             </tr>
                                             <tr>
@@ -102,13 +103,6 @@
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
-            // 카테고리 입력 확인
-            var faq_ctgry = $('input[name=faq_ctgry]').val();
-            if(faq_ctgry.trim() == "") {
-                alert("카테고리를 입력하세요.");
-                return false;
-            }
-
             // 질문 텍스트 입력 확인
             var faq_qstn = $('#faq_qstn').val();
             if(faq_qstn.trim() == "") {

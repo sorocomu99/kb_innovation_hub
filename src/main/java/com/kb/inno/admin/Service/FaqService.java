@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -79,6 +80,7 @@ public class FaqService {
         model.addAttribute("currentPage", page);
         model.addAttribute("selectList", selectList);
         model.addAttribute("menuId", menuId);
+        model.addAttribute("ctgry", ctgry);
     }
 
     // FAQ 등록
@@ -106,5 +108,10 @@ public class FaqService {
     // FAQ 삭제
     public void delete(int faq_sn) {
         faqDAO.delete(faq_sn);
+    }
+
+    // 카테고리 조회
+    public Map<String, Object> selectCategory(int ctgry) {
+        return faqDAO.selectCategory(ctgry);
     }
 }

@@ -16,6 +16,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
@@ -32,4 +33,6 @@ public interface FaqDAO {
     int update(FaqDTO faqDTO);
     // FAQ 삭제
     void delete(int faq_sn);
+    // FAQ 카테고리 조회
+    Map<String, Object> selectCategory(int ctgry);
 }

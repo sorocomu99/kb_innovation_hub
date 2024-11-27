@@ -53,6 +53,13 @@
              ) FAQ_PAGE
         WHERE ROWNUMBER BETWEEN #{start} AND #{end}
     </select>
+    <!-- FAQ 카테고리 조회 -->
+    <select id="selectCategory" parameterType="int" resultType="hashmap">
+        SELECT CTGRY_SN
+             , CTGRY_NM
+          FROM KB_CTGRY_INFO
+         WHERE CTGRY_SN = #{ctgry}
+    </select>
     <!-- FAQ 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.FaqDTO">
         /* FAQ 등록 */
@@ -71,7 +78,7 @@
         VALUES
         (
          FAQ_SN_SEQ.NEXTVAL
-       , #{faq_ctgry}
+       , #{faq_ctgry_sn}
        , #{faq_qstn}
        , #{faq_ans}
        , #{sort_no}
@@ -84,23 +91,24 @@
     <!-- FAQ 상세 조회 -->
     <select id="select" parameterType="int" resultType="com.kb.inno.admin.DTO.FaqDTO">
         /* FAQ 상세 조회 */
-        SELECT FAQ_SN
-             , FAQ_CTGRY
-             , FAQ_QSTN
-             , FAQ_ANS
-             , SORT_NO
-             , FRST_RGTR
-             , FRST_REG_DT
-             , LAST_MDFR
-             , LAST_MDFCN_DT
-          FROM KB_FAQ_INFO
-         WHERE FAQ_SN = #{faq_sn}
+        SELECT CTG.CTGRY_SN AS FAQ_CTGRY_SN
+             , CTG.CTGRY_NM AS FAQ_CTGRY_NM
+             , FAQ.FAQ_SN   AS FAQ_SN
+             , FAQ.FAQ_QSTN AS FAQ_QSTN
+             , FAQ.FAQ_ANS  AS FAQ_ANS
+             , FAQ.EXPSR_YN AS EXPSR_YN
+             , FAQ.SORT_NO  AS SORT_NO
+          FROM KB_FAQ_INFO FAQ
+             , KB_CTGRY_INFO CTG
+         WHERE 1=1
+           AND FAQ.FAQ_CTGRY = CTG.CTGRY_SN
+           AND FAQ.FAQ_SN    = #{faq_sn}
     </select>
     <!-- FAQ 수정 -->
     <update id="update" parameterType="com.kb.inno.admin.DTO.FaqDTO">
         /* FAQ 수정 */
         UPDATE KB_FAQ_INFO
-           SET FAQ_CTGRY     = #{faq_ctgry}
+           SET FAQ_CTGRY     = #{faq_ctgry_sn}
              , FAQ_QSTN      = #{faq_qstn}
              , FAQ_ANS       = #{faq_ans}
              , SORT_NO       = #{sort_no}

@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="button-wrap d-flex justify-content-end">
-                                            <a th:href="@{/faq/insert/{menuId}(menuId=${menuId})}" class="btn btn-primary">
+                                            <a th:href="@{|/faq/insert/${menuId}?ctgry=${ctgry}|}" class="btn btn-primary">
                                                 <i data-feather="edit"></i> 신규 등록
                                             </a>
                                         </div>
