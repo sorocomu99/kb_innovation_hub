@@ -1,31 +1,20 @@
+<!--
+ 파일명     : faq_category.html
+ 관련자바   : FaqCategoryController
+ 화면명     : FAQ 카테고리 관리
+ 설명       : FAQ 카테고리 조회 및 삭제 처리
+ 최초개발일 : 2024.11.25
+ 최초개발자 : 양윤지
+ ==========================================================
+   수정일            수정자           설명
+ ==========================================================
+-->
 <!doctype html>
-<html lang="ko">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>KB Innovation HUB Admin</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="../assets/css/bootstrap-clockpicker.min.css" rel="stylesheet">
-    <link href="../assets/css/bootstrap.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/admin.css">
-    <script src="../assets/component/header.js"></script>
-    <script src="../assets/js/bootstrap.bundle.min.js"></script>
-    <script src="../assets/js/jquery-3.6.4.min.js"></script>
-    <script src="../assets/js/feather.min.js"></script>
-    <script src="../assets/js/bootstrap-datepicker.min.js"></script>
-    <script src="../assets/js/bootstrap-clockpicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
-    <script src="../assets/js/admin.js"></script>
-</head>
-
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/config :: configFragment}"></head>
 <body>
-    <div class="wrap">
-        <app-header></app-header>
+<div class="wrap">
+    <app-header></app-header>
     
         <main class="main">
             <div class="container">
@@ -34,21 +23,22 @@
                         <div class="paper">
                             <h2 class="h4">FAQ 관리</h2>
                             <div class="mt-4">
-                                <form action="">
+                                <form th:action="@{/faq/category/insert}" method="post" name="faq_category_form">
+                                    <input type="hidden" name="menu_id" th:value="${menuId}"/>
                                     <table class="table table-bordered align-middle">
                                         <tbody>
                                             <tr>
                                                 <th class="bg-light" width="20%">카테고리</th>
                                                 <td>
-                                                    <input type="text" class="form-control" value="">
+                                                    <input type="text" class="form-control" name="ctgry_nm">
                                                 </td>
                                             </tr>
                                         </tbody>
                                     </table>
                                     <div class="button-container">
-                                        <button type="submit" class="btn btn-primary">등록하기</button>
-                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
-                                        <a href="javascript:" class="btn btn-outline-dark" onclick="history.back();">목록보기</a>
+                                        <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
+<!--                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>-->
+                                        <a th:href="@{/faq/category/list/{menuId}(menuId=${menuId})}" class="btn btn-outline-dark" onclick="history.back();">목록보기</a>
                                     </div>
                                 </form>
                             </div>
@@ -58,8 +48,42 @@
             </div>
         </main>
     </div>
-    
-    <script src="../assets/js/admin.js"></script>
-    
+    <script th:inline="javascript">
+        // 페이지 로드 시 실행
+        window.onload = function () {
+            // 페이지 로드 시 메시지 확인 및 알림 표시
+            // 수정 및 등록 시 띄울 알림창
+            const msg = /*[[${msg}]]*/ '';
+            if (msg) alert(msg);
+
+            // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
+            // 메뉴를 활성화 시킴(삭제 금지)
+            var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
+            if(menu_id.val() == $("input[name=menu_id]").val()) {
+                menu_id.parent().parent().prev().children().removeClass("collapsed");
+                menu_id.parent().parent().addClass("show");
+                menu_id.next().addClass("active");
+            }
+        }
+
+        // 컨펌 메시지 띄우는 함수
+        function confirmMsg() {
+            // 카테고리 입력 확인
+            var ctgry_nm = $('input[name=ctgry_nm]').val();
+            if(ctgry_nm.trim() == "") {
+                alert("카테고리명을 입력하세요.");
+                return false;
+            }
+
+            let result = confirm("등록 하시겠습니까?");
+            if(!result) {
+                return false;
+            } else {
+                // 폼 태그 서브밋 보내기
+                f=document.faq_category_form;
+                f.submit();
+            }
+        }
+    </script>
 </body>
 </html>

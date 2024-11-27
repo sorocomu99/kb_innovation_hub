@@ -1,15 +1,13 @@
 package com.kb.inno.admin.Controller;
 
+import com.kb.inno.admin.DTO.FaqCategoryDTO;
 import com.kb.inno.admin.DTO.FaqDTO;
 import com.kb.inno.admin.Service.FaqCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -23,38 +21,71 @@ public class FaqCategoryController {
     @Value("/faq")
     private String directory;
 
-    // FAQ 카테고리 리스트 조회
+    // FAQ 카테고리 카테고리 리스트 조회
     @RequestMapping("/list/{menuId}")
     public String selectList(Model model, @PathVariable int menuId,
-                             @RequestParam(value = "type", required = false, defaultValue = "") String type,
-                             @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                              @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        faqCategoryService.selectList(menuId, model, type, keyword, page);
+        faqCategoryService.selectList(menuId, model, page);
         return directory + "/faq_category";
     }
 
-    // FAQ 등록 페이지 이동
+    // FAQ 카테고리 등록 페이지 이동
     @RequestMapping("/insert/{menuId}")
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/faq_category_insert";
     }
 
-//    // FAQ 등록
-//    @PostMapping("/insert")
-//    public String insert(RedirectAttributes redirectAttributes, FaqDTO faqDTO) {
-//        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-//        // 수정 요망 : 임시 아이디 값
-//        int loginId = 1;
-//
-//        int result = faqCategoryService.insert(faqDTO, loginId);
-//
-//        if(result == 1) {
-//            redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
-//            return "redirect:" + directory + "/list/" + faqDTO.getMenu_id();
-//        } else {
-//            redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
-//            return directory + "/faq";
-//        }
-//    }
+    // FAQ 카테고리 등록
+    @PostMapping("/insert")
+    public String insert(RedirectAttributes redirectAttributes, FaqCategoryDTO faqCategoryDTO) {
+        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
+        // 수정 요망 : 임시 아이디 값
+        int loginId = 1;
+
+        int result = faqCategoryService.insert(faqCategoryDTO, loginId);
+
+        if(result == 1) {
+            redirectAttributes.addFlashAttribute("msg", "등록이 완료되었습니다.");
+            return "redirect:" + directory + "/category/list/" + faqCategoryDTO.getMenu_id();
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "등록이 실패했습니다.");
+            return directory + "/faq_category_insert";
+        }
+    }
+
+    // FAQ 카테고리 상세 조회
+    @PostMapping("/detail")
+    public String detail (@RequestParam int menuId, @RequestParam int ctgry_sn, Model model) {
+        FaqCategoryDTO category = faqCategoryService.select(ctgry_sn);
+        model.addAttribute("category", category);
+        model.addAttribute("menuId", menuId);
+        return directory + "/faq_category_update";
+    }
+
+    // FAQ 카테고리 수정
+    @PostMapping("/update")
+    public String update (RedirectAttributes redirectAttributes, FaqCategoryDTO faqCategoryDTO) {
+        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
+        // 수정 요망 : 임시 아이디 값
+        int loginId = 1;
+
+        int result = faqCategoryService.update(faqCategoryDTO, loginId);
+
+        if(result == 1) {
+            redirectAttributes.addFlashAttribute("msg", "수정이 완료되었습니다.");
+            return "redirect:" + directory + "/category/list/" + faqCategoryDTO.getMenu_id();
+        } else {
+            redirectAttributes.addFlashAttribute("msg", "수정이 실패했습니다.");
+            return directory + "/faq_category_update";
+        }
+    }
+
+    // FAQ 카테고리 삭제
+    @ResponseBody
+    @PostMapping("/delete")
+    public String delete (@RequestParam("ctgry_sn") int ctgry_sn) {
+        faqCategoryService.delete(ctgry_sn);
+        return "success";
+    }
 }

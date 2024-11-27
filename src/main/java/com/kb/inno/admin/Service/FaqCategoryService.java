@@ -1,12 +1,15 @@
 package com.kb.inno.admin.Service;
 
 import com.kb.inno.admin.DAO.FaqCategoryDAO;
+import com.kb.inno.admin.DTO.FaqCategoryDTO;
 import com.kb.inno.admin.DTO.FaqDTO;
 import com.kb.inno.admin.DTO.SearchDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -17,14 +20,10 @@ public class FaqCategoryService {
     private final FaqCategoryDAO faqCategoryDAO;
 
     // FAQ 카테고리 리스트 조회
-    public void selectList(int menuId, Model model, String type, String keyword, int page) {
-        // Search DTO에 담기
-        SearchDTO search = new SearchDTO();
-        search.setType(type);
-        search.setKeyword(keyword);
+    public void selectList(int menuId, Model model, int page) {
 
         // 페이지의 전체 글 갯수
-        int allCount = faqCategoryDAO.selectPageCount(search);
+        int allCount = faqCategoryDAO.selectPageCount();
 
         // 한 페이지당 글 갯수
         int pageLetter = 10;
@@ -52,16 +51,20 @@ public class FaqCategoryService {
             page = 1;
         }
 
+        // Search DTO에 담기
+        SearchDTO search = new SearchDTO();
+
         // 끝 페이지
         int end = page * pageLetter;
         search.setEnd(end);
+
         // 시작 페이지
         int start = end + 1 - pageLetter;
-
         search.setStart(start);
 
         // 리스트 조회
-        List<FaqDTO> selectList = faqCategoryDAO.selectList(search);
+        // 2. 코드를 가지고 가서 for문으로 조회
+        List<FaqCategoryDTO> selectList = faqCategoryDAO.selectList(search);
 
         model.addAttribute("repeat", repeat);
         model.addAttribute("currentPage", page);
@@ -69,7 +72,29 @@ public class FaqCategoryService {
         model.addAttribute("menuId", menuId);
     }
 
-//    public int insert(FaqDTO faqDTO, int loginId) {
-//
-//    }
+    // FAQ 카테고리 등록
+    public int insert(FaqCategoryDTO faqCategoryDTO, int loginId) {
+        // 로그인 한 아이디 대입
+        faqCategoryDTO.setFrst_rgtr(loginId);
+        faqCategoryDTO.setLast_mdfr(loginId);
+
+        return faqCategoryDAO.insert(faqCategoryDTO);
+    }
+
+    // FAQ 카테고리 상세 조회
+    public FaqCategoryDTO select(int ctgry_sn) {
+        return faqCategoryDAO.select(ctgry_sn);
+    }
+
+    // FAQ 카테고리 수정
+    public int update(FaqCategoryDTO faqCategoryDTO, int loginId) {
+        faqCategoryDTO.setLast_mdfr(loginId);
+
+        return faqCategoryDAO.update(faqCategoryDTO);
+    }
+
+    // FAQ 카테고리 삭제
+    public void delete(int ctgry_sn) {
+        faqCategoryDAO.delete(ctgry_sn);
+    }
 }

@@ -23,24 +23,10 @@
                             <h2 class="h4">FAQ 관리</h2>
                             <div class="mt-4">
                                 <div class="top-search d-flex mt-4">
-                                    <div class="col">
-                                        <form action="">
-                                            <div class="d-flex align-items-center">
-                                                <div class="input-group">
-                                                    <select class="form-select" aria-label="">
-                                                        <option value="1" selected>제목</option>
-                                                      </select>
-                                                    <input type="text" class="form-control" placeholder="검색어를 입력해주세요." aria-label="">
-                                                    <button class="btn btn-dark">
-                                                        <span data-feather="search"></span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
+                                    <div class="col"></div>
                                     <div class="col-auto">
                                         <div class="button-wrap d-flex justify-content-end">
-                                            <a href="faq_category_insert.html" class="btn btn-primary">
+                                            <a th:href="@{/faq/category/insert/{menuId}(menuId=${menuId})}" class="btn btn-primary">
                                                 <i data-feather="edit"></i> 신규 등록
                                             </a>
                                         </div>
@@ -58,22 +44,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>지원</td>
-                                            <td>10</td>
-                                            <td>
-                                                <a th:href="@{/faq/list/{menuId}(menuId=${menuId})}" class="btn btn-outline-dark btn-sm">보기</a>
-                                                <a href="faq_category_insert.html" class="btn btn-outline-dark btn-sm">수정</a>
-                                                <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                        <tr th:if="${selectList == null or selectList.isEmpty()}">
+                                            <td class="py-5" colspan="10">
+                                                검색 결과가 없습니다.
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>혜택</td>
-                                            <td>10</td>
+                                        <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
+                                            <td th:text="${list.ctgry_nm}"></td>
+                                            <td th:text="${list.faq_cnt}"></td>
                                             <td>
-                                                <a href="faq.html" class="btn btn-outline-dark btn-sm">보기</a>
-                                                <a href="faq_category_insert.html" class="btn btn-outline-dark btn-sm">수정</a>
-                                                <button type="button" class="btn btn-outline-danger btn-sm">삭제</button>
+                                                <a th:href="@{|/faq/list/${menuId}?keyword=${list.ctgry_nm}|}" class="btn btn-outline-dark btn-sm">보기</a>
+                                                <button th:onclick="updatePage([[${list.ctgry_sn}]], [[${menuId}]])" class="btn btn-outline-dark btn-sm">수정</button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm" th:onclick="deleteAlert([[${list.ctgry_sn}]])">삭제</button>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -145,14 +127,14 @@
         }
 
         // 수정 페이지 이동
-        function updatePage(faq_sn, menuId) {
+        function updatePage(ctgry_sn, menuId) {
             // 빈 form 전달
             let pageMoveForm = document.createElement('form');
             // 인수 값 전달
             let obj = document.createElement('input');
             obj.setAttribute('type', 'hidden');
-            obj.setAttribute('name', 'faq_sn');
-            obj.setAttribute('value', faq_sn);
+            obj.setAttribute('name', 'ctgry_sn');
+            obj.setAttribute('value', ctgry_sn);
             pageMoveForm.appendChild(obj);
 
             let obj2 = document.createElement('input');
@@ -162,19 +144,19 @@
             pageMoveForm.appendChild(obj2);
 
             pageMoveForm.setAttribute('method', 'post');
-            pageMoveForm.setAttribute('action', '/faq/detail');
+            pageMoveForm.setAttribute('action', '/faq/category/detail');
             document.body.appendChild(pageMoveForm);
             pageMoveForm.submit();
         }
 
         // 삭제 성공/실패 알림창 띄우기
-        function deleteAlert(faq_sn) {
+        function deleteAlert(ctgry_sn) {
             let result = confirm("정말 삭제 하시겠습니까?");
             if(result) {
                 $.ajax({
-                    url: /*[[@{/faq/delete}]]*/, // 요청 URL
+                    url: /*[[@{/faq/category/delete}]]*/, // 요청 URL
                     type: 'POST', // HTTP 메서드
-                    data: { faq_sn: faq_sn }, // 보내는 데이터
+                    data: { ctgry_sn: ctgry_sn }, // 보내는 데이터
                     success: function(response) {
                         alert("삭제에 성공하였습니다.");
                         window.location.reload();
