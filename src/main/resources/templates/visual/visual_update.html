@@ -47,7 +47,7 @@
                     <th class="bg-light">텍스트</th>
                     <td>
                       <!-- <input type="text" class="form-control" value=""> -->
-                      <textarea class="form-control" id="formText" rows="2" name="main_cn" th:text="${visual.main_cn}"></textarea>
+                      <textarea class="form-control" id="main_cn" rows="2" name="main_cn" th:text="${visual.main_cn}"></textarea>
                     </td>
                   </tr>
                   <tr>
@@ -130,6 +130,9 @@
     if($("input[name=sort_no]").val() == '') {
       $("input[name=sort_no]").val(1)
     }
+
+    // 줄 바꿈 기능
+    $('#main_cn').val($('#main_cn').val().replaceAll(/\n/g, "<br />"));
 
     let result = confirm("수정 하시겠습니까?");
     if(result) {

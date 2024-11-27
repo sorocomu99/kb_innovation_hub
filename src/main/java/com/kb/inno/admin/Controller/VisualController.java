@@ -17,9 +17,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +34,13 @@ public class VisualController {
     // 메인 디렉토리 설정
     @Value("/visual")
     private String directory;
+
+    // 메인 비주얼 미리보기
+    @GetMapping("/preview")
+    @ResponseBody
+    public String preview(@RequestParam Map<String, String> params, Model model) {
+        return params.toString();
+    }
     
     // 메인 비주얼 리스트 조회
     @RequestMapping("/list/{menuId}")
