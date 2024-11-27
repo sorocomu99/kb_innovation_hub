@@ -48,7 +48,7 @@
                                                 <th class="bg-light" style="width:8%">연도</th>
                                                 <td>
 <!--                                                    <input type="number" class="form-control" name="graph1_yr" th:value="${select?.graph1_yr}" placeholder=" ex) 2024">-->
-                                                    <select class="form-select" name="graph1_yr">
+                                                    <select class="form-select" id="graph1_yr" name="graph1_yr" onchange="graph_change(this.value, id)">
                                                         <option value="" th:disabled th:hidden="true">-선택-</option>
                                                         <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${investment?.graph1_yr} == ${i}"></option>
                                                     </select>
@@ -56,7 +56,7 @@
                                                 <th class="bg-light" style="width:8%">연도</th>
                                                 <td>
 <!--                                                    <input type="number" class="form-control" name="graph2_yr" th:value="${select?.graph2_yr}" placeholder=" ex) 2024">-->
-                                                    <select class="form-select" name="graph2_yr">
+                                                    <select class="form-select" id="graph2_yr" name="graph2_yr" onchange="graph_change(this.value, id)">
                                                         <option value="" th:disabled th:hidden="true">-선택-</option>
                                                         <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${investment?.graph2_yr} == ${i}"></option>
                                                     </select>
@@ -64,7 +64,7 @@
                                                 <th class="bg-light" style="width:8%">연도</th>
                                                 <td>
 <!--                                                    <input type="number" class="form-control" name="graph3_yr" th:value="${select?.graph3_yr}" placeholder=" ex) 2024">-->
-                                                    <select class="form-select" name="graph3_yr">
+                                                    <select class="form-select" id="graph3_yr" name="graph3_yr" onchange="graph_change(this.value, id)">
                                                         <option value="" th:disabled th:hidden="true">-선택-</option>
                                                         <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${investment?.graph3_yr} == ${i}"></option>
                                                     </select>
@@ -72,7 +72,7 @@
                                                 <th class="bg-light" style="width:8%">연도</th>
                                                 <td>
 <!--                                                    <input type="number" class="form-control" name="graph4_yr" th:value="${select?.graph4_yr}" placeholder=" ex) 2024">-->
-                                                    <select class="form-select" name="graph4_yr">
+                                                    <select class="form-select" id="graph4_yr" name="graph4_yr" onchange="graph_change(this.value, id)">
                                                         <option value="" th:disabled th:hidden="true">-선택-</option>
                                                         <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${investment?.graph4_yr} == ${i}"></option>
                                                     </select>
@@ -80,7 +80,7 @@
                                                 <th class="bg-light" style="width:8%">연도</th>
                                                 <td>
 <!--                                                    <input type="number" class="form-control" name="graph5_yr" th:value="${select?.graph5_yr}" placeholder=" ex) 2024">-->
-                                                    <select class="form-select" name="graph5_yr">
+                                                    <select class="form-select" id="graph5_yr" name="graph5_yr" onchange="graph_change(this.value, id)">
                                                         <option value="" th:disabled th:hidden="true">-선택-</option>
                                                         <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${investment?.graph5_yr} == ${i}"></option>
                                                     </select>
@@ -144,6 +144,19 @@
                 }
             }
         };
+
+        // 그래프 연도 선택 겹치지 않게 방지
+        function graph_change(graph, id) {
+            for(var i = 1; i < 6; i++) {
+                if("graph" + i + "_yr" != id) {
+                    if($("#graph" + i + "_yr").val() == graph) {
+                        alert("같은 연도는 입력할 수 없습니다");
+                        $("#" + id).val("");
+                        return false;
+                    }
+                }
+            }
+        }
 
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
