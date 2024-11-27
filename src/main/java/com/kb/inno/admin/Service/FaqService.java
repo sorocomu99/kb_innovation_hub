@@ -28,11 +28,12 @@ public class FaqService {
     private final FaqDAO faqDAO;
 
     // FAQ 리스트 조회
-    public void selectList(int menuId, Model model, String type, String keyword, int page) {
+    public void selectList(int menuId, int ctgry, Model model, String type, String keyword, int page) {
         // Search DTO에 담기
         SearchDTO search = new SearchDTO();
         search.setType(type);
         search.setKeyword(keyword);
+        search.setCtgry(ctgry);
 
         // 페이지의 전체 글 갯수
         int allCount = faqDAO.selectPageCount(search);

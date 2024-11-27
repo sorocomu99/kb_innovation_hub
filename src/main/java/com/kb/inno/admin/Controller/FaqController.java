@@ -33,10 +33,11 @@ public class FaqController {
     // FAQ 리스트 조회
     @RequestMapping("/list/{menuId}")
     public String selectList(Model model, @PathVariable int menuId,
-                             @RequestParam(value="type", required=false, defaultValue = "") String type,
+                             @RequestParam(value = "ctgry" , required = false) int ctgry,
+                             @RequestParam(value = "type", required = false, defaultValue = "") String type,
                              @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
                              @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        faqService.selectList(menuId, model, type, keyword, page);
+        faqService.selectList(menuId, ctgry, model, type, keyword, page);
         return directory + "/faq";
     }
 
@@ -95,7 +96,7 @@ public class FaqController {
     // FAQ 삭제
     @ResponseBody
     @PostMapping("/delete")
-    public String delete(@RequestParam("faq_sn") int faq_sn, Model model) {
+    public String delete(@RequestParam("faq_sn") int faq_sn) {
         faqService.delete(faq_sn);
         return "success";
     }

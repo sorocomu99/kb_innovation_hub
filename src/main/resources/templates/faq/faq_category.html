@@ -53,7 +53,7 @@
                                             <td th:text="${list.ctgry_nm}"></td>
                                             <td th:text="${list.faq_cnt}"></td>
                                             <td>
-                                                <a th:href="@{|/faq/list/${menuId}?keyword=${list.ctgry_nm}|}" class="btn btn-outline-dark btn-sm">보기</a>
+                                                <a th:href="@{|/faq/list/${menuId}?ctgry=${list.ctgry_sn}|}" class="btn btn-outline-dark btn-sm">보기</a>
                                                 <button th:onclick="updatePage([[${list.ctgry_sn}]], [[${menuId}]])" class="btn btn-outline-dark btn-sm">수정</button>
                                                 <button type="button" class="btn btn-outline-danger btn-sm" th:onclick="deleteAlert([[${list.ctgry_sn}]])">삭제</button>
                                             </td>

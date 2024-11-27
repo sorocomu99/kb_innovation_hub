@@ -10,6 +10,7 @@ public class FaqDTO {
     private String faq_ctgry;   // FAQ 카테고리
     private String faq_qstn;    // FAQ 질문
     private String faq_ans;     // FAQ 답변
+    private String expsr_yn;    // 노출 여부
     private int sort_no;        // 정렬 번호
     private int frst_rgtr;      // 최초 등록자
     private Date frst_reg_dt;   // 최초 등록 일시
