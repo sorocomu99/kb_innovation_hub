@@ -88,15 +88,15 @@
                                     </tr>
                                     <tr>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" name="graph1_nocs" th:value="${result?.graph1_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="number" class="form-control" id="graph1_nocs" name="graph1_nocs" th:value="${result?.graph1_nocs}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" name="graph2_nocs" th:value="${result?.graph2_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="number" class="form-control" id="graph2_nocs" name="graph2_nocs" th:value="${result?.graph2_nocs}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" name="graph3_nocs" th:value="${result?.graph3_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="number" class="form-control" id="graph3_nocs" name="graph3_nocs" th:value="${result?.graph3_nocs}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" name="graph4_nocs" th:value="${result?.graph4_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="number" class="form-control" id="graph4_nocs" name="graph4_nocs" th:value="${result?.graph4_nocs}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" name="graph5_nocs" th:value="${result?.graph5_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="number" class="form-control" id="graph5_nocs" name="graph5_nocs" th:value="${result?.graph5_nocs}" placeholder="ex) 123"></td>
                                     </tr>
                                     <!-- <tr>
                                         <th class="bg-light" style="width:18%">선발 프로세스</th>
@@ -173,34 +173,86 @@
         }
 
         // 그래프 1의 기업 수 입력 확인
-        var graph1_nocs = $('input[name=graph1_nocs]').val();
+        var graph1_nocs = $('#graph1_nocs').val();
         if(graph1_nocs.trim() == "") {
             alert("기업 수를 입력 해 주세요.");
             return false;
         }
 
         // 만약 input의 값이 0이 아니면
-        var graph2_nocs = $('input[name=graph2_nocs]').val();
+        var graph2_nocs = $('#graph2_nocs').val();
+        var graph2_yr = $('#graph2_yr').val();
         if(graph2_nocs.trim() == "") {
-            $('input[name=graph2_nocs]').val(0);
+            $('#graph2_nocs').val(0);
+        }
+
+        // 만약 값은 있고 연도를 선택하지 않았으면
+        if(graph2_nocs > 0 && graph2_yr == '') {
+            alert("그래프2의 연도를 선택하세요.");
+            return false;
+        }
+
+        // 만약 연도는 선택했고 값이 없으면
+        if(graph2_yr != '' && graph2_nocs == 0) {
+            alert("그래프2의 기업 수를 입력하세요.");
+            return false;
         }
 
         // 만약 input의 값이 0이 아니면
-        var graph3_nocs = $('input[name=graph3_nocs]').val();
+        var graph3_nocs = $('#graph3_nocs').val();
+        var graph3_yr = $('#graph3_yr').val();
         if(graph3_nocs.trim() == "") {
-            $('input[name=graph3_nocs]').val(0);
+            $('#graph3_nocs').val(0);
+        }
+
+        // 만약 값은 있고 연도를 선택하지 않았으면
+        if(graph3_nocs > 0 && graph3_yr == '') {
+            alert("그래프3의 연도를 선택하세요.");
+            return false;
+        }
+
+        // 만약 연도는 선택했고 값이 없으면
+        if(graph3_yr != '' && graph3_nocs == 0) {
+            alert("그래프3의 기업 수를 입력하세요.");
+            return false;
         }
 
         // 만약 input의 값이 0이 아니면
-        var graph4_nocs = $('input[name=graph4_nocs]').val();
+        var graph4_nocs = $('#graph4_nocs').val();
+        var graph4_yr = $('#graph4_yr').val();
         if(graph4_nocs.trim() == "") {
-            $('input[name=graph4_nocs]').val(0);
+            $('#graph4_nocs').val(0);
+        }
+
+        // 만약 값은 있고 연도를 선택하지 않았으면
+        if(graph4_nocs > 0 && graph4_yr == '') {
+            alert("그래프4의 연도를 선택하세요.");
+            return false;
+        }
+
+        // 만약 연도는 선택했고 값이 없으면
+        if(graph4_yr != '' && graph4_nocs == 0) {
+            alert("그래프4의 기업 수를 입력하세요.");
+            return false;
         }
 
         // 만약 input의 값이 0이 아니면
-        var graph5_nocs = $('input[name=graph5_nocs]').val();
+        var graph5_nocs = $('#graph5_nocs').val();
+        var graph5_yr = $('#graph5_yr').val();
         if(graph5_nocs.trim() == "") {
-            $('input[name=graph5_nocs]').val(0);
+            $('#graph5_nocs').val(0);
+        }
+
+        // 만약 값은 있고 연도를 선택하지 않았으면
+        if(graph5_nocs > 0 && graph5_yr == '') {
+            alert("그래프5의 연도를 선택하세요.");
+            return false;
+        }
+
+        // 만약 연도는 선택했고 값이 없으면
+        if(graph5_yr != '' && graph5_nocs == 0) {
+            alert("그래프5의 기업 수를 입력하세요.");
+            return false;
         }
 
         let result = confirm("저장 하시겠습니까?");
