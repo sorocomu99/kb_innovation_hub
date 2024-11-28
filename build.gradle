@@ -44,6 +44,8 @@ dependencies {
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
+	implementation 'commons-io:commons-io:2.6'
+
 	implementation files('libs/tibero6-jdbc.jar')
 
 	compileOnly 'org.projectlombok:lombok'
