@@ -15,7 +15,7 @@ public interface NoticeDAO {
     // 공지사항 리스트 갯수 조회
     int selectPageCount(SearchDTO search);
     // 공지사항 리스트 조회
-    List<FaqDTO> selectList(SearchDTO search);
+    List<NoticeDTO> selectList(SearchDTO search);
     // 공지사항 파일 저장
     int insertFile(FileDTO fileDTO);
     // 공지사항 등록

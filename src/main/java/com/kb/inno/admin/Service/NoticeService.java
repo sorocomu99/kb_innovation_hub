@@ -72,7 +72,7 @@ public class NoticeService {
         search.setStart(start);
 
         // 리스트 조회
-        List<FaqDTO> selectList = noticeDAO.selectList(search);
+        List<NoticeDTO> selectList = noticeDAO.selectList(search);
 
         model.addAttribute("repeat", repeat);
         model.addAttribute("currentPage", page);
