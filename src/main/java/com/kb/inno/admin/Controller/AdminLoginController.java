@@ -138,6 +138,6 @@ public class AdminLoginController {
         }
 
         //로그인 페이지로 이동
-        return "redirect:/admin/";
+        return "redirect:/";
     }
 }

@@ -103,7 +103,7 @@
         }
 
         $.ajax({
-            url: '/admin/loginProc',
+            url: '/loginProc',
             type: 'POST', // HTTP 메서드
             data: { mngr_id: mngr_id, mngr_pswd:mngr_pswd },
             dataType:'json',
@@ -112,10 +112,10 @@
                 console.log(data.success);
                 if (data.success == "success") {
                     alert(data.message);
-                    location.href = "/admin/member/list";
+                    location.href = "/member/list";
                 } else if (data.success == "fail") {
                     alert(data.message);
-                    location.href = "/admin/";
+                    location.href = "/";
                 }
             },
             error: function(xhr, status, error) {

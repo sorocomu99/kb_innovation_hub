@@ -120,7 +120,7 @@
         data["mngr_pswd"] = mngr_pswd;
 
         $.ajax({
-            url: '/admin/loginProc',
+            url: '/loginProc',
             type: 'POST', // HTTP 메서드
             dataType:"json",
             cache: false,
@@ -128,10 +128,10 @@
             success: function(data) {
                 if (data.success == "success") {
                     alert(data.message);
-                    location.href = "/admin/member/list";
+                    location.href = "/member/list";
                 } else if (data.success == "fail") {
                     alert(data.message);
-                    location.href = "/admin/";
+                    location.href = "/";
                 }
             },
             error: function(xhr, status, error) {

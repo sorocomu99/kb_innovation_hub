@@ -1,26 +1,6 @@
 <!doctype html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>KB Innovation HUB Admin</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard-dynamic-subset.css" />
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/admin.css}">
-    <script th:src="@{/component/header.js}"></script>
-    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-    <script th:src="@{/js/jquery-3.6.4.min.js}"></script>
-    <script th:src="@{/js/feather.min.js}"></script>
-    <script th:src="@{/js/bootstrap-datepicker.min.js}"></script>
-    <script th:src="@{/js/bootstrap-clockpicker.min.js}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/lang/summernote-ko-KR.min.js"></script>
-    <script th:src="@{/js/admin.js}"></script>
-</head>
-
+<head th:replace="~{fragment/config :: configFragment}"></head>
 <body>
 <div class="wrap">
     <div th:replace="~{fragment/header :: headerFragment}"></div>
@@ -40,7 +20,7 @@
                                     </div>
                                     <div class="col">
                                         <div class="button-wrap d-flex justify-content-end">
-                                            <a th:href="@{/admin/member/add}" class="btn btn-primary">
+                                            <a th:href="@{/member/add}" class="btn btn-primary">
                                                 <i data-feather="edit"></i> 신규 등록
                                             </a>
                                         </div>
@@ -66,7 +46,7 @@
                                     <td th:text="${list.mngr_nm}"></td>
                                     <td th:text="${list.mngr_eml}"></td>
                                     <td>
-                                        <a th:href="@{/admin/member/modify/{memberId}(memberId=${list.mngr_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
+                                        <a th:href="@{/member/modify/{memberId}(memberId=${list.mngr_sn})}" class="btn btn-outline-dark btn-sm">수정</a>
                                         <button th:onclick="'deleteAlert(' + ${list.mngr_sn} +')'" type="button" class="btn btn-outline-danger btn-sm">삭제</button>
                                     </td>
                                 </tr>
@@ -86,13 +66,13 @@
         let result = confirm("정말 삭제 하시겠습니까?");
         if(result) {
             $.ajax({
-                url: /*[[@{/admin/member/delete}]]*/,
+                url: /*[[@{/member/delete}]]*/,
                 type: 'POST', // HTTP 메서드
                 contentType: 'application/x-www-form-urlencoded',
                 data: { memberId: mngr_sn },
                 success: function(response) {
                 alert("삭제에 성공하였습니다.");
-                window.location.href = /*[[@{/admin/member/list}]]*/;
+                window.location.href = /*[[@{/member/list}]]*/;
             },
             error: function(xhr, status, error) {
                 alert('삭제에 실패하였습니다.');

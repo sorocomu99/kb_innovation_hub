@@ -33,11 +33,11 @@ public class Interceptor implements HandlerInterceptor {
         HttpSession session = request.getSession(false);
 
         //세션 정보가 없으면 로그인 페이지로 이동
-        /*if (session == null) {
-            response.sendRedirect("/admin/");
+        if (session == null) {
+            response.sendRedirect("/");
 
             return false;
-        }*/
+        }
 
         return true;
         //return HandlerInterceptor.super.preHandle(request, response, handler);

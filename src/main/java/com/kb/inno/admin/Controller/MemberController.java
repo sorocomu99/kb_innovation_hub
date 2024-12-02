@@ -23,11 +23,11 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/member")
+@RequestMapping("/member")
 public class MemberController {
 
     // 디렉터리 공통
-    @Value("/admin/member")
+    @Value("/member")
     private String directory;
     
     // Service 연결
