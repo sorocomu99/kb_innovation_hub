@@ -131,6 +131,8 @@ public class AdminLoginController {
     public String logout(HttpServletRequest request) {
         //현재 세션이 있는지 확인한다.
         HttpSession session = request.getSession(false);
+        //세션가져오기
+        //session.getAttribute("mngrSn");
 
         //세션이 존재하면 세션 소멸
         if (session != null) {
