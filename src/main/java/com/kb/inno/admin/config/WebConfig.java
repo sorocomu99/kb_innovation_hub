@@ -14,7 +14,6 @@ package com.kb.inno.admin.config;
 import com.kb.inno.admin.interceptor.Interceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -31,13 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
         Interceptor interceptor = new Interceptor();
 
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/popup/**", "/member/**", "/visual/**")
-                .excludePathPatterns("/css/**", "/images/**", "/js/**", "/enov/component/**");
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/summernoteimages/**" , "/upload/**")
-                .addResourceLocations("file:///D:/upload/");
+                .addPathPatterns("/admin/popup/**", "/admin/member/**", "/admin/visual/**")
+                .excludePathPatterns("/css/**", "/images/**", "/js/**, /enov/component/**");
     }
 }

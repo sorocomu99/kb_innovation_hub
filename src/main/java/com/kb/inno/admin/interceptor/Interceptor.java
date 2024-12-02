@@ -28,11 +28,11 @@ public class Interceptor implements HandlerInterceptor {
         log.info("==================== BEGIN ====================");
         log.info("Request URI ===> " + request.getRequestURI());
 
+        //세션 정보 가져오기
         String requestURI = request.getRequestURI();
         HttpSession session = request.getSession(false);
 
-        log.info("session============="+session);
-
+        //세션 정보가 없으면 로그인 페이지로 이동
         /*if (session == null) {
             response.sendRedirect("/admin/");
 
