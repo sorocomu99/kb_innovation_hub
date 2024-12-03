@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URLEncoder;
@@ -95,10 +96,11 @@ public class PopupController {
 
     // 팝업 등록
     @PostMapping("/insert")
-    public String insert(RedirectAttributes redirectAttributes, PopupDTO popupDTO) {
-        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-        // 수정 요망 : 임시 아이디 값
-        int loginId = 1;
+    public String insert(RedirectAttributes redirectAttributes, PopupDTO popupDTO, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
         int result = popupService.insert(popupDTO, loginId);
 
@@ -114,10 +116,11 @@ public class PopupController {
 
     // 팝업 수정
     @PostMapping("/update")
-    public String update(RedirectAttributes redirectAttributes, PopupDTO popupDTO) {
-        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-        // 수정 요망 : 임시 아이디 값
-        int loginId = 1;
+    public String update(RedirectAttributes redirectAttributes, PopupDTO popupDTO, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
         int result = popupService.update(popupDTO, loginId);
 

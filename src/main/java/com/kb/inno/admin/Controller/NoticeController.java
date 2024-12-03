@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -42,10 +44,11 @@ public class NoticeController {
 
     // 공지사항 등록
     @PostMapping("/insert")
-    public String insert(RedirectAttributes redirectAttributes, NoticeDTO noticeDTO) {
-        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-        // 수정 요망 : 임시 아이디 값
-        int loginId = 1;
+    public String insert(RedirectAttributes redirectAttributes, NoticeDTO noticeDTO, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
         // 만약 ntc_yn이 null이면 N 값 강제 대입
         if(noticeDTO.getNtc_yn() == null || noticeDTO.getNtc_yn().equals("")) {
@@ -74,10 +77,11 @@ public class NoticeController {
 
     // 공지사항 수정
     @PostMapping("/update")
-    public String update(RedirectAttributes redirectAttributes, NoticeDTO noticeDTO) {
-        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-        // 수정 요망 : 임시 아이디 값
-        int loginId = 1;
+    public String update(RedirectAttributes redirectAttributes, NoticeDTO noticeDTO, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
         // 만약 ntc_yn이 null이면 N 값 강제 대입
         if(noticeDTO.getNtc_yn() == null || noticeDTO.getNtc_yn().equals("")) {

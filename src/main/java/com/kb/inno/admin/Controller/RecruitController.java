@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/recruit")
@@ -44,15 +47,16 @@ public class RecruitController {
 
     // 국내 프로그램 - 채용 지원 저장
     @PostMapping("/save")
-    public String save(RedirectAttributes redirectAttributes, RecruitDTO recruitDTO) {
-        // 로그인 한 아이디 session 추가 작업 필요
-        int loginId = 1;
+    public String save(RedirectAttributes redirectAttributes, RecruitDTO recruitDTO, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
-        int recruit_sn = recruitDTO.getEmploy_sn();
+        int result;
 
-        int result = 0;
-
-        if(recruit_sn == 0) {
+        // 추가, 수정 처리
+        if(recruitDTO.getEmploy_sn() == 0) {
             result = recruitService.insert(recruitDTO, loginId);
         } else {
             result = recruitService.update(recruitDTO, loginId);

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -69,10 +71,11 @@ public class VisualController {
 
     // 메인 비주얼 등록
     @PostMapping("/insert")
-    public String insert(VisualDTO visualDTO, RedirectAttributes redirectAttributes) {
-        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-        // 수정 요망 : 임시 아이디 값
-        int loginId = 1;
+    public String insert(VisualDTO visualDTO, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
         int result = visualService.insert(visualDTO, loginId);
 
@@ -88,10 +91,11 @@ public class VisualController {
 
     // 메인 비주얼 수정
     @PostMapping("/update")
-    public String update(VisualDTO visualDTO, RedirectAttributes redirectAttributes) {
-        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-        // 수정 요망 : 임시 아이디 값
-        int loginId = 1;
+    public String update(VisualDTO visualDTO, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
         int result = visualService.update(visualDTO, loginId);
 

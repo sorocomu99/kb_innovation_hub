@@ -19,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -51,10 +53,11 @@ public class InterchangeController {
 
     // 글로벌 – 현지교류 등록
     @PostMapping("/insert")
-    public String insert(RedirectAttributes redirectAttributes,InterchangeDTO interchangeDTO) {
-        // 로그인 기능 구현 전 : loginId에 session 값 추가 할 것
-        // 수정 요망 : 임시 아이디 값
-        int loginId = 1;
+    public String insert(RedirectAttributes redirectAttributes,InterchangeDTO interchangeDTO, HttpServletRequest request) {
+        // 로그인한 아이디 가져오기
+        // 현재 세션 확인
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
 
         int result = interchangeService.insert(interchangeDTO, loginId);
 
