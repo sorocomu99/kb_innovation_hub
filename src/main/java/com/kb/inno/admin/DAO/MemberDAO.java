@@ -24,9 +24,9 @@ public interface MemberDAO {
     // 관리자 계정 상세 조회
     MemberDTO select(int memberId);
     // 관리자 계정 추가
-    int memberAdd(MemberDTO memberDTO);
+    int insert(MemberDTO memberDTO);
     // 관리자 계정 수정
-    int modify(MemberDTO memberDTO);
+    int update(MemberDTO memberDTO);
     // 관리자 계정 아이디 유무 확인(아이디 중복 체크)
     int selectId(String memberId);
     // 관리자 계정 삭제

@@ -32,7 +32,7 @@ public class MemberService {
     }
     
     // 관리자 계정 상세 조회
-    public MemberDTO memberModify(int memberId) {
+    public MemberDTO detail(int memberId) {
         MemberDTO memberDTO = memberDAO.select(memberId);
         if(memberDTO == null) {
             return null;
@@ -52,7 +52,7 @@ public class MemberService {
     }
 
     // 관리자 계정 추가
-    public int memberAdd(MemberDTO memberDTO, int loginId) {
+    public int insert(MemberDTO memberDTO, int loginId) {
         // 결과 초기 값
         int result = 2;
 
@@ -65,20 +65,17 @@ public class MemberService {
         
         // 해당 아이디가 존재하는 지 유무
         if(idCheck(memberDTO.getMngr_id())) {
-            result = memberDAO.memberAdd(memberDTO);
+            result = memberDAO.insert(memberDTO);
         }
         return result;
     }
 
     // 관리자 계정 수정
-    public int memberModify(MemberDTO memberDTO, int loginId) {
+    public int update(MemberDTO memberDTO, int loginId) {
         // login Id 세팅
         memberDTO.setLast_mdfr(loginId);
-
-        // 최종 로그인 이력 값이 없어서 임시 값 대입 : 수정 요망
         memberDTO.setLast_cntn_dt(new Date());
-
-        return memberDAO.modify(memberDTO);
+        return memberDAO.update(memberDTO);
     }
     
     // 관리자 계정 삭제

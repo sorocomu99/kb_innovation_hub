@@ -42,7 +42,7 @@
          WHERE MNGR_ID = #{memberId}
     </select>
     <!-- 관리자 계정 추가 -->
-    <insert id="memberAdd" parameterType="com.kb.inno.admin.DTO.MemberDTO">
+    <insert id="insert" parameterType="com.kb.inno.admin.DTO.MemberDTO">
         /* 관리자 계정 추가 */
         INSERT INTO KB_MNGR_MBR_INFO
         (
@@ -72,7 +72,7 @@
         )
     </insert>
     <!-- 관리자 계정 수정 -->
-    <update id="modify" parameterType="com.kb.inno.admin.DTO.MemberDTO">
+    <update id="update" parameterType="com.kb.inno.admin.DTO.MemberDTO">
         /* 관리자 계정 수정 */
         UPDATE KB_MNGR_MBR_INFO
            SET MNGR_PSWD     = #{mngr_pswd},
