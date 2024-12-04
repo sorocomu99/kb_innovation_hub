@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.InvestmentDTO;
+import com.kb.inno.admin.DTO.ResultDTO;
 import com.kb.inno.admin.Service.InvestmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +44,13 @@ public class InvestmentController {
         model.addAttribute("investment", investment);
         model.addAttribute("menuId", menuId);
         return directory + "/investment";
+    }
+
+    // 국내 프로그램 - 투자 그래프 미리보기
+    @PostMapping("/preview")
+    public String preview(InvestmentDTO investmentDTO, Model model) {
+        model.addAttribute("investment", investmentDTO);
+        return directory + "/investment_preview";
     }
 
     // 국내 프로그램 - 투자 그래프 저장

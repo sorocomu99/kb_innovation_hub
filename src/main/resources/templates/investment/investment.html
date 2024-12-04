@@ -101,7 +101,7 @@
                                         </tbody>
                                     </table>
                                     <div class="button-container">
-                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                         <button type="button" class="btn btn-primary" onclick="confirmMsg()">저장하기</button>
                                     </div>
                                 </form>
@@ -135,6 +135,45 @@
                 }
             }
         };
+
+        // 프리뷰 페이지로 이동
+        function previewPage() {
+            // 만약 input의 값이 0이 아니면
+            var graph3_nocs = $('#graph1_nocs').val();
+            if(graph3_nocs.trim() == "") {
+                $('#graph1_nocs').val(0);
+            }
+
+            // 만약 input의 값이 0이 아니면
+            var graph3_nocs = $('#graph2_nocs').val();
+            if(graph3_nocs.trim() == "") {
+                $('#graph2_nocs').val(0);
+            }
+
+            // 만약 input의 값이 0이 아니면
+            var graph3_nocs = $('#graph3_nocs').val();
+            if(graph3_nocs.trim() == "") {
+                $('#graph3_nocs').val(0);
+            }
+
+            // 만약 input의 값이 0이 아니면
+            var graph3_nocs = $('#graph4_nocs').val();
+            if(graph3_nocs.trim() == "") {
+                $('#graph4_nocs').val(0);
+            }
+
+            // 만약 input의 값이 0이 아니면
+            var graph3_nocs = $('#graph5_nocs').val();
+            if(graph3_nocs.trim() == "") {
+                $('#graph5_nocs').val(0);
+            }
+
+            const form = document.forms['investment_form'];
+            form.action = '/investment/preview'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '_blank';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
+        }
 
         // 그래프 연도 선택 겹치지 않게 방지
         function graph_change(graph, id) {
