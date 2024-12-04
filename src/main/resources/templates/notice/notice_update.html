@@ -119,6 +119,36 @@
             document.querySelector('#file_yn').value = 1;
         }
 
+        // 이미지 업로드 함수
+        function uploadImage(file) {
+            var formData = new FormData();
+            formData.append('file', file);
+            $.ajax({
+                data : formData,
+                type : "POST",
+                url: /*[[@{/notice/upload/image}]]*/, // 요청 URL
+                contentType : false,
+                enctype : 'multipart/form-data',
+                processData : false,
+                success : function(data) {
+                    $('#summernote').summernote('insertImage', data.url);
+                }, error: function(xhr, status, error) {
+                    console.error('Error uploading image:', error);
+                    alert('이미지 업로드를 실패하였습니다.');
+                }
+            });
+        }
+
+        // 썸머노트 이미지 서버에 저장 후 가져와서 화면에 출력
+        $('#summernote').summernote({
+            height: 300, // 에디터 높이 설정
+            callbacks : {
+                onImageUpload: function(files) {
+                    uploadImage(files[0], this);
+                }
+            }
+        });
+
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
             // 제목 입력 확인
