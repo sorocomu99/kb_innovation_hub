@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.PromoteDTO;
+import com.kb.inno.admin.DTO.ResultDTO;
 import com.kb.inno.admin.Service.PromoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +45,13 @@ public class PromoteController {
         model.addAttribute("result", result);
         model.addAttribute("menuId", menuId);
         return directory + "/promote";
+    }
+
+    // 육성 현황 미리보기
+    @PostMapping("/preview")
+    public String preview(PromoteDTO promoteDTO, Model model) {
+        model.addAttribute("promote", promoteDTO);
+        return directory + "/promote_preview";
     }
 
     // 국내 프로그램 - 육성 그래프 저장

@@ -109,9 +109,11 @@
 
     // 프리뷰 페이지로 이동
     function previewPage() {
-        $('form[name=result_form]').attr('action', '/result/preview');
-        $('form[name=result_form]').attr('method', 'POST');
-        $('form[name=result_form]').submit();
+        const form = document.forms['result_form'];
+        form.action = '/result/preview'; // 전송할 URL
+        form.method = 'POST';            // 전송 방식
+        form.target = '_blank';          // 새 창에서 열기
+        form.submit();                   // 폼 제출
     }
 
     // 컨펌 메시지 띄우는 함수
