@@ -105,15 +105,6 @@
         // 수정 및 등록 시 띄울 알림창
         const msg = /*[[${msg}]]*/ '';
         if (msg) alert(msg);
-
-        // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
-        // 메뉴를 활성화 시킴(삭제 금지)
-        var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
-        if(menu_id.val() == $("input[name=menu_id]").val()) {
-            menu_id.parent().parent().prev().children().removeClass("collapsed");
-            menu_id.parent().parent().addClass("show");
-            menu_id.next().addClass("active");
-        }
     }
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {

@@ -141,6 +141,15 @@
     </div>
 </div>
 <script th:inline="javascript">
+
+    // 페이지 로드 시 실행
+    window.onload = function () {
+        // 페이지 로드 시 메시지 확인 및 알림 표시
+        // 수정 및 등록 시 띄울 알림창
+        const msg = /*[[${msg}]]*/ '';
+        if (msg) alert(msg);
+    }
+
     // 시작/종료 일시 체크
     let today = new Date();
     let year = today.getFullYear(); // 년도
@@ -167,17 +176,6 @@
     function checkEnd(){
         let after = new Date(new Date().setDate(new Date().getDate() + 7));
         inputEnd.value = after.getFullYear() + '-' + pad((after.getMonth() + 1)) + '-' + pad(after.getDate());
-    }
-
-    window.onload = function () {
-        // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
-        // 메뉴를 활성화 시킴(삭제 금지)
-        var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
-        if(menu_id.val() == $("input[name=menu_id]").val()) {
-            menu_id.parent().parent().prev().children().removeClass("collapsed");
-            menu_id.parent().parent().addClass("show");
-            menu_id.next().addClass("active");
-        }
     }
 
     // 컨펌 메시지 띄우는 함수

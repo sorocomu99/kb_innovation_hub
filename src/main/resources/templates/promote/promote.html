@@ -128,15 +128,6 @@
         const msg = /*[[${msg}]]*/ '';
         if (msg) alert(msg);
 
-        // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
-        // 메뉴를 활성화 시킴(삭제 금지)
-        var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
-        if(menu_id.val() == $("input[name=menu_id]").val()) {
-            menu_id.parent().parent().prev().children().removeClass("collapsed");
-            menu_id.parent().parent().addClass("show");
-            menu_id.next().addClass("active");
-        }
-
         // 현재 년도 기준으로 셀렉트 박스 선택 되게 하기
         // 만약 값이 없으면 세팅(등록)
         var year = new Date().getFullYear();

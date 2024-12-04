@@ -96,6 +96,12 @@
   // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
 
   window.onload = function () {
+
+    // 페이지 로드 시 메시지 확인 및 알림 표시
+    // 수정 및 등록 시 띄울 알림창
+    const msg = /*[[${msg}]]*/ '';
+    if (msg) alert(msg);
+
     var img = document.querySelector('#previewFrame').src;
     if(img != null) {
       document.querySelector('#previewFrame').style.display = "block";
