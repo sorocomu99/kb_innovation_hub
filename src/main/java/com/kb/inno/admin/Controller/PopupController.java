@@ -94,6 +94,13 @@ public class PopupController {
         return ResponseEntity.ok(fileUploader.summernoteInsertImage(file));
     }
 
+    // 팝업 미리보기
+    @PostMapping("/preview")
+    public String preview(PopupDTO popupDTO, Model model) {
+        model.addAttribute("popup", popupDTO);
+        return directory + "/popup_preview";
+    }
+
     // 팝업 등록
     @PostMapping("/insert")
     public String insert(RedirectAttributes redirectAttributes, PopupDTO popupDTO, HttpServletRequest request) {
