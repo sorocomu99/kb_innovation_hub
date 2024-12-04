@@ -109,6 +109,36 @@
 
     // 프리뷰 페이지로 이동
     function previewPage() {
+        // 만약 input의 값이 0이 아니면
+        var graph1_nocs = $('#graph1_nocs').val();
+        if(graph1_nocs.trim() == "") {
+            $('#graph1_nocs').val(0);
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph2_nocs = $('#graph2_nocs').val();
+        if(graph2_nocs.trim() == "") {
+            $('#graph2_nocs').val(0);
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph3_nocs = $('#graph3_nocs').val();
+        if(graph3_nocs.trim() == "") {
+            $('#graph3_nocs').val(0);
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph4_nocs = $('#graph4_nocs').val();
+        if(graph4_nocs.trim() == "") {
+            $('#graph4_nocs').val(0);
+        }
+
+        // 만약 input의 값이 0이 아니면
+        var graph5_nocs = $('#graph5_nocs').val();
+        if(graph5_nocs.trim() == "") {
+            $('#graph5_nocs').val(0);
+        }
+
         const form = document.forms['result_form'];
         form.action = '/result/preview'; // 전송할 URL
         form.method = 'POST';            // 전송 방식
