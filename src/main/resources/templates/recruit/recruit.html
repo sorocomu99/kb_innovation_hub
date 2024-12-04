@@ -58,7 +58,7 @@
                                         </tbody>
                                     </table>
                                     <div class="button-container">
-                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                         <button type="button" class="btn btn-primary" onclick="javascript:confirmMsg()">저장하기</button>
                                     </div>
                                 </form>
@@ -92,6 +92,15 @@
             }
         }
     };
+
+    function previewPage() {
+        const form = document.forms['recruit_form'];
+        $('input[name=sprt_amt]').val(parseFloat($('input[name=sprt_amt]').val()));
+        form.action = '/recruit/preview'; // 전송할 URL
+        form.method = 'POST';            // 전송 방식
+        form.target = '_blank';          // 새 창에서 열기
+        form.submit();                   // 폼 제출
+    }
 
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {

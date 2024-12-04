@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.RecruitDTO;
+import com.kb.inno.admin.DTO.ResultDTO;
 import com.kb.inno.admin.Service.RecruitService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,6 +44,13 @@ public class RecruitController {
         model.addAttribute("recruit", recruit);
         model.addAttribute("menuId", menuId);
         return directory + "/recruit";
+    }
+
+    // 국내 프로그램 - 채용 지원 미리보기
+    @PostMapping("/preview")
+    public String preview(RecruitDTO recruitDTO, Model model) {
+        model.addAttribute("recruit", recruitDTO);
+        return directory + "/recruit_preview";
     }
 
     // 국내 프로그램 - 채용 지원 저장
