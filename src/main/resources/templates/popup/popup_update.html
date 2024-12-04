@@ -113,7 +113,7 @@
                                     </table>
                                     <div class="button-container">
                                         <button type="button" class="btn btn-primary" onclick="confirmMsg()">수정하기</button>
-                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                         <a class="btn btn-outline-primary" th:href="@{/popup/list}">목록보기</a>
                                     </div>
                                 </form>
@@ -179,6 +179,30 @@
         function checkEnd(){
             let after = new Date(new Date().setDate(new Date().getDate() + 7));
             inputEnd.value = after.getFullYear() + '-' + pad((after.getMonth() + 1)) + '-' + pad(after.getDate());
+        }
+
+        // 프리뷰 페이지로 이동
+        function previewPage() {
+            // 팝업 위치 왼쪽 입력 확인
+            var popup_left_pstn = $('input[name=popup_left_pstn]').val();
+            if(popup_left_pstn.trim() == "") {
+                alert("X 축 값을 입력하세요.");
+                return false;
+            }
+
+            // 팝업 위치 위쪽 입력 확인
+            var popup_top_pstn = $('input[name=popup_top_pstn]').val();
+            if(popup_top_pstn.trim() == "") {
+                alert("Y 축 값을 입력하세요.");
+                return false;
+            }
+
+            var summernote_value = $("#summernote").summernote('code');
+            $("#popup_cn").val(summernote_value);
+
+            $('form[name=popup_form]').attr('action', '/popup/preview');
+            $('form[name=popup_form]').attr('method', 'POST');
+            $('form[name=popup_form]').submit();
         }
 
         // 컨펌 메시지 띄우는 함수
