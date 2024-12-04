@@ -12,11 +12,14 @@ package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.HubDTO;
 import com.kb.inno.admin.Service.HubService;
+import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,7 +54,15 @@ public class HubController {
         model.addAttribute("menuId", menuId);
         return directory + "/hub_insert";
     }
-    
+
+    // 이미지 업로드
+    @ResponseBody
+    @PostMapping("/upload/image")
+    public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file) {
+        FileUploader fileUploader = new FileUploader();
+        return ResponseEntity.ok(fileUploader.summernoteInsertImage(file));
+    }
+
     // HUB 센터 소식 등록
     @PostMapping("/insert")
     public String insert(RedirectAttributes redirectAttributes, HubDTO hubDTO, HttpServletRequest request) {
