@@ -86,7 +86,7 @@
                                     </tbody>
                                 </table>
                                 <div class="button-container">
-                                    <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                    <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                     <button type="button" class="btn btn-primary" onclick="javascript:confirmMsg()">저장하기</button>
                                 </div>
                             </form>
@@ -106,6 +106,14 @@
         const msg = /*[[${msg}]]*/ '';
         if (msg) alert(msg);
     }
+
+    // 프리뷰 페이지로 이동
+    function previewPage() {
+        $('form[name=result_form]').attr('action', '/result/preview');
+        $('form[name=result_form]').attr('method', 'POST');
+        $('form[name=result_form]').submit();
+    }
+
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {
         // 육성기업 - 선발기업 수 입력 확인

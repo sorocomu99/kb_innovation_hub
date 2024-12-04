@@ -10,6 +10,7 @@
  */
 package com.kb.inno.admin.Controller;
 
+import com.kb.inno.admin.DTO.PopupDTO;
 import com.kb.inno.admin.DTO.ResultDTO;
 import com.kb.inno.admin.Service.ResultService;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,13 @@ public class ResultController {
         model.addAttribute("result", result);
         model.addAttribute("menuId", menuId);
         return directory + "/result";
+    }
+
+    // 육성 현황 미리보기
+    @PostMapping("/preview")
+    public String preview(ResultDTO resultDTO, Model model) {
+        model.addAttribute("result", resultDTO);
+        return directory + "/result_preview";
     }
 
     // 육성 현황 저장
