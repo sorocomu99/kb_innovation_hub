@@ -147,6 +147,13 @@ public class AffiliateService {
         List<VisualDTO> selectList = affiliateDAO.selectListAll(affiliate_sn);
         model.addAttribute("selectList", selectList);
 
+        // 기존 파일 확인
+        if(affiliate_sn > 0) {
+            AffiliateDTO affiliate = affiliateDAO.select(affiliate_sn);
+            affiliateDTO.setAffiliate_path(affiliate.getAffiliate_path());
+            affiliateDTO.setAffiliate_file_name(affiliate.getAffiliate_file_name());
+        }
+
         // 파일 업로드
         MultipartFile files = affiliateDTO.getAffiliate_file();
 
@@ -155,12 +162,6 @@ public class AffiliateService {
             FileDTO file = fileUploader.insertFile(files, affiliate_sn);
             affiliateDTO.setAffiliate_file_name(file.getFile_nm());
             affiliateDTO.setAffiliate_path(file.getFile_path());
-        }
-        // 기존 파일 확인
-        if(affiliate_sn > 0) {
-            AffiliateDTO affiliate = affiliateDAO.select(affiliate_sn);
-            affiliateDTO.setAffiliate_path(affiliate.getAffiliate_path());
-            affiliateDTO.setAffiliate_file_name(affiliate.getAffiliate_file_name());
         }
 
         // 파일 화면에 전달

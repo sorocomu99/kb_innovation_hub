@@ -148,6 +148,13 @@ public class VisualService {
         List<VisualDTO> selectList = visualDAO.selectListAll(main_sn);
         model.addAttribute("selectList", selectList);
 
+        // 기존 파일 확인
+        if(main_sn > 0) {
+            VisualDTO main = visualDAO.select(main_sn);
+            visualDTO.setMain_path(main.getMain_path());
+            visualDTO.setMain_file_name(main.getMain_file_name());
+        }
+
         // 파일 업로드
         MultipartFile files = visualDTO.getMain_file();
 
@@ -156,12 +163,6 @@ public class VisualService {
             FileDTO file = fileUploader.insertFile(files, main_sn);
             visualDTO.setMain_file_name(file.getFile_nm());
             visualDTO.setMain_path(file.getFile_path());
-        }
-        // 기존 파일 확인
-        if(main_sn > 0) {
-            VisualDTO main = visualDAO.select(main_sn);
-            visualDTO.setMain_path(main.getMain_path());
-            visualDTO.setMain_file_name(main.getMain_file_name());
         }
 
         // 파일 화면에 전달
