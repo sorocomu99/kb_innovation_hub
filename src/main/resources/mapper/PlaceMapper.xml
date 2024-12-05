@@ -130,4 +130,29 @@
           FROM KB_FILE_INFO
          WHERE FILE_SN = #{file_sn}
     </delete>
+    <!-- 육성공간 리스트 조회 (미리보기용) -->
+    <select id="selectListAll" parameterType="int" resultType="com.kb.inno.admin.DTO.PlaceDTO">
+        /* 육성공간 리스트 조회 (미리보기용) */
+        SELECT PLC.PLC_SN           AS PLC_SN
+             , PLC.PLC_NM           AS PLC_NM
+             , PLC.PLC_ADDR         AS PLC_ADDR
+             , FILES1.FILE_PATH     AS PLC_PATH1
+             , FILES1.FILE_NM       AS PLC_FILE_NAME1
+             , FILES2.FILE_PATH     AS PLC_PATH2
+             , FILES2.FILE_NM       AS PLC_FILE_NAME2
+             , FILES3.FILE_PATH     AS PLC_PATH3
+             , FILES3.FILE_NM       AS PLC_FILE_NAME3
+        FROM KB_PLC_INFO PLC
+           , KB_FILE_INFO FILES1
+           , KB_FILE_INFO FILES2
+           , KB_FILE_INFO FILES3
+        WHERE 1=1
+        <if test="plc_sn != 0">
+          AND NOT PLC_SN IN (#{plc_sn})
+        </if>
+          AND PLC.ATCH_FILE_SN1 = FILES1.FILE_SN(+)
+          AND PLC.ATCH_FILE_SN2 = FILES2.FILE_SN(+)
+          AND PLC.ATCH_FILE_SN3 = FILES3.FILE_SN(+)
+        ORDER BY PLC.SORT_NO DESC
+    </select>
 </mapper>

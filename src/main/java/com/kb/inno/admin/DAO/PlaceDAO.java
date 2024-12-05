@@ -13,6 +13,7 @@ package com.kb.inno.admin.DAO;
 import com.kb.inno.admin.DTO.AffiliateDTO;
 import com.kb.inno.admin.DTO.FileDTO;
 import com.kb.inno.admin.DTO.PlaceDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -35,4 +36,6 @@ public interface PlaceDAO {
     void deleteFile(int file_sn);
     // 육성공간 삭제
     void delete(Integer integer);
+    // 육성공간 리스트 조회 (미리보기용)
+    List<VisualDTO> selectListAll(int mainSn);
 }

@@ -14,10 +14,12 @@ import com.kb.inno.admin.DAO.PlaceDAO;
 import com.kb.inno.admin.DTO.AffiliateDTO;
 import com.kb.inno.admin.DTO.FileDTO;
 import com.kb.inno.admin.DTO.PlaceDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -281,5 +283,52 @@ public class PlaceService {
         }
         // 4. 육성공간 삭제
         placeDAO.delete(plc_sn);
+    }
+
+    // 육성공간 리스트 조회 (미리보기용)
+    public void selectListAll(Model model, PlaceDTO placeDTO) {
+        int main_sn = placeDTO.getPlc_sn();
+        List<VisualDTO> selectList = placeDAO.selectListAll(main_sn);
+        model.addAttribute("selectList", selectList);
+
+        // 기존 파일 확인
+        if(main_sn > 0) {
+            PlaceDTO main = placeDAO.select(main_sn);
+            placeDTO.setPlc_path1(main.getPlc_path1());
+            placeDTO.setPlc_file_name1(main.getPlc_file_name1());
+            placeDTO.setPlc_path2(main.getPlc_path2());
+            placeDTO.setPlc_file_name2(main.getPlc_file_name2());
+            placeDTO.setPlc_path3(main.getPlc_path3());
+            placeDTO.setPlc_file_name3(main.getPlc_file_name3());
+        }
+
+        // 파일 업로드
+        MultipartFile file1 = placeDTO.getPlc_file1();
+        MultipartFile file2 = placeDTO.getPlc_file2();
+        MultipartFile file3 = placeDTO.getPlc_file3();
+
+        if(file1.getSize() > 0) {
+            FileUploader fileUploader = new FileUploader();
+            FileDTO file = fileUploader.insertFile(file1, main_sn);
+            placeDTO.setPlc_file_name1(file.getFile_nm());
+            placeDTO.setPlc_path1(file.getFile_path());
+        }
+
+        if(file2.getSize() > 0) {
+            FileUploader fileUploader = new FileUploader();
+            FileDTO file = fileUploader.insertFile(file2, main_sn);
+            placeDTO.setPlc_file_name2(file.getFile_nm());
+            placeDTO.setPlc_path2(file.getFile_path());
+        }
+
+        if(file3.getSize() > 0) {
+            FileUploader fileUploader = new FileUploader();
+            FileDTO file = fileUploader.insertFile(file3, main_sn);
+            placeDTO.setPlc_file_name3(file.getFile_nm());
+            placeDTO.setPlc_path3(file.getFile_path());
+        }
+
+        // 파일 화면에 전달
+        model.addAttribute("place", placeDTO);
     }
 }

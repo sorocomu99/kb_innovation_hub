@@ -98,6 +98,7 @@
                                         </tbody>
                                     </table>
                                     <div class="button-container">
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                         <a class="btn btn-outline-primary" th:href="@{/place/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                         <button type="button" class="btn btn-primary" onclick="confirmMsg()">수정하기</button>
                                     </div>
@@ -127,6 +128,21 @@
             }
         }
 
+        // 프리뷰 페이지로 이동
+        function previewPage() {
+            var plc_nm = $('input[name=plc_nm]').val();
+            if(plc_nm == null || plc_nm == "") {
+                alert("공간 이름을 입력 해 주세요.");
+                return false;
+            }
+
+            const form = document.forms['place_form'];
+            form.action = '/place/preview'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '_blank';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
+        }
+
         // 썸네일 미리보기
         // 게시글 수정 시, 썸네일이 등록되어있으면 다음 두개 태그에 인라인 스타일을 제거해주세요.
         // #previewFrame, #deleteThumbnail
@@ -146,8 +162,11 @@
                 return false;
             } else {
                 // 폼 태그 서브밋 보내기
-                f=document.place_form;
-                f.submit();
+                const form = document.forms['place_form'];
+                form.action = '/place/update'; // 전송할 URL
+                form.method = 'POST';            // 전송 방식
+                form.target = '';          // 새 창에서 열기
+                form.submit();                   // 폼 제출
             }
         }
     </script>

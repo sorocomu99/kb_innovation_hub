@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.PlaceDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.admin.Service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,6 +53,13 @@ public class PlaceController {
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/place_insert";
+    }
+
+    // 육성공간 리스트 조회 (미리보기용)
+    @PostMapping("/preview")
+    public String preview(PlaceDTO placeDTO, Model model) {
+        placeService.selectListAll(model, placeDTO);
+        return directory + "/place_preview";
     }
 
     // 육성공간 상세 페이지 이동
