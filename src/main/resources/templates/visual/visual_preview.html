@@ -34,7 +34,7 @@
 </head>
 <body>
     <!-- 헤더 -->
-    <div th:replace="~{fragment/header :: headerFragment}"></div>
+    <app-header></app-header>
 
     <!-- 본문 -->
     <main class="main">
@@ -44,28 +44,23 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="background">
-                                <img class="item" src="/images/main/visual-slide-image-1.png" alt="">
+                                <!-- 새로 등록한 파일 -->
+                                <img th:if="${visual.main_path != null}" class="item" th:src="${visual.main_path + visual.main_file_name}" alt="">
+                                <!-- 기존 등록한 파일 -->
+                                <img th:unless="${visual.main_path != null}" class="item" th:src="${file.file_path + file.file_nm}" alt="">
                             </div>
                             <div class="context">
-                                <p class="text" data-split>스타트업 육성을 통해 <br>대한민국 디지털 금융 혁신을 이끌어갑니다.</p>
+                                <p class="text" data-split th:utext="${visual.main_cn}"></p>
                             </div>
                         </div>
-                        <!--<div class="swiper-slide">
-                            <div class="background background-2">
-                                <img class="item" src="/images/main/visual-slide-image-2.jpg" alt="">
-                            </div>
-                            <div class="context">
-                                <p class="text" data-split>글로벌 육성 프로그램을 통해 <br>스타트업의 성공적인 글로벌 진출을 지원합니다.</p>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
+                        <div class="swiper-slide" th:each="list : ${selectList}" th:if="${list.main_file_name != null}">
                             <div class="background">
-                                <img class="item" src="/images/main/visual-slide-image-3.jpg" alt="">
+                                <img class="item" th:src="${list.main_path + list.main_file_name}" alt="">
                             </div>
                             <div class="context">
-                                <p class="text" data-split>KB Innovation HUB는 앞으로도 스타트업과 함께 <br>더 나은 미래를 만들어 나가겠습니다.</p>
+                                <p class="text" data-split th:utext="${list.main_cn}"></p>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
                 <div class="title">

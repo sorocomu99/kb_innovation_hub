@@ -122,4 +122,23 @@
           FROM KB_FILE_INFO
          WHERE FILE_SN = #{file_sn}
     </delete>
+    <!-- 메인 비주얼 리스트 조회 (미리보기용) -->
+    <select id="selectListAll" parameterType="int" resultType="com.kb.inno.admin.DTO.VisualDTO">
+        /* 메인 비주얼 리스트 조회 (미리보기용) */
+        SELECT VISUAL.MAIN_SN      AS MAIN_SN
+             , VISUAL.MAIN_CN      AS MAIN_CN
+             , VISUAL.EXPSR_YN     AS EXPSR_YN
+             , VISUAL.SORT_NO      AS SORT_NO
+             , FILES.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
+             , FILES.FILE_NM       AS MAIN_FILE_NAME
+             , FILES.FILE_PATH     AS MAIN_PATH
+        FROM KB_MAIN_INFO VISUAL
+           , KB_FILE_INFO FILES
+        WHERE 1=1
+          AND VISUAL.ATCH_FILE_SN = FILES.FILE_SN(+)
+        <if test="popup_sn != 0">
+          AND NOT MAIN_SN IN (#{main_sn})
+        </if>
+        ORDER BY MAIN_SN DESC
+    </select>
 </mapper>

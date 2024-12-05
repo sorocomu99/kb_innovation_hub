@@ -34,4 +34,6 @@ public interface VisualDAO {
     int update(VisualDTO visualDTO);
     // 메인 비주얼 삭제
     void delete(int main_sn);
+    // 메인 비주얼 리스트 조회 (미리보기용)
+    List<VisualDTO> selectListAll(int main_sn);
 }

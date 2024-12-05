@@ -10,6 +10,7 @@
  */
 package com.kb.inno.admin.Controller;
 
+import com.kb.inno.admin.DTO.PopupDTO;
 import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.admin.Service.VisualService;
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,13 @@ public class VisualController {
         model.addAttribute("selectList", selectList);
         model.addAttribute("menuId", menuId);
         return directory + "/visual";
+    }
+
+    // 메인 비주얼 리스트 조회 (미리보기용)
+    @PostMapping("/preview")
+    public String preview(VisualDTO visualDTO, Model model) {
+        visualService.selectListAll(model, visualDTO);
+        return directory + "/visual_preview";
     }
 
     // 메인 비주얼 등록 페이지 이동

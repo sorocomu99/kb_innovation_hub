@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -139,5 +140,31 @@ public class VisualService {
 
         // 3. 메인 비주얼 삭제
         visualDAO.delete(main_sn);
+    }
+
+    // 메인 비주얼 리스트 조회 (미리보기용)
+    public void selectListAll(Model model, VisualDTO visualDTO) {
+        int main_sn = visualDTO.getMain_sn();
+        List<VisualDTO> selectList = visualDAO.selectListAll(main_sn);
+        model.addAttribute("selectList", selectList);
+
+        // 파일 업로드
+        MultipartFile files = visualDTO.getMain_file();
+        FileDTO file = new FileDTO();
+
+        if(files.getSize() > 0) {
+            FileUploader fileUploader = new FileUploader();
+            file = fileUploader.insertFile(files, main_sn);
+        }
+        // 기존 파일 확인
+        if(main_sn > 0) {
+            VisualDTO main = visualDAO.select(main_sn);
+            visualDTO.setMain_path(main.getMain_path());
+            visualDTO.setMain_file_name(main.getMain_file_name());
+        }
+
+        // 파일 화면에 전달
+        model.addAttribute("visual", visualDTO);
+        model.addAttribute("file", file);
     }
 }

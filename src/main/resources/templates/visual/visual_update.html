@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col">
           <div class="paper">
-            <h2 class="h4">메인 비주얼 등록</h2>
+            <h2 class="h4">메인 비주얼 관리</h2>
             <div class="mt-4">
               <form name="main_form" th:action="@{/visual/update}" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="menu_id" th:value="${menuId}"/>
@@ -46,7 +46,6 @@
                   <tr>
                     <th class="bg-light">텍스트</th>
                     <td>
-                      <!-- <input type="text" class="form-control" value=""> -->
                       <textarea class="form-control" id="main_cn" rows="2" name="main_cn" th:text="${visual.main_cn}"></textarea>
                     </td>
                   </tr>
@@ -76,7 +75,7 @@
                 </table>
                 <div class="button-container">
                   <button type="button" class="btn btn-primary" onclick="confirmMsg()">수정하기</button>
-                  <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                  <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                   <a class="btn btn-outline-primary" th:href="@{/visual/list/{menuId}(menuId=${menuId})}">목록보기</a>
                 </div>
               </form>
@@ -96,7 +95,6 @@
   // 수정 후: <button onclick="clearImage()" id="deleteThumbnail" class="btn btn-secondary ms-2">삭제</button>
 
   window.onload = function () {
-
     // 페이지 로드 시 메시지 확인 및 알림 표시
     // 수정 및 등록 시 띄울 알림창
     const msg = /*[[${msg}]]*/ '';
@@ -106,21 +104,21 @@
     if(img != null) {
       document.querySelector('#previewFrame').style.display = "block";
     }
-
-    // 만약 메뉴 해당 아이디의 value와 화면의 value가 일치하면
-    // 메뉴를 활성화 시킴(삭제 금지)
-    var menu_id = $("#menu_id_" + $("input[name=menu_id]").val());
-    if(menu_id.val() == $("input[name=menu_id]").val()) {
-      menu_id.parent().parent().prev().children().removeClass("collapsed");
-      menu_id.parent().parent().addClass("show");
-      menu_id.next().addClass("active");
-    }
   }
 
   function preview() {
     previewFrame.src = URL.createObjectURL(event.target.files[0]);
     document.querySelector("#file_yn").value = 1;
     document.querySelector('#previewFrame').style.display = "block";
+  }
+
+  // 프리뷰 페이지로 이동
+  function previewPage() {
+    const form = document.forms['main_form'];
+    form.action = '/visual/preview'; // 전송할 URL
+    form.method = 'POST';            // 전송 방식
+    form.target = '_blank';          // 새 창에서 열기
+    form.submit();                   // 폼 제출
   }
 
   // 컨펌 메시지 띄우는 함수
@@ -143,8 +141,12 @@
     let result = confirm("수정 하시겠습니까?");
     if(result) {
       // 폼 태그 서브밋 보내기
-      f=document.main_form;
-      f.submit();
+      // 폼 태그 서브밋 보내기
+      const form = document.forms['main_form'];
+      form.action = '/visual/update'; // 전송할 URL
+      form.method = 'POST';            // 전송 방식
+      form.target = '';          // 새 창에서 열기
+      form.submit();                   // 폼 제출
     }
   }
 </script>
