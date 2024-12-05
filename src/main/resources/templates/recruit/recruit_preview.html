@@ -59,10 +59,21 @@
                                     </div>
                                     <div data-animate class="circle-2">
                                         <p class="year" th:text="${recruit.employ_yr + '년'}"></p>
-                                        <p class="title"><span th:text="${#numbers.formatInteger(recruit.employ_emp_nocs, 0, 'COMMA') + '명 채용'}"></span></p>
+                                        <p class="title" th:switch="${recruit.employ_emp_nocs}">
+                                            <span th:if="${recruit.employ_emp_nocs % 1 != 0}" th:text="${recruit.employ_emp_nocs + '억원'}"></span>
+                                            <span th:if="${recruit.employ_emp_nocs % 1 == 0}" th:text="${#numbers.formatInteger(recruit.employ_emp_nocs, 3, 'COMMA') + '억원'}"></span>
+                                        </p>
                                         <div class="data">
-                                            <p class="text"><i class="icon icon-1"></i><span th:text="${#numbers.formatInteger(recruit.sprt_amt, 0, 'COMMA') + '억원'}"></span></p>
-                                            <p class="text"><i class="icon icon-2"></i><span th:text="${#numbers.formatInteger(recruit.employ_ent_nocs, 0, 'COMMA') + '개사'}"></span></p>
+                                            <p class="text">
+                                                <i class="icon icon-1"></i>
+                                                <span th:if="${recruit.sprt_amt % 1 != 0}" th:text="${recruit.sprt_amt + '억원'}"></span>
+                                                <span th:if="${recruit.sprt_amt % 1 == 0}" th:text="${#numbers.formatInteger(recruit.sprt_amt, 3, 'COMMA') + '억원'}"></span>
+                                            </p>
+                                            <p class="text">
+                                                <i class="icon icon-2"></i>
+                                                <span th:if="${recruit.employ_ent_nocs % 1 != 0}" th:text="${recruit.employ_ent_nocs + '개사'}"></span>
+                                                <span th:if="${recruit.employ_ent_nocs % 1 == 0}" th:text="${#numbers.formatInteger(recruit.employ_ent_nocs, 3, 'COMMA') + '개사'}"></span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

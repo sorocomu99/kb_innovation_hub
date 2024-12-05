@@ -40,13 +40,13 @@
                                             <tr>
                                                 <th class="bg-light" width="20%">채용 수</th>
                                                 <td>
-                                                    <input type="number" class="form-control" name="employ_emp_nocs" placeholder="ex) 1142" th:value="${recruit?.employ_emp_nocs}">
+                                                    <input type="number" class="form-control" name="employ_emp_nocs" placeholder="ex) 1,142" th:value="${recruit?.employ_emp_nocs}">
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <th class="bg-light" width="20%">지원 금액</th>
                                                 <td>
-                                                    <input type="text" class="form-control" name="sprt_amt" placeholder=" ex) 6억 7천 2백만원" th:value="${recruit?.sprt_amt}">
+                                                    <input type="text" class="form-control" name="sprt_amt" placeholder=" ex) 6.7" th:value="${recruit?.sprt_amt}">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -94,8 +94,28 @@
     };
 
     function previewPage() {
+        // 채용 수 입력 확인
+        var employ_emp_nocs = $('input[name=employ_emp_nocs]').val();
+        if(employ_emp_nocs == "") {
+            alert("채용 수를 입력하세요.");
+            return false;
+        }
+
+        // 지원 금액 입력 확인
+        var sprt_amt = $('input[name=sprt_amt]').val();
+        if(sprt_amt.trim() == "") {
+            alert("지원 금액을 입력하세요.");
+            return false;
+        }
+
+        // 채용 기업 수 입력 확인
+        var employ_ent_nocs = $('input[name=employ_ent_nocs]').val();
+        if(employ_ent_nocs == "") {
+            alert("채용 기업 수를 입력하세요.");
+            return false;
+        }
+
         const form = document.forms['recruit_form'];
-        $('input[name=sprt_amt]').val(parseFloat($('input[name=sprt_amt]').val()));
         form.action = '/recruit/preview'; // 전송할 URL
         form.method = 'POST';            // 전송 방식
         form.target = '_blank';          // 새 창에서 열기
@@ -135,8 +155,11 @@
                 $("input[name=employ_sn]").val(0);
             }
             // 폼 태그 서브밋 보내기
-            f=document.recruit_form;
-            f.submit();
+            const form = document.forms['recruit_form'];
+            form.action = '/recruit/save'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
     }
 </script>
