@@ -149,7 +149,7 @@
              , KB_FILE_INFO FILES
          WHERE 1=1
            AND AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
-         <if test="popup_sn != 0">
+         <if test="affiliate_sn != 0">
            AND NOT AFFILIATE_SN IN (#{affiliate_sn})
          </if>
          ORDER BY AFFILIATE_SN DESC

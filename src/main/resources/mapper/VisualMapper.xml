@@ -136,7 +136,7 @@
            , KB_FILE_INFO FILES
         WHERE 1=1
           AND VISUAL.ATCH_FILE_SN = FILES.FILE_SN(+)
-        <if test="popup_sn != 0">
+        <if test="main_sn != 0">
           AND NOT MAIN_SN IN (#{main_sn})
         </if>
         ORDER BY MAIN_SN DESC
