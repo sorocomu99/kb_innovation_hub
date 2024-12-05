@@ -47,7 +47,7 @@
                                 <!-- 새로 등록한 파일 -->
                                 <img th:if="${visual.main_path != null}" class="item" th:src="${visual.main_path + visual.main_file_name}" alt="">
                                 <!-- 기존 등록한 파일 -->
-                                <img th:unless="${visual.main_path != null}" class="item" th:src="${file.file_path + file.file_nm}" alt="">
+                                <img th:unless="${visual.main_path != null}" class="item" th:src="${visual.file_path + visual.file_nm}" alt="">
                             </div>
                             <div class="context">
                                 <p class="text" data-split th:utext="${visual.main_cn}"></p>

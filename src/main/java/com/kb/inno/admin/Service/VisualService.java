@@ -150,11 +150,10 @@ public class VisualService {
 
         // 파일 업로드
         MultipartFile files = visualDTO.getMain_file();
-        FileDTO file = new FileDTO();
 
         if(files.getSize() > 0) {
             FileUploader fileUploader = new FileUploader();
-            file = fileUploader.insertFile(files, main_sn);
+            FileDTO file = fileUploader.insertFile(files, main_sn);
             visualDTO.setMain_file_name(file.getFile_nm());
             visualDTO.setMain_path(file.getFile_path());
         }
@@ -167,6 +166,5 @@ public class VisualService {
 
         // 파일 화면에 전달
         model.addAttribute("visual", visualDTO);
-        model.addAttribute("file", file);
     }
 }

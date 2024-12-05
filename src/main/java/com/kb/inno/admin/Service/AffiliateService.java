@@ -149,11 +149,10 @@ public class AffiliateService {
 
         // 파일 업로드
         MultipartFile files = affiliateDTO.getAffiliate_file();
-        FileDTO file = new FileDTO();
 
         if(files.getSize() > 0) {
             FileUploader fileUploader = new FileUploader();
-            file = fileUploader.insertFile(files, affiliate_sn);
+            FileDTO file = fileUploader.insertFile(files, affiliate_sn);
             affiliateDTO.setAffiliate_file_name(file.getFile_nm());
             affiliateDTO.setAffiliate_path(file.getFile_path());
         }
