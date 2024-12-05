@@ -97,6 +97,8 @@ public class PopupController {
     // 팝업 미리보기
     @PostMapping("/preview")
     public String preview(PopupDTO popupDTO, Model model) {
+        List<PopupDTO> selectList = popupService.selectListAll(popupDTO);
+        model.addAttribute("selectList", selectList);
         model.addAttribute("popup", popupDTO);
         return directory + "/popup_preview";
     }

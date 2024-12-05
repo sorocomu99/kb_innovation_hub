@@ -200,9 +200,11 @@
             var summernote_value = $("#summernote").summernote('code');
             $("#popup_cn").val(summernote_value);
 
-            $('form[name=popup_form]').attr('action', '/popup/preview');
-            $('form[name=popup_form]').attr('method', 'POST');
-            $('form[name=popup_form]').submit();
+            var form = document.forms['popup_form'];
+            form.action = '/popup/preview';  // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '_blank';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
 
         // 컨펌 메시지 띄우는 함수
@@ -244,9 +246,13 @@
             } else {
                 var summernote_value = $("#summernote").summernote('code');
                 $("#popup_cn").val(summernote_value);
+
                 // 폼 태그 서브밋 보내기
-                f=document.popup_form;
-                f.submit();
+                var form = document.forms['popup_form'];
+                form.action = '/popup/update';  // 전송할 URL
+                form.method = 'POST';            // 전송 방식
+                form.target = '';          // 새 창에서 열기
+                form.submit();                   // 폼 제출
             }
         }
 

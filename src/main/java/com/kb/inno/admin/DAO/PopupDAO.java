@@ -31,4 +31,6 @@ public interface PopupDAO {
     int update(PopupDTO popupDTO);
     // 팝업 삭제
     void delete(int popupId);
+    // 팝업 전체 조회
+    List<PopupDTO> selectListAll(int popup_sn);
 }

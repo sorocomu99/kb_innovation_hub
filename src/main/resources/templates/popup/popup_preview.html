@@ -34,58 +34,36 @@
 </head>
 <body>
     <!-- 팝업 -->
-    <div id="popup1" class="popup-container" th:style="${'top:' + popup.popup_top_pstn +  'px;left:' + popup.popup_left_pstn + 'px;'}">
+    <div id="popup" class="popup-container" th:style="${'top:' + popup.popup_top_pstn +  'px;left:' + popup.popup_left_pstn + 'px; z-index:999;'}">
         <div class="popup-body">
             <!--<img src="/images/logo.svg" alt="">-->
             <span th:utext="${popup.popup_cn}"></span>
         </div>
         <div class="popup-foot">
             <div class="check check-light">
-                <input id="popupClose1" type="checkbox">
+                <input id="popupClose" type="checkbox">
                 <i></i>
-                <label for="popupClose1">오늘 하루 열지 않기</label>
+                <label for="popupClose">오늘 하루 열지 않기</label>
             </div>
-            <a class="close" href="javascript:" onclick="document.getElementById('popup1').remove()"><span class="blind">팝업 닫기</span></a>
-        </div>
-    </div>
-    <!--<div id="popup2" class="popup-container" style="top:350px;left:1000px">
-        <div class="popup-body">
-            <img src="/images/logo.svg" alt="">
-            <p>팝업 2</p>
-            <p>팝업 2</p>
-            <p>팝업 2</p>
-            <p>팝업 2</p>
-            <p>팝업 2</p>
-        </div>
-        <div class="popup-foot">
-            <div class="check check-light">
-                <input id="popupClose2" type="checkbox">
-                <i></i>
-                <label for="popupClose2">오늘 하루 열지 않기</label>
-            </div>
-            <a class="close" href="javascript:" onclick="document.getElementById('popup2').remove()"><span class="blind">팝업 닫기</span></a>
+            <a class="close" href="javascript:" onclick="document.getElementById('popup').remove()"><span class="blind">팝업 닫기</span></a>
         </div>
     </div>
 
-    <div id="popup3" class="popup-container" style="top:700px;left:700px">
+    <!--  기존 팝업 -->
+    <div th:id="${'popup' + listStat.index}" class="popup-container" th:each="list,listStat : ${selectList}" th:style="${'top:' + list.popup_top_pstn +  'px;left:' + list.popup_left_pstn + 'px;'}">
         <div class="popup-body">
-            <img src="/images/logo.svg" alt="">
-            <p>팝업 3 팝업 3 팝업 3</p>
-            <p>팝업 3 팝업 3 팝업 3</p>
-            <p>팝업 3 팝업 3 팝업 3</p>
-            <p>팝업 3 팝업 3 팝업 3</p>
-            <p>팝업 3 팝업 3 팝업 3</p>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur blanditiis iusto mollitia saepe dicta ducimus recusandae distinctio odit maxime velit iure quod eos voluptatibus voluptates, ratione doloremque veritatis. Soluta, fuga.
+            <!--<img src="/images/logo.svg" alt="">-->
+            <span th:utext="${list.popup_cn}"></span>
         </div>
         <div class="popup-foot">
             <div class="check check-light">
-                <input id="popupClose3" type="checkbox">
+                <input th:id="${'popupClose' + listStat.index}" type="checkbox">
                 <i></i>
-                <label for="popupClose3">오늘 하루 열지 않기</label>
+                <label th:for="${'popupClose' + listStat.index}">오늘 하루 열지 않기</label>
             </div>
-            <a class="close" href="javascript:" onclick="document.getElementById('popup3').remove()"><span class="blind">팝업 닫기</span></a>
+            <a class="close" href="javascript:" onclick="this.parentNode.parentNode.remove();"><span class="blind">팝업 닫기</span></a>
         </div>
-    </div>-->
+    </div>
 
     <!-- 헤더 -->
     <app-header></app-header>

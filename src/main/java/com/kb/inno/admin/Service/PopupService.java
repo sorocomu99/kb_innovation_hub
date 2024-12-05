@@ -124,4 +124,10 @@ public class PopupService {
     public void delete(int popupId) {
         popupDAO.delete(popupId);
     }
+
+    // 전체 조회(미리보기용)
+    public List<PopupDTO> selectListAll(PopupDTO popupDTO) {
+        int popup_sn = popupDTO.getPopup_sn();
+        return popupDAO.selectListAll(popup_sn);
+    }
 }
