@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.AffiliateDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.admin.Service.AffiliateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,13 @@ public class AffiliateController {
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/affiliate_insert";
+    }
+
+    // 국내 프로그램 - 제휴 사례 리스트 조회 (미리보기용)
+    @PostMapping("/preview")
+    public String preview(AffiliateDTO affiliateDTO, Model model) {
+        affiliateService.selectListAll(model, affiliateDTO);
+        return directory + "/affiliate_preview";
     }
     
     // 국내 프로그램 - 제휴 사례 상세 페이지 이동

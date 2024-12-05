@@ -133,4 +133,25 @@
           FROM KB_FILE_INFO
          WHERE FILE_SN = #{file_sn}
     </delete>
+    <!-- 메인 비주얼 리스트 조회 (미리보기용) -->
+    <select id="selectListAll" parameterType="int" resultType="com.kb.inno.admin.DTO.AffiliateDTO">
+        /* 메인 비주얼 리스트 조회 (미리보기용) */
+        SELECT AFFI.AFFILIATE_SN AS AFFILIATE_SN
+             , AFFI.AFFILIATE_NM AS AFFILIATE_NM
+             , AFFI.STARTER_NM   AS STARTER_NM
+             , AFFI.SRVC_NM      AS SRVC_NM
+             , AFFI.CTGRY_NM     AS CTGRY_NM
+             , AFFI.EXPSR_YN     AS EXPSR_YN
+             , AFFI.SORT_NO      AS SORT_NO
+             , FILES.FILE_NM     AS AFFILIATE_FILE_NAME
+             , FILES.FILE_PATH   AS AFFILIATE_PATH
+          FROM KB_AFFILIATE_INFO AFFI
+             , KB_FILE_INFO FILES
+         WHERE 1=1
+           AND AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
+         <if test="popup_sn != 0">
+           AND NOT AFFILIATE_SN IN (#{affiliate_sn})
+         </if>
+         ORDER BY AFFILIATE_SN DESC
+    </select>
 </mapper>

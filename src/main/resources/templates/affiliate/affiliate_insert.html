@@ -93,7 +93,7 @@
                                 </table>
                                 <div class="button-container">
                                     <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
-                                    <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                    <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                     <a class="btn btn-outline-primary" th:href="@{/affiliate/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                 </div>
                             </form>
@@ -105,12 +105,54 @@
     </main>
 </div>
 <script>
-
     window.onload = function () {
         // 페이지 로드 시 메시지 확인 및 알림 표시
         // 수정 및 등록 시 띄울 알림창
         const msg = /*[[${msg}]]*/ '';
         if (msg) alert(msg);
+    }
+
+    // 프리뷰 페이지로 이동
+    function previewPage() {
+        var affiliate_file = $('input[name=affiliate_file]').val();
+        if(affiliate_file == null || affiliate_file == "") {
+            alert("파일을 선택 해 주세요.");
+            return false;
+        }
+
+        // KB 계열사명 입력 확인
+        var affiliate_nm = $('input[name=affiliate_nm]').val();
+        if(affiliate_nm.trim() == "") {
+            alert("KB 계열사명을 입력하세요.");
+            return false;
+        }
+
+        // KB 스타터스명 입력 확인
+        var starter_nm = $('input[name=starter_nm]').val();
+        if(starter_nm.trim() == "") {
+            alert("KB 스타터스명을 입력하세요.");
+            return false;
+        }
+
+        // 서비스명 입력 확인
+        var srvc_nm = $('input[name=srvc_nm]').val();
+        if(srvc_nm.trim() == "") {
+            alert("서비스명을 입력하세요.");
+            return false;
+        }
+
+        // 카테고리 입력 확인
+        var ctgry_nm = $('input[name=ctgry_nm]').val();
+        if(ctgry_nm.trim() == "") {
+            alert("카테고리를 입력하세요.");
+            return false;
+        }
+
+        const form = document.forms['affiliate_form'];
+        form.action = '/affiliate/preview'; // 전송할 URL
+        form.method = 'POST';            // 전송 방식
+        form.target = '_blank';          // 새 창에서 열기
+        form.submit();                   // 폼 제출
     }
 
     // 썸네일 미리보기
@@ -173,8 +215,11 @@
             return false;
         } else {
             // 폼 태그 서브밋 보내기
-            f=document.affiliate_form;
-            f.submit();
+            const form = document.forms['affiliate_form'];
+            form.action = '/affiliate/insert'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
     }
 </script>

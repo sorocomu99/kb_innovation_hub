@@ -12,6 +12,7 @@ package com.kb.inno.admin.DAO;
 
 import com.kb.inno.admin.DTO.AffiliateDTO;
 import com.kb.inno.admin.DTO.FileDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -34,4 +35,6 @@ public interface AffiliateDAO {
     int update(AffiliateDTO affiliateDTO);
     // 국내 프로그램 - 제휴 사례 삭제
     void delete(int affiliate_sn);
+    // 국내 프로그램 - 제휴 사례 리스트 조회 (미리보기용)
+    List<VisualDTO> selectListAll(int affiliate_sn);
 }

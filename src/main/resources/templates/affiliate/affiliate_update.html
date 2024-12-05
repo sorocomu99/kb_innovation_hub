@@ -95,7 +95,7 @@
                                 </table>
                                 <div class="button-container">
                                     <button type="button" class="btn btn-primary" onclick="javascript:confirmMsg()">수정하기</button>
-                                    <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                    <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                     <a class="btn btn-outline-primary" th:href="@{/affiliate/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                 </div>
                             </form>
@@ -131,6 +131,15 @@
         document.querySelector('#previewFrame').src = URL.createObjectURL(event.target.files[0]);
         document.querySelector('#file_yn').value = 1;
         document.querySelector('#previewFrame').style.display = "block";
+    }
+
+    // 프리뷰 페이지로 이동
+    function previewPage() {
+        const form = document.forms['affiliate_form'];
+        form.action = '/affiliate/preview'; // 전송할 URL
+        form.method = 'POST';            // 전송 방식
+        form.target = '_blank';          // 새 창에서 열기
+        form.submit();                   // 폼 제출
     }
 
     // 컨펌 메시지 띄우는 함수
@@ -180,8 +189,11 @@
             return false;
         } else {
             // 폼 태그 서브밋 보내기
-            f=document.affiliate_form;
-            f.submit();
+            const form = document.forms['affiliate_form'];
+            form.action = '/affiliate/update'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
     }
 </script>

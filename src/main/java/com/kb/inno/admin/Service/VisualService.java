@@ -155,6 +155,8 @@ public class VisualService {
         if(files.getSize() > 0) {
             FileUploader fileUploader = new FileUploader();
             file = fileUploader.insertFile(files, main_sn);
+            visualDTO.setMain_file_name(file.getFile_nm());
+            visualDTO.setMain_path(file.getFile_path());
         }
         // 기존 파일 확인
         if(main_sn > 0) {

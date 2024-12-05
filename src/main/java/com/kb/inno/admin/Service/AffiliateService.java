@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -138,5 +139,32 @@ public class AffiliateService {
 
         // 3. 국내 프로그램 - 제휴 사례 삭제
         affiliateDAO.delete(affiliate_sn);
+    }
+
+    // 국내 프로그램 - 제휴 사례 리스트 조회 (미리보기용)
+    public void selectListAll(Model model, AffiliateDTO affiliateDTO) {
+        int affiliate_sn = affiliateDTO.getAffiliate_sn();
+        List<VisualDTO> selectList = affiliateDAO.selectListAll(affiliate_sn);
+        model.addAttribute("selectList", selectList);
+
+        // 파일 업로드
+        MultipartFile files = affiliateDTO.getAffiliate_file();
+        FileDTO file = new FileDTO();
+
+        if(files.getSize() > 0) {
+            FileUploader fileUploader = new FileUploader();
+            file = fileUploader.insertFile(files, affiliate_sn);
+            affiliateDTO.setAffiliate_file_name(file.getFile_nm());
+            affiliateDTO.setAffiliate_path(file.getFile_path());
+        }
+        // 기존 파일 확인
+        if(affiliate_sn > 0) {
+            AffiliateDTO affiliate = affiliateDAO.select(affiliate_sn);
+            affiliateDTO.setAffiliate_path(affiliate.getAffiliate_path());
+            affiliateDTO.setAffiliate_file_name(affiliate.getAffiliate_file_name());
+        }
+
+        // 파일 화면에 전달
+        model.addAttribute("affiliate", affiliateDTO);
     }
 }
