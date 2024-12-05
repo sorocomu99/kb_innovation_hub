@@ -13,10 +13,12 @@ package com.kb.inno.admin.Service;
 import com.kb.inno.admin.DAO.CooperationDAO;
 import com.kb.inno.admin.DTO.CooperationDTO;
 import com.kb.inno.admin.DTO.FileDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -195,5 +197,32 @@ public class CooperationService {
 
         // 협력 기관 삭제
         cooperationDAO.delete(coope_sn);
+    }
+
+    // 협력 기관 리스트 조회 (미리보기용)
+    public void selectListAll(Model model, CooperationDTO cooperationDTO) {
+        int coope_sn = cooperationDTO.getCoope_sn();
+        List<VisualDTO> selectList = cooperationDAO.selectListAll(coope_sn);
+        model.addAttribute("selectList", selectList);
+
+        // 기존 파일 확인
+        if(coope_sn > 0) {
+            CooperationDTO main = cooperationDAO.select(coope_sn);
+            cooperationDTO.setCoope_path(main.getCoope_path());
+            cooperationDTO.setCoope_file_name(main.getCoope_file_name());
+        }
+
+        // 파일 업로드
+        MultipartFile files = cooperationDTO.getCoope_file();
+
+        if(files.getSize() > 0) {
+            FileUploader fileUploader = new FileUploader();
+            FileDTO file = fileUploader.insertFile(files, coope_sn);
+            cooperationDTO.setCoope_file_name(file.getFile_nm());
+            cooperationDTO.setCoope_path(file.getFile_path());
+        }
+
+        // 파일 화면에 전달
+        model.addAttribute("cooperation", cooperationDTO);
     }
 }

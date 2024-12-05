@@ -73,7 +73,7 @@
                                     </table>
                                     <div class="button-container">
                                         <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
-                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                         <a class="btn btn-outline-primary" th:href="@{/cooperation/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                     </div>
                                 </form>
@@ -90,6 +90,21 @@
             // 수정 및 등록 시 띄울 알림창
             const msg = /*[[${msg}]]*/ '';
             if (msg) alert(msg);
+        }
+
+        // 프리뷰 페이지로 이동
+        function previewPage() {
+            var coope_file = $('input[name=coope_file]').val();
+            if(coope_file == null || coope_file == "") {
+                alert("파일을 선택 해 주세요.");
+                return false;
+            }
+
+            const form = document.forms['cooperation_form'];
+            form.action = '/cooperation/preview'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '_blank';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
 
         // 썸네일 미리보기
@@ -130,8 +145,11 @@
                 return false;
             } else {
                 // 폼 태그 서브밋 보내기
-                f=document.cooperation_form;
-                f.submit();
+                const form = document.forms['cooperation_form'];
+                form.action = '/cooperation/insert'; // 전송할 URL
+                form.method = 'POST';            // 전송 방식
+                form.target = '';          // 새 창에서 열기
+                form.submit();                   // 폼 제출
             }
         }
     </script>

@@ -2,6 +2,7 @@ package com.kb.inno.admin.DAO;
 
 import com.kb.inno.admin.DTO.CooperationDTO;
 import com.kb.inno.admin.DTO.FileDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +25,6 @@ public interface CooperationDAO {
     int update(CooperationDTO cooperationDTO);
     // 협력 기관 삭제
     void delete(int coope_sn);
+    // 협력 기관 리스트 조회 (미리보기용)
+    List<VisualDTO> selectListAll(int coope_sn);
 }

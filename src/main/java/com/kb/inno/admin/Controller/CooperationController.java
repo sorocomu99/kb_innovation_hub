@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.CooperationDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.admin.Service.CooperationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,13 @@ public class CooperationController {
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/cooperation_insert";
+    }
+
+    // 협력 기관 리스트 조회 (미리보기용)
+    @PostMapping("/preview")
+    public String preview(CooperationDTO cooperationDTO, Model model) {
+        cooperationService.selectListAll(model, cooperationDTO);
+        return directory + "/cooperation_preview";
     }
 
     // 협력 기관 상세 페이지 이동
