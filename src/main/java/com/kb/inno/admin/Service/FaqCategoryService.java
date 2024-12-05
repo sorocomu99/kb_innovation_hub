@@ -95,6 +95,10 @@ public class FaqCategoryService {
 
     // FAQ 카테고리 삭제
     public void delete(int ctgry_sn) {
-        faqCategoryDAO.delete(ctgry_sn);
+        // 부모 요소 먼저 삭제
+        int result = faqCategoryDAO.delete(ctgry_sn);
+        if(result > 0) {
+            faqCategoryDAO.deleteChild(ctgry_sn);
+        }
     }
 }

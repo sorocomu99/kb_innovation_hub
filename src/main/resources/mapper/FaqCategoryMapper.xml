@@ -87,4 +87,11 @@
           FROM KB_CTGRY_INFO
          WHERE CTGRY_SN = #{ctgry_sn}
     </delete>
+    <!-- FAQ 삭제 -->
+    <delete id="deleteChild" parameterType="int">
+        /* FAQ 삭제 */
+        DELETE
+          FROM KB_FAQ_INFO
+         WHERE FAQ_CTGRY = #{ctgry_sn}
+    </delete>
 </mapper>

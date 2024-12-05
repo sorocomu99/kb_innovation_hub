@@ -24,5 +24,7 @@ public interface FaqCategoryDAO {
     // FAQ 카테고리 수정
     int update(FaqCategoryDTO faqCategoryDTO);
     // FAQ 카테고리 삭제
-    void delete(int ctgry_sn);
+    int delete(int ctgry_sn);
+    // FAQ 자식 전부 삭제
+    void deleteChild(int ctgry_sn);
 }
