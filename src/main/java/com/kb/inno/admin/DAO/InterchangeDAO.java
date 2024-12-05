@@ -12,6 +12,7 @@ package com.kb.inno.admin.DAO;
 
 import com.kb.inno.admin.DTO.FileDTO;
 import com.kb.inno.admin.DTO.InterchangeDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -34,4 +35,6 @@ public interface InterchangeDAO {
     int update(InterchangeDTO interchangeDTO);
     // 글로벌 – 현지교류 삭제
     void delete(int exch_sn);
+    // 글로벌 - 현지교류 리스트 조회 (미리보기용)
+    List<VisualDTO> selectListAll(int exch_sn);
 }

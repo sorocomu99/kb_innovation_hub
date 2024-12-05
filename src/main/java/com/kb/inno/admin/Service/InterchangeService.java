@@ -19,6 +19,7 @@ import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -138,5 +139,32 @@ public class InterchangeService {
         
         // 4. 현지 교류 삭제
         interchangeDAO.delete(exch_sn);
+    }
+
+    // 글로벌 – 현지교류 리스트 조회 (미리보기용)
+    public void selectListAll(Model model, InterchangeDTO interchangeDTO) {
+        int exch_sn = interchangeDTO.getExch_sn();
+        List<VisualDTO> selectList = interchangeDAO.selectListAll(exch_sn);
+        model.addAttribute("selectList", selectList);
+
+        // 기존 파일 확인
+        if(exch_sn > 0) {
+            InterchangeDTO main = interchangeDAO.select(exch_sn);
+            interchangeDTO.setInter_path1(main.getInter_path1());
+            interchangeDTO.setInter_file_name1(main.getInter_file_name1());
+        }
+
+        // 파일 업로드
+        MultipartFile files = interchangeDTO.getInter_file1();
+
+        if(files.getSize() > 0) {
+            FileUploader fileUploader = new FileUploader();
+            FileDTO file = fileUploader.insertFile(files, exch_sn);
+            interchangeDTO.setInter_file_name1(file.getFile_nm());
+            interchangeDTO.setInter_path1(file.getFile_path());
+        }
+
+        // 파일 화면에 전달
+        model.addAttribute("interchange", interchangeDTO);
     }
 }

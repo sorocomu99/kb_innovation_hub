@@ -81,7 +81,7 @@
                                         </tbody>
                                     </table>
                                     <div class="button-container">
-                                        <button type="button" onclick="" class="btn btn-outline-primary">미리보기</button>
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
                                         <a class="btn btn-outline-primary" th:href="@{/interchange/list/{menuId}(menuId=${menuId})}">목록보기</a>
                                         <button type="submit" class="btn btn-primary" onclick="confirmMsg()">수정하기</button>
                                     </div>
@@ -109,6 +109,29 @@
                     imgList[i].style.display = "block";
                 }
             }
+        }
+
+        // 프리뷰 페이지로 이동
+        function previewPage() {
+            // 제목 입력 확인
+            var exch_ttl = $('input[name=exch_ttl]').val();
+            if(exch_ttl.trim() == "") {
+                alert("제목을 입력하세요.");
+                return false;
+            }
+
+            // 내용 입력 확인
+            var exch_cn = $('input[name=exch_cn]').val();
+            if(exch_cn == "") {
+                alert("내용을 입력하세요.");
+                return false;
+            }
+
+            const form = document.forms['interchange_form'];
+            form.action = '/interchange/preview'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '_blank';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
 
         // 썸네일 미리보기
@@ -156,8 +179,11 @@
                 return false;
             } else {
                 // 폼 태그 서브밋 보내기
-                f=document.interchange_form;
-                f.submit();
+                const form = document.forms['interchange_form'];
+                form.action = '/interchange/update'; // 전송할 URL
+                form.method = 'POST';                // 전송 방식
+                form.target = '';                    // 새 창에서 열기
+                form.submit();                       // 폼 제출
             }
         }
     </script>

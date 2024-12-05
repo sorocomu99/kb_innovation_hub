@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.InterchangeDTO;
+import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.admin.Service.InterchangeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,6 +50,13 @@ public class InterchangeController {
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/interchange_insert";
+    }
+
+    // 글로벌 – 현지교류 리스트 조회 (미리보기용)
+    @PostMapping("/preview")
+    public String preview(InterchangeDTO interchangeDTO, Model model) {
+        interchangeService.selectListAll(model, interchangeDTO);
+        return directory + "/interchange_preview";
     }
 
     // 글로벌 – 현지교류 등록
