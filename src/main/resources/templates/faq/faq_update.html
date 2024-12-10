@@ -54,7 +54,7 @@
                                                         <label class="form-check-label" for="expsr_y">노출</label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
-                                                        <input checked class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N" th:checked="${faq.expsr_yn == 'N'}">
+                                                        <input class="form-check-input" type="radio" name="expsr_yn" id="expsr_n" value="N" th:checked="${faq.expsr_yn == 'N'}">
                                                         <label class="form-check-label" for="expsr_n">미노출</label>
                                                     </div>
                                                 </td>
@@ -71,8 +71,8 @@
                                         </tbody>
                                     </table>
                                     <div class="button-container">
-                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
-                                        <a class="btn btn-outline-dark" th:href="@{/faq/list/{menuId}(menuId=${menuId})}">목록보기</a>
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
+                                        <a class="btn btn-outline-dark" th:href="@{|/faq/list/${menuId}?ctgry=${faq.faq_ctgry_sn}|}">목록보기</a>
                                         <button type="submit" class="btn btn-primary" onclick="confirmMsg()">수정하기</button>
                                     </div>
                                 </form>
@@ -91,6 +91,15 @@
             // 수정 및 등록 시 띄울 알림창
             const msg = /*[[${msg}]]*/ '';
             if (msg) alert(msg);
+        }
+
+        // 프리뷰 페이지로 이동
+        function previewPage() {
+            const form = document.forms['faq_form'];
+            form.action = '/faq/preview'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '_blank';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
 
         // 컨펌 메시지 띄우는 함수
@@ -119,8 +128,11 @@
                 return false;
             } else {
                 // 폼 태그 서브밋 보내기
-                f=document.faq_form;
-                f.submit();
+                const form = document.forms['faq_form'];
+                form.action = '/faq/update'; // 전송할 URL
+                form.method = 'POST';            // 전송 방식
+                form.target = '';          // 새 창에서 열기
+                form.submit();                   // 폼 제출
             }
         }
     </script>
