@@ -12,6 +12,7 @@ package com.kb.inno.admin.Service;
 
 import com.kb.inno.admin.DAO.HubDAO;
 import com.kb.inno.admin.DTO.*;
+import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,9 @@ public class HubService {
 
     // DAO 연결
     private final HubDAO hubDAO;
+
+    // 멤버 서비스 연결
+    private final MemberService memberService;
 
     // 파일 경로
     @Value("src/main/resources/static/")
@@ -383,5 +387,66 @@ public class HubService {
         
         // 4. HUB 센터 소식 삭제
         hubDAO.delete(hub_sn);
+    }
+
+    // HUB 미리보기 페이지 이동
+    public void preview(Model model, HubDTO hub, int loginId) {
+        // 사용자 조회
+        MemberDTO member = memberService.detail(loginId);
+        model.addAttribute("member", member);
+
+        int ntc_sn = hub.getHub_sn();
+
+        if(ntc_sn > 0) {
+            HubDTO ntc = hubDAO.select(ntc_sn);
+            hub.setHub_path(ntc.getHub_path());
+            hub.setHub_file_name(ntc.getHub_file_name());
+            hub.setOrigin_file_name(ntc.getOrigin_file_name());
+            hub.setHub_path_mov(ntc.getHub_path_mov());
+            hub.setHub_mov_name(ntc.getHub_mov_name());
+            hub.setOrigin_mov_name(ntc.getOrigin_mov_name());
+        }
+
+        MultipartFile file = hub.getHub_file();
+
+        if(file.getSize() > 0) {
+            // 파일 저장 후 조회
+            FileUploader fileUploader = new FileUploader();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            // 파일 테이블에 저장
+            int result = hubDAO.insertFile(fileSave);
+
+            // 게시글 저장
+            if(fileSave != null && result == 1) {
+                // 파일 일련번호 대입
+                hub.setHub_path(fileSave.getFile_path());
+                hub.setHub_file_name(fileSave.getFile_nm());
+                hub.setOrigin_file_name(fileSave.getOrgnl_file_nm());
+                hub.setAtch_file_sn3(fileSave.getFile_sn());
+            }
+        }
+
+        MultipartFile mov = hub.getHub_mov();
+
+        if(mov.getSize() > 0) {
+            // 파일 저장 후 조회
+            FileUploader fileUploader = new FileUploader();
+            FileDTO fileSave = fileUploader.insertFile(mov, loginId);
+
+            // 파일 테이블에 저장
+            int result = hubDAO.insertFile(fileSave);
+
+            // 게시글 저장
+            if(fileSave != null && result == 1) {
+                // 파일 일련번호 대입
+                hub.setHub_path_mov(fileSave.getFile_path());
+                hub.setHub_mov_name(fileSave.getFile_nm());
+                hub.setOrigin_mov_name(fileSave.getOrgnl_file_nm());
+                hub.setAtch_file_sn2(fileSave.getFile_sn());
+            }
+        }
+
+        model.addAttribute("hub", hub);
     }
 }

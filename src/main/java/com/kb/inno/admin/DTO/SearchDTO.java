@@ -9,4 +9,5 @@ public class SearchDTO {
     private String type;    // 검색 타입
     private String keyword; // 검색 조건
     private int ctgry;      // FAQ 검색을 위한 카테고리 번호
+    private int faq_sn;     // FAQ 검색을 위한 시리얼 번호
 }

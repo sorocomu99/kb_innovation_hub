@@ -11,6 +11,7 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.HubDTO;
+import com.kb.inno.admin.DTO.NoticeDTO;
 import com.kb.inno.admin.Service.HubService;
 import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,17 @@ public class HubController {
                              @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         hubService.selectList(menuId, model, type, keyword, page);
         return directory + "/hub";
+    }
+
+    // 공지사항 미리보기 페이지 이동
+    @PostMapping("/preview")
+    public String preview(HubDTO hub, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
+
+        hubService.preview(model, hub, loginId);
+
+        return directory + "/hub_preview";
     }
 
     // HUB 센터 소식 등록 페이지 이동
