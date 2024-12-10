@@ -94,4 +94,15 @@
           FROM KB_FAQ_INFO
          WHERE FAQ_CTGRY = #{ctgry_sn}
     </delete>
+    <!-- FAQ 카테고리 상세 조회 -->
+    <select id="selectListAll" parameterType="int" resultType="com.kb.inno.admin.DTO.FaqCategoryDTO">
+        /* FAQ 카테고리 상세 조회 */
+        SELECT CTGRY_SN
+             , CTGRY_NM
+          FROM KB_CTGRY_INFO
+        WHERE 1=1
+        <if test="category_sn != 0">
+          AND NOT CTGRY_SN IN (#{category_sn})
+        </if>
+    </select>
 </mapper>

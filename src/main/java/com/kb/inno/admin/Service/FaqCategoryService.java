@@ -101,4 +101,11 @@ public class FaqCategoryService {
             faqCategoryDAO.deleteChild(ctgry_sn);
         }
     }
+
+    public void preview(Model model, FaqCategoryDTO faqCategory) {
+        int category_sn = faqCategory.getCtgry_sn();
+        List<FaqCategoryDTO> selectList = faqCategoryDAO.selectListAll(category_sn);
+        model.addAttribute("selectList", selectList);
+        model.addAttribute("faqCategory", faqCategory);
+    }
 }

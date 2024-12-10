@@ -2,6 +2,7 @@ package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.FaqCategoryDTO;
 import com.kb.inno.admin.DTO.FaqDTO;
+import com.kb.inno.admin.DTO.NoticeDTO;
 import com.kb.inno.admin.Service.FaqCategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,6 +40,13 @@ public class FaqCategoryController {
     public String insert(@PathVariable int menuId, Model model) {
         model.addAttribute("menuId", menuId);
         return directory + "/faq_category_insert";
+    }
+
+    // FAQ 카테고리 미리보기 페이지 이동
+    @PostMapping("/preview")
+    public String preview(FaqCategoryDTO faqCategory, Model model) {
+        faqCategoryService.preview(model, faqCategory);
+        return directory + "/faq_category_preview";
     }
 
     // FAQ 카테고리 등록

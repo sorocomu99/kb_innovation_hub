@@ -36,8 +36,8 @@
                                         </tbody>
                                     </table>
                                     <div class="button-container">
-                                        <a href="javascript:" class="btn btn-outline-primary">미리보기</a>
-                                        <a th:href="@{/faq/category/list/{menuId}(menuId=${menuId})}" class="btn btn-outline-dark" onclick="history.back();">목록보기</a>
+                                        <a id="preview-button" href="javascript:previewPage()" class="btn btn-outline-primary">미리보기</a>
+                                        <a th:href="@{/faq/category/list/{menuId}(menuId=${menuId})}" class="btn btn-outline-dark">목록보기</a>
                                         <button type="button" class="btn btn-primary" onclick="confirmMsg()">등록하기</button>
                                     </div>
                                 </form>
@@ -57,6 +57,22 @@
             if (msg) alert(msg);
         }
 
+        // 프리뷰 페이지로 이동
+        function previewPage() {
+            // 카테고리 입력 확인
+            var ctgry_nm = $('input[name=ctgry_nm]').val();
+            if(ctgry_nm.trim() == "") {
+                alert("카테고리명을 입력하세요.");
+                return false;
+            }
+
+            const form = document.forms['faq_category_form'];
+            form.action = '/faq/category/preview'; // 전송할 URL
+            form.method = 'POST';                  // 전송 방식
+            form.target = '_blank';                // 새 창에서 열기
+            form.submit();                         // 폼 제출
+        }
+
         // 컨펌 메시지 띄우는 함수
         function confirmMsg() {
             // 카테고리 입력 확인
@@ -71,8 +87,11 @@
                 return false;
             } else {
                 // 폼 태그 서브밋 보내기
-                f=document.faq_category_form;
-                f.submit();
+                const form = document.forms['faq_category_form'];
+                form.action = '/faq/category/insert';  // 전송할 URL
+                form.method = 'POST';                  // 전송 방식
+                form.target = '';                      // 새 창에서 열기
+                form.submit();                         // 폼 제출
             }
         }
     </script>

@@ -27,4 +27,6 @@ public interface FaqCategoryDAO {
     int delete(int ctgry_sn);
     // FAQ 자식 전부 삭제
     void deleteChild(int ctgry_sn);
+    // FAQ 카테고리 모두 조회
+    List<FaqCategoryDTO> selectListAll(int category_sn);
 }
