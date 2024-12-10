@@ -1,6 +1,8 @@
 package com.kb.inno.admin.Controller;
 
+import com.kb.inno.admin.DTO.MemberDTO;
 import com.kb.inno.admin.DTO.NoticeDTO;
+import com.kb.inno.admin.Service.MemberService;
 import com.kb.inno.admin.Service.NoticeService;
 import com.kb.inno.common.FileUploader;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -36,6 +41,17 @@ public class NoticeController {
                              @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         noticeService.selectList(menuId, model, type, keyword, page);
         return directory + "/notice";
+    }
+
+    // 공지사항 미리보기 페이지 이동
+    @PostMapping("/preview")
+    public String preview(NoticeDTO notice, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        int loginId = (int) session.getAttribute("mngrSn");
+
+        noticeService.preview(model, notice, loginId);
+
+        return directory + "/notice_preview";
     }
 
     // 공지사항 등록 페이지 이동

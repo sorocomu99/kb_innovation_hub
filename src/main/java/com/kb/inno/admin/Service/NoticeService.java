@@ -22,6 +22,9 @@ public class NoticeService {
 
     // DAO 연결
     private final NoticeDAO noticeDAO;
+    
+    // 멤버 서비스 연결
+    private final MemberService memberService;
 
     // 파일 경로
     @Value("src/main/resources/static/")
@@ -253,5 +256,43 @@ public class NoticeService {
 
         // 3. 공지사항 삭제
         noticeDAO.delete(ntc_sn);
+    }
+
+    // 미리보기 페이지
+    public void preview(Model model, NoticeDTO notice, int loginId) {
+        // 사용자 조회
+        MemberDTO member = memberService.detail(loginId);
+        model.addAttribute("member", member);
+
+        int ntc_sn = notice.getNtc_sn();
+
+        if(ntc_sn > 0) {
+            NoticeDTO ntc = noticeDAO.select(ntc_sn);
+            notice.setNtc_path(ntc.getNtc_path());
+            notice.setNtc_file_name(ntc.getNtc_file_name());
+            notice.setOrigin_file_name(ntc.getOrigin_file_name());
+        }
+
+        MultipartFile file = notice.getNtc_file();
+
+        if(file.getSize() > 0) {
+            // 파일 저장 후 조회
+            FileUploader fileUploader = new FileUploader();
+            FileDTO fileSave = fileUploader.insertFile(file, loginId);
+
+            // 파일 테이블에 저장
+            int result = noticeDAO.insertFile(fileSave);
+
+            // 게시글 저장
+            if(fileSave != null && result == 1) {
+                // 파일 일련번호 대입
+                notice.setNtc_path(fileSave.getFile_path());
+                notice.setNtc_file_name(fileSave.getFile_nm());
+                notice.setOrigin_file_name(fileSave.getOrgnl_file_nm());
+                notice.setAtch_file_sn(fileSave.getFile_sn());
+            }
+        }
+
+        model.addAttribute("notice", notice);
     }
 }
