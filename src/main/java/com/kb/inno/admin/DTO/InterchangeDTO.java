@@ -52,4 +52,5 @@ public class InterchangeDTO {
 //    private int file_yn3;               // 파일3이 담겨있는 지 아닌지 확인
 
     private int menu_id;                // 메뉴 ID
+    private int rownumber;              // 순번
 }

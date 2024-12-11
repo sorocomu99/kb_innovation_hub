@@ -5,17 +5,22 @@
     <!-- 글로벌 – 현지교류 리스트 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.InterchangeDTO">
         /* 글로벌 – 현지교류 리스트 조회 */
-        SELECT EXCH.EXCH_SN        AS EXCH_SN
-             , EXCH.EXCH_TTL       AS EXCH_TTL
-             , EXCH.EXCH_CN        AS EXCH_CN
-             , EXCH.EXPSR_YN       AS EXPSR_YN
-             , EXCH.SORT_NO        AS SORT_NO
-             , FILES.FILE_PATH     AS INTER_PATH1
-             , FILES.FILE_NM       AS INTER_FILE_NAME1
-          FROM KB_EXCH_INFO EXCH
-             , KB_FILE_INFO FILES
-         WHERE EXCH.ATCH_FILE_SN1 = FILES.FILE_SN(+)
-         ORDER BY EXCH.EXCH_SN DESC
+        SELECT ROWNUM AS ROWNUMBER
+             , EXCH_PAGE.*
+         FROM (
+               SELECT EXCH.EXCH_SN        AS EXCH_SN
+                    , EXCH.EXCH_TTL       AS EXCH_TTL
+                    , EXCH.EXCH_CN        AS EXCH_CN
+                    , EXCH.EXPSR_YN       AS EXPSR_YN
+                    , EXCH.SORT_NO        AS SORT_NO
+                    , FILES.FILE_PATH     AS INTER_PATH1
+                    , FILES.FILE_NM       AS INTER_FILE_NAME1
+                 FROM KB_EXCH_INFO EXCH
+                    , KB_FILE_INFO FILES
+                WHERE EXCH.ATCH_FILE_SN1 = FILES.FILE_SN(+)
+                ORDER BY EXCH.EXCH_SN ASC
+              ) EXCH_PAGE
+         ORDER BY ROWNUMBER DESC
     </select>
     <!-- 글로벌 – 현지교류 파일 추가 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO">
