@@ -60,8 +60,8 @@
                                     <div data-animate class="circle-2">
                                         <p class="year" th:text="${recruit.employ_yr + '년'}"></p>
                                         <p class="title" th:switch="${recruit.employ_emp_nocs}">
-                                            <span th:if="${recruit.employ_emp_nocs % 1 != 0}" th:text="${recruit.employ_emp_nocs + '억원'}"></span>
-                                            <span th:if="${recruit.employ_emp_nocs % 1 == 0}" th:text="${#numbers.formatInteger(recruit.employ_emp_nocs, 3, 'COMMA') + '억원'}"></span>
+                                            <span th:if="${recruit.employ_emp_nocs % 1 != 0}" th:text="${recruit.employ_emp_nocs + '명 채용'}"></span>
+                                            <span th:if="${recruit.employ_emp_nocs % 1 == 0}" th:text="${#numbers.formatInteger(recruit.employ_emp_nocs, 3, 'COMMA') + '명 채용'}"></span>
                                         </p>
                                         <div class="data">
                                             <p class="text">
