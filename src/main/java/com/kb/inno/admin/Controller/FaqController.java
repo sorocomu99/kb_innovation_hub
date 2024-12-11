@@ -11,7 +11,6 @@
 package com.kb.inno.admin.Controller;
 
 import com.kb.inno.admin.DTO.FaqDTO;
-import com.kb.inno.admin.DTO.VisualDTO;
 import com.kb.inno.admin.Service.FaqService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,17 +53,6 @@ public class FaqController {
         model.addAttribute("ctgry_sn", result.get("CTGRY_SN"));
         model.addAttribute("ctgry_nm", result.get("CTGRY_NM"));
         return directory + "/faq_insert";
-    }
-
-    // 메인 비주얼 리스트 조회 (미리보기용)
-    @PostMapping("/preview")
-    public String preview(Model model, FaqDTO faqDTO,
-                          @RequestParam(value="faq_ctgry_sn", required = false, defaultValue = "0") int ctgry,
-                          @RequestParam(value = "type", required = false, defaultValue = "") String type,
-                          @RequestParam(value = "keyword", required = false, defaultValue = "") String keyword,
-                          @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
-        faqService.selectListAll(ctgry, model, type, keyword, page, faqDTO);
-        return directory + "/faq_preview";
     }
 
     // FAQ 등록

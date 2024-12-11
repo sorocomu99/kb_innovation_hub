@@ -40,18 +40,10 @@
                          FROM KB_FAQ_INFO
                         WHERE 1=1
                         <if test='keyword != null and keyword != ""'>
-                            <choose>
-                                <when test="type == 'all'">
-                                    AND FAQ_QSTN LIKE '%'|| #{keyword} ||'%'
-                                     OR FAQ_ANS  LIKE '%'|| #{keyword} ||'%'
-                                </when>
-                                <when test="type == 'title'">
-                                    AND FAQ_QSTN LIKE '%'|| #{keyword} ||'%'
-                                </when>
-                                <when test="type == 'content'">
-                                    AND FAQ_ANS  LIKE '%'|| #{keyword} ||'%'
-                                </when>
-                            </choose>
+                          AND FAQ_QSTN LIKE '%'|| #{keyword} ||'%'
+                        </if>
+                        <if test='keyword != null and keyword != ""'>
+                           OR FAQ_ANS  LIKE '%'|| #{keyword} ||'%'
                         </if>
                         <if test='ctgry != null and ctgry != ""'>
                           AND FAQ_CTGRY = #{ctgry}
@@ -68,12 +60,6 @@
           FROM KB_CTGRY_INFO
          WHERE CTGRY_SN = #{ctgry}
     </select>
-    <!-- FAQ 카테고리 조회 -->
-    <select id="selectCategoryAll" resultType="com.kb.inno.admin.DTO.CategoryDTO">
-        SELECT CTGRY_SN
-             , CTGRY_NM
-        FROM KB_CTGRY_INFO
-    </select>
     <!-- FAQ 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.FaqDTO">
         /* FAQ 등록 */
@@ -84,7 +70,6 @@
        , FAQ_QSTN
        , FAQ_ANS
        , SORT_NO
-       , EXPSR_YN
        , FRST_RGTR
        , FRST_REG_DT
        , LAST_MDFR
@@ -97,7 +82,6 @@
        , #{faq_qstn}
        , #{faq_ans}
        , #{sort_no}
-       , #{expsr_yn}
        , #{frst_rgtr}
        , SYSDATE
        , #{last_mdfr}
@@ -128,7 +112,6 @@
              , FAQ_QSTN      = #{faq_qstn}
              , FAQ_ANS       = #{faq_ans}
              , SORT_NO       = #{sort_no}
-             , EXPSR_YN      = #{expsr_yn}
              , LAST_MDFR     = #{last_mdfr}
              , LAST_MDFCN_DT = SYSDATE
          WHERE FAQ_SN        = #{faq_sn}
@@ -140,36 +123,4 @@
           FROM KB_FAQ_INFO
          WHERE FAQ_SN = #{faq_sn}
     </delete>
-    <!-- FAQ 리스트 조회(미리보기용) -->
-    <select id="selectListAll" parameterType="com.kb.inno.admin.DTO.SearchDTO" resultType="com.kb.inno.admin.DTO.FaqDTO">
-        /* FAQ 리스트 조회(미리보기용) */
-        SELECT FAQ_PAGE.FAQ_SN
-             , FAQ_PAGE.FAQ_CTGRY
-             , FAQ_PAGE.FAQ_QSTN
-             , FAQ_PAGE.FAQ_ANS
-             , FAQ_PAGE.SORT_NO
-          FROM (
-                /* 순번 매기기 */
-                SELECT ROWNUM ROWNUMBER
-                     , FAQ.*
-                  FROM (
-                        /* 리스트 조회 */
-                        SELECT FAQ_SN
-                             , FAQ_CTGRY
-                             , FAQ_QSTN
-                             , FAQ_ANS
-                             , SORT_NO
-                          FROM KB_FAQ_INFO
-                         WHERE 1=1
-                         <if test="faq_sn != 0">
-                           AND NOT FAQ_SN IN (#{faq_sn})
-                         </if>
-                         <if test='ctgry != null and ctgry != ""'>
-                           AND FAQ_CTGRY = #{ctgry}
-                         </if>
-                         ORDER BY FAQ_SN DESC
-                        ) FAQ
-                ) FAQ_PAGE
-        WHERE ROWNUMBER BETWEEN #{start} AND #{end}
-    </select>
 </mapper>
