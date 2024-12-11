@@ -35,4 +35,5 @@ public class AffiliateDTO {
     private String affiliate_path;        // 제휴 사례 파일 경로
     private int file_yn;                  // 파일 첨부 유무
     private int menu_id;                  // 메뉴 ID
+    private int rownumber;                // 순번
 }

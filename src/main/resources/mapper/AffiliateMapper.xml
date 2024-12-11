@@ -5,16 +5,22 @@
     <!-- 국내 프로그램 - 제휴 사례 목록 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.AffiliateDTO">
         /* 국내 프로그램 - 제휴 사례 목록 조회 */
-        SELECT AFFI.AFFILIATE_SN AS AFFILIATE_SN
-             , AFFI.SRVC_NM      AS SRVC_NM
-             , AFFI.EXPSR_YN     AS EXPSR_YN
-             , AFFI.SORT_NO      AS SORT_NO
-             , FILES.FILE_NM     AS AFFILIATE_FILE_NAME
-             , FILES.FILE_PATH   AS AFFILIATE_PATH
-          FROM KB_AFFILIATE_INFO AFFI
-             , KB_FILE_INFO FILES
-         WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
-         ORDER BY AFFILIATE_SN DESC
+        /* 메인 비주얼 조회 */
+        SELECT ROWNUM AS ROWNUMBER
+             , AFFILIATE_PAGE.*
+        FROM (
+              SELECT AFFI.AFFILIATE_SN AS AFFILIATE_SN
+                   , AFFI.SRVC_NM      AS SRVC_NM
+                   , AFFI.EXPSR_YN     AS EXPSR_YN
+                   , AFFI.SORT_NO      AS SORT_NO
+                   , FILES.FILE_NM     AS AFFILIATE_FILE_NAME
+                   , FILES.FILE_PATH   AS AFFILIATE_PATH
+                FROM KB_AFFILIATE_INFO AFFI
+                   , KB_FILE_INFO FILES
+               WHERE AFFI.ATCH_FILE_SN = FILES.FILE_SN(+)
+               ORDER BY AFFILIATE_SN ASC
+             ) AFFILIATE_PAGE
+        ORDER BY ROWNUMBER DESC
     </select>
     <!-- 국내 프로그램 - 제휴 사례 파일 저장 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO">
