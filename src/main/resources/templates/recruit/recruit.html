@@ -40,7 +40,7 @@
                                             <tr>
                                                 <th class="bg-light" width="20%">채용 수</th>
                                                 <td>
-                                                    <input type="text" class="form-control" name="employ_emp_nocs" placeholder="ex) 1,142" th:value="${#numbers.formatInteger(recruit?.employ_emp_nocs, 3, 'COMMA')}">
+                                                    <input type="number" class="form-control" name="employ_emp_nocs" placeholder="ex) 1,142" th:value="${recruit?.employ_emp_nocs}">
                                                 </td>
                                             </tr>
                                             <tr>
@@ -52,7 +52,7 @@
                                             <tr>
                                                 <th class="bg-light" width="20%">채용 기업 수</th>
                                                 <td>
-                                                    <input type="text" class="form-control" name="employ_ent_nocs" placeholder=" ex) 116" th:value="${#numbers.formatInteger(recruit?.employ_ent_nocs, 3, 'COMMA')}">
+                                                    <input type="number" class="form-control" name="employ_ent_nocs" placeholder=" ex) 116" th:value="${recruit?.employ_ent_nocs}">
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -92,24 +92,6 @@
             }
         }
     };
-
-    document.querySelector('input[name=employ_emp_nocs]').addEventListener('keyup', function (e) {
-        keyupValue(e.target.value, document.querySelector('input[name=employ_emp_nocs]'));
-    });
-
-    document.querySelector('input[name=employ_ent_nocs]').addEventListener('keyup', function (e) {
-        keyupValue(e.target.value, document.querySelector('input[name=employ_ent_nocs]'));
-    });
-
-    function keyupValue(value, input) {
-        value = Number(value.replaceAll(',', ''));
-        if(isNaN(value)) {
-            input.value = 0;
-        }else {
-            const formatValue = value.toLocaleString('ko-KR');
-            input.value = formatValue;
-        }
-    }
 
     function previewPage() {
         // 채용 수 입력 확인
