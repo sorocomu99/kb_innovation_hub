@@ -32,7 +32,7 @@
                                         <th class="bg-light" style="width:15%">선발기업 수</th>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <input type="number" class="form-control w-auto" placeholder="ex) 285" name="ent_nocs" th:value="${result?.ent_nocs}">
+                                                <input type="text" class="form-control w-auto" placeholder="ex) 285" name="ent_nocs" th:value="${result?.ent_nocs}">
                                                 <p class="my-0 ms-2">개사</p>
                                             </div>
                                         </td>
@@ -40,7 +40,7 @@
                                     <tr>
                                         <th class="bg-light">기준년월</th>
                                         <td>
-                                            <input type="text" class="form-control w-auto" placeholder="ex) 2024.07" maxlength="7" name="ent_crtr_ymd" th:value="${result?.ent_crtr_ymd}">
+                                            <input type="text" class="form-control w-auto" placeholder="ex) 2024.07" maxlength="7" name="ent_crtr_ymd" th:value="${#numbers.formatInteger(result?.ent_crtr_ymd, 3, 'COMMA')}">
                                         </td>
                                     </tr>
                                     </tbody>
@@ -52,7 +52,7 @@
                                         <th class="bg-light" style="width:15%">투자 수</th>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <input type="number" class="form-control w-auto" placeholder="ex) 2178" name="invest_nocs" th:value="${result?.invest_nocs}">
+                                                <input type="text" class="form-control w-auto" placeholder="ex) 2,178" name="invest_nocs" th:value="${#numbers.formatInteger(result?.invest_nocs, 3, 'COMMA')}">
                                                 <p class="my-0 ms-2">억원</p>
                                             </div>
                                         </td>
@@ -72,7 +72,7 @@
                                         <th class="bg-light" style="width:15%">제휴 건수</th>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <input type="number" class="form-control w-auto" placeholder="ex) 330" name="affiliate_nocs" th:value="${result?.affiliate_nocs}">
+                                                <input type="text" class="form-control w-auto" placeholder="ex) 330" name="affiliate_nocs" th:value="${#numbers.formatInteger(result?.affiliate_nocs, 3, 'COMMA')}">
                                                 <p class="my-0 ms-2">건</p>
                                             </div>
                                         </td>
@@ -109,41 +109,38 @@
 
     // 프리뷰 페이지로 이동
     function previewPage() {
-        // 만약 input의 값이 0이 아니면
-        var graph1_nocs = $('#graph1_nocs').val();
-        if(graph1_nocs.trim() == "") {
-            $('#graph1_nocs').val(0);
-        }
-
-        // 만약 input의 값이 0이 아니면
-        var graph2_nocs = $('#graph2_nocs').val();
-        if(graph2_nocs.trim() == "") {
-            $('#graph2_nocs').val(0);
-        }
-
-        // 만약 input의 값이 0이 아니면
-        var graph3_nocs = $('#graph3_nocs').val();
-        if(graph3_nocs.trim() == "") {
-            $('#graph3_nocs').val(0);
-        }
-
-        // 만약 input의 값이 0이 아니면
-        var graph4_nocs = $('#graph4_nocs').val();
-        if(graph4_nocs.trim() == "") {
-            $('#graph4_nocs').val(0);
-        }
-
-        // 만약 input의 값이 0이 아니면
-        var graph5_nocs = $('#graph5_nocs').val();
-        if(graph5_nocs.trim() == "") {
-            $('#graph5_nocs').val(0);
-        }
-
         const form = document.forms['result_form'];
         form.action = '/result/preview'; // 전송할 URL
         form.method = 'POST';            // 전송 방식
         form.target = '_blank';          // 새 창에서 열기
         form.submit();                   // 폼 제출
+    }
+
+    // 글자에 콤마(,) 중간 중간 추가 해주는 함수
+    const ent_nocs = document.querySelector("input[name=ent_nocs]");
+    const invest_nocs = document.querySelector("input[name=invest_nocs]");
+    const affiliate_nocs = document.querySelector("input[name=affiliate_nocs]");
+
+    ent_nocs.addEventListener('keyup', function (e) {
+        keyupValue(e.target.value, ent_nocs);
+    });
+
+    invest_nocs.addEventListener('keyup', function (e) {
+        keyupValue(e.target.value, invest_nocs);
+    });
+
+    affiliate_nocs.addEventListener('keyup', function (e) {
+        keyupValue(e.target.value, affiliate_nocs);
+    });
+
+    function keyupValue(value, input) {
+        value = Number(value.replaceAll(',', ''));
+        if(isNaN(value)) {
+            input.value = 0;
+        }else {
+            const formatValue = value.toLocaleString('ko-KR');
+            input.value = formatValue;
+        }
     }
 
     // 컨펌 메시지 띄우는 함수
