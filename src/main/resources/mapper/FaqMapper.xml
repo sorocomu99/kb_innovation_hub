@@ -25,7 +25,8 @@
     <!-- FAQ 리스트 조회 -->
     <select id="selectList" parameterType="com.kb.inno.admin.DTO.SearchDTO" resultType="com.kb.inno.admin.DTO.FaqDTO">
         /* FAQ 리스트 조회 */
-        SELECT FAQ_PAGE.FAQ_SN
+        SELECT FAQ_PAGE.ROWNUMBER
+             , FAQ_PAGE.FAQ_SN
              , FAQ_PAGE.FAQ_CTGRY
              , FAQ_PAGE.FAQ_QSTN
              , FAQ_PAGE.FAQ_ANS
@@ -59,8 +60,9 @@
                         <if test='ctgry != null and ctgry != ""'>
                           AND FAQ_CTGRY = #{ctgry}
                         </if>
-                        ORDER BY FAQ_SN DESC
+                        ORDER BY FAQ_SN ASC
                      ) FAQ
+                ORDER BY ROWNUMBER DESC
              ) FAQ_PAGE
         WHERE ROWNUMBER BETWEEN #{start} AND #{end}
     </select>

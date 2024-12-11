@@ -11,17 +11,37 @@
     <!-- 팝업 리스트 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.PopupDTO">
         /* 팝업 리스트 조회 */
-        SELECT POPUP_SN
-             , MNGR_TTL
-             , TO_CHAR(TO_DATE(BGNG_YMD, 'yyyyMMdd'), 'yyyy-MM-dd') AS BGNG_YMD
-             , TO_CHAR(TO_DATE(BGNG_HR, 'HH24:MI'), 'HH24:MI') AS BGNG_HR
-             , TO_CHAR(TO_DATE(END_YMD, 'yyyyMMdd'), 'yyyy-MM-dd') AS END_YMD
-             , TO_CHAR(TO_DATE(END_HR, 'HH24:MI'), 'HH24:MI') AS END_HR
-             , POPUP_LEFT_PSTN
-             , POPUP_TOP_PSTN
-             , POPUP_CN
-          FROM KB_POPUP_INFO
-         ORDER BY POPUP_SN DESC
+        SELECT POPUP_PAGE.ROWNUMBER
+             , POPUP_PAGE.POPUP_SN
+             , POPUP_PAGE.MNGR_TTL
+             , POPUP_PAGE.BGNG_YMD
+             , POPUP_PAGE.BGNG_HR
+             , POPUP_PAGE.END_YMD
+             , POPUP_PAGE.END_HR
+             , POPUP_PAGE.POPUP_LEFT_PSTN
+             , POPUP_PAGE.POPUP_TOP_PSTN
+             , POPUP_PAGE.POPUP_CN
+        FROM
+            (
+                /* 순번 매기기 */
+                SELECT ROWNUM ROWNUMBER
+                     , POPUP.*
+                 FROM (
+                       SELECT POPUP_SN
+                            , MNGR_TTL
+                            , TO_CHAR(TO_DATE(BGNG_YMD, 'yyyyMMdd'), 'yyyy-MM-dd') AS BGNG_YMD
+                            , TO_CHAR(TO_DATE(BGNG_HR, 'HH24:MI'), 'HH24:MI')      AS BGNG_HR
+                            , TO_CHAR(TO_DATE(END_YMD, 'yyyyMMdd'), 'yyyy-MM-dd')  AS END_YMD
+                            , TO_CHAR(TO_DATE(END_HR, 'HH24:MI'), 'HH24:MI')       AS END_HR
+                            , POPUP_LEFT_PSTN
+                            , POPUP_TOP_PSTN
+                            , POPUP_CN
+                       FROM KB_POPUP_INFO
+                      ORDER BY POPUP_SN ASC
+                     ) POPUP
+                 ORDER BY ROWNUMBER DESC
+            ) POPUP_PAGE
+        WHERE ROWNUMBER BETWEEN #{start} AND #{end}
     </select>
     <!-- 팝업 등록 -->
     <insert id="insert" parameterType="com.kb.inno.admin.DTO.PopupDTO">

@@ -70,7 +70,7 @@
                                             </td>
                                         </tr>
                                         <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
-                                            <td th:text="${list.faq_sn}"></td>
+                                            <td th:text="${list.rownumber}"></td>
                                             <td th:text="${list.faq_qstn}"></td>
                                             <td th:text="${list.faq_ans}"></td>
                                             <td th:text="${list.sort_no}"></td>

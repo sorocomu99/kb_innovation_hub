@@ -55,7 +55,7 @@
                                         </td>
                                     </tr>
                                     <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
-                                        <td th:text="${list.popup_sn}"></td>
+                                        <td th:text="${list.rownumber}"></td>
                                         <td th:text="${list.mngr_ttl}"></td>
                                         <td th:text="${list.bgng_ymd}"></td>
                                         <td th:text="${list.end_ymd}"></td>
