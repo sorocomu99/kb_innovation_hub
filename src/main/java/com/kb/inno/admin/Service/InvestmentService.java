@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class InvestmentService {
-
     // DAO 연결
     private final InvestmentDAO investmentDAO;
 

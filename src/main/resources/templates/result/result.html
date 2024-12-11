@@ -116,33 +116,6 @@
         form.submit();                   // 폼 제출
     }
 
-    // 글자에 콤마(,) 중간 중간 추가 해주는 함수
-    const ent_nocs = document.querySelector("input[name=ent_nocs]");
-    const invest_nocs = document.querySelector("input[name=invest_nocs]");
-    const affiliate_nocs = document.querySelector("input[name=affiliate_nocs]");
-
-    ent_nocs.addEventListener('keyup', function (e) {
-        keyupValue(e.target.value, ent_nocs);
-    });
-
-    invest_nocs.addEventListener('keyup', function (e) {
-        keyupValue(e.target.value, invest_nocs);
-    });
-
-    affiliate_nocs.addEventListener('keyup', function (e) {
-        keyupValue(e.target.value, affiliate_nocs);
-    });
-
-    function keyupValue(value, input) {
-        value = Number(value.replaceAll(',', ''));
-        if(isNaN(value)) {
-            input.value = 0;
-        }else {
-            const formatValue = value.toLocaleString('ko-KR');
-            input.value = formatValue;
-        }
-    }
-
     // 컨펌 메시지 띄우는 함수
     function confirmMsg() {
         // 육성기업 - 선발기업 수 입력 확인

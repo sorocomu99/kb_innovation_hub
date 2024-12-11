@@ -29,19 +29,6 @@ public class ResultService {
     
     // 육성 현황 등록
     public int insert(ResultDTO resultDTO, int loginId) {
-        // , 제거
-        String ent_nocs = resultDTO.getEnt_nocs();
-        String invest_nocs = resultDTO.getInvest_nocs();
-        String affiliate_nocs = resultDTO.getAffiliate_nocs();
-
-        String ent = ent_nocs.replaceAll(",", "");
-        String invest = invest_nocs.replaceAll(",", "");
-        String affiliate = affiliate_nocs.replaceAll(",", "");
-
-        resultDTO.setEnt_nocs(ent);
-        resultDTO.setInvest_nocs(invest);
-        resultDTO.setAffiliate_nocs(affiliate);
-
         // 로그인한 사람 최초등록자, 수정자 대입
         resultDTO.setFrst_rgtr(loginId);
         resultDTO.setLast_mdfr(loginId);
@@ -50,19 +37,6 @@ public class ResultService {
     
     // 육성 현황 수정
     public int update(ResultDTO resultDTO, int loginId) {
-        // , 제거
-        String ent_nocs = resultDTO.getEnt_nocs();
-        String invest_nocs = resultDTO.getInvest_nocs();
-        String affiliate_nocs = resultDTO.getAffiliate_nocs();
-
-        String ent = ent_nocs.replaceAll(",", "");
-        String invest = invest_nocs.replaceAll(",", "");
-        String affiliate = affiliate_nocs.replaceAll(",", "");
-
-        resultDTO.setEnt_nocs(ent);
-        resultDTO.setInvest_nocs(invest);
-        resultDTO.setAffiliate_nocs(affiliate);
-
         // 로그인한 사람 수정자 대입
         resultDTO.setLast_mdfr(loginId);
         return resultDAO.update(resultDTO);
