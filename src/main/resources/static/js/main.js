@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
     sr.reveal('.section-title', { distance: 0, opacity: 1 });
-    sr.reveal('.section-history .history .item', { distance: '150px' });
+    sr.reveal('.section-history .history .item', { distance: '0px' });
     sr.reveal('.section-program .context li', { distance: '85%', interval: 150 });
     sr.reveal('.section-status .col', { distance: '55%', interval: 150 });
 
@@ -74,34 +74,37 @@ function visual() {
 function introduce() {
     const tl1 = gsap.timeline();
     const breakpoint = () => (window.innerWidth > 1580) ? true : false;
+    let mm = gsap.matchMedia();
     
     setTimeout(() => {
-        tl1.fromTo('.section-introduce .background', 1.5, {
-            top: '39vh',
-            left: breakpoint() ? 'calc(50vw - 710px)' : '5%',
-            width: '710px',
-            height: '46.4vh',
-            borderRadius: '24px'
-        }, {
-            top: '0vh',
-            left: 'calc(0vw - 0px)',
-            width: '100vw',
-            height: '100vh',
-            borderRadius: '0px'
-        }, '<')
-        tl1.to('.section-introduce .context', 0.1, { opacity: 0 }, '<')
-        tl1.to('.section-introduce .section-title', 0.35, { opacity: 0, y: -75 }, '<')
-        tl1.from('.section-introduce .title', 0.85, { opacity: 0, y: 75 }, '<0.35')
-        tl1.from('.section-introduce .contents', 0.85, { opacity: 0, y: 75, stagger: 0.07 }, '<.5')
-
-        ScrollTrigger.create({
-            animation: tl1,
-            trigger: '.section-introduce',
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 1,
+        mm.add("(min-width: 1025px)", () => {
+            tl1.fromTo('.section-introduce .background', 1.5, {
+                top: '39vh',
+                left: breakpoint() ? 'calc(50vw - 710px)' : '5%',
+                width: '710px',
+                height: '46.4vh',
+                borderRadius: '24px'
+            }, {
+                top: '0vh',
+                left: 'calc(0vw - 0px)',
+                width: '100vw',
+                height: '100vh',
+                borderRadius: '0px'
+            }, '<')
+            tl1.to('.section-introduce .context', 0.1, { opacity: 0 }, '<')
+            tl1.to('.section-introduce .section-title', 0.35, { opacity: 0, y: -75 }, '<')
+            tl1.from('.section-introduce .title', 0.85, { opacity: 0, y: 75 }, '<0.35')
+            tl1.from('.section-introduce .contents', 0.85, { opacity: 0, y: 75, stagger: 0.07 }, '<.5')
+    
+            ScrollTrigger.create({
+                animation: tl1,
+                trigger: '.section-introduce',
+                start: 'top top',
+                end: 'bottom bottom',
+                scrub: 1,
+            });
         });
-    }, 100)
+    }, 100);
 }
 
 function brandHistory() {
