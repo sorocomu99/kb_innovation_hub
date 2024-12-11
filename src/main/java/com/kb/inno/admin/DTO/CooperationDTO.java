@@ -22,4 +22,5 @@ public class CooperationDTO {
     private String coope_path;            // 협력 기관 파일 경로
     private int file_yn;                  // 파일 첨부 유무
     private int menu_id;                  // 메뉴 ID
+    private int rownumber;                // 순번
 }

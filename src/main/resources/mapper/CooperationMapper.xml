@@ -5,17 +5,22 @@
     <!-- 협력 기관 리스트 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.CooperationDTO">
         /* 협력 기관 리스트 조회 */
-        SELECT COOPE.COOPE_SN      AS COOPE_SN
-             , COOPE.BZENTY_NM     AS BZENTY_NM
-             , COOPE.EXPSR_YN      AS EXPSR_YN
-             , COOPE.SORT_NO       AS SORT_NO
-             , FILES.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
-             , FILES.FILE_NM       AS COOPE_FILE_NAME
-             , FILES.FILE_PATH     AS COOPE_PATH
-          FROM KB_COOPE_INFO COOPE
-             , KB_FILE_INFO FILES
-         WHERE COOPE.ATCH_FILE_ID = FILES.FILE_SN(+)
-         ORDER BY COOPE_SN DESC
+        SELECT ROWNUM AS ROWNUMBER
+             , COOPE_PAGE.*
+         FROM (
+               SELECT COOPE.COOPE_SN      AS COOPE_SN
+                    , COOPE.BZENTY_NM     AS BZENTY_NM
+                    , COOPE.EXPSR_YN      AS EXPSR_YN
+                    , COOPE.SORT_NO       AS SORT_NO
+                    , FILES.ORGNL_FILE_NM AS ORIGIN_FILE_NAME
+                    , FILES.FILE_NM       AS COOPE_FILE_NAME
+                    , FILES.FILE_PATH     AS COOPE_PATH
+                 FROM KB_COOPE_INFO COOPE
+                    , KB_FILE_INFO FILES
+                WHERE COOPE.ATCH_FILE_ID = FILES.FILE_SN(+)
+                ORDER BY COOPE_SN DESC
+              ) COOPE_PAGE
+          ORDER BY ROWNUMBER DESC
     </select>
     <!-- 협력 기관 파일 저장 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO">
