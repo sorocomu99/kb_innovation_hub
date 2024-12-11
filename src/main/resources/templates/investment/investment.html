@@ -88,15 +88,15 @@
                                             </tr>
                                             <tr>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph1_nocs" name="graph1_nocs" th:value="${investment?.graph1_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="text" class="form-control" id="graph1_nocs" name="graph1_nocs" th:value="${#numbers.formatInteger(investment?.graph1_nocs, 3, 'COMMA')}" placeholder=" ex) 560"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph2_nocs" name="graph2_nocs" th:value="${investment?.graph2_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="text" class="form-control" id="graph2_nocs" name="graph2_nocs" th:value="${#numbers.formatInteger(investment?.graph2_nocs, 3, 'COMMA')}" placeholder=" ex) 750"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph3_nocs" name="graph3_nocs" th:value="${investment?.graph3_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="text" class="form-control" id="graph3_nocs" name="graph3_nocs" th:value="${#numbers.formatInteger(investment?.graph3_nocs, 3, 'COMMA')}" placeholder=" ex) 1,023"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph4_nocs" name="graph4_nocs" th:value="${investment?.graph4_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="text" class="form-control" id="graph4_nocs" name="graph4_nocs" th:value="${#numbers.formatInteger(investment?.graph4_nocs, 3, 'COMMA')}" placeholder=" ex) 1,357"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph5_nocs" name="graph5_nocs" th:value="${investment?.graph5_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="text" class="form-control" id="graph5_nocs" name="graph5_nocs" th:value="${#numbers.formatInteger(investment?.graph5_nocs, 3, 'COMMA')}" placeholder=" ex) 2,252"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -135,6 +135,36 @@
                 }
             }
         };
+
+        document.querySelector('#graph1_nocs').addEventListener('keyup', function (e) {
+            keyupValue(e.target.value, document.querySelector('#graph1_nocs'));
+        });
+
+        document.querySelector('#graph2_nocs').addEventListener('keyup', function (e) {
+            keyupValue(e.target.value, document.querySelector('#graph2_nocs'));
+        });
+
+        document.querySelector('#graph3_nocs').addEventListener('keyup', function (e) {
+            keyupValue(e.target.value, document.querySelector('#graph3_nocs'));
+        });
+
+        document.querySelector('#graph4_nocs').addEventListener('keyup', function (e) {
+            keyupValue(e.target.value, document.querySelector('#graph4_nocs'));
+        });
+
+        document.querySelector('#graph5_nocs').addEventListener('keyup', function (e) {
+            keyupValue(e.target.value, document.querySelector('#graph5_nocs'));
+        });
+
+        function keyupValue(value, input) {
+            value = Number(value.replaceAll(',', ''));
+            if(isNaN(value)) {
+                input.value = 0;
+            }else {
+                const formatValue = value.toLocaleString('ko-KR');
+                input.value = formatValue;
+            }
+        }
 
         // 프리뷰 페이지로 이동
         function previewPage() {
