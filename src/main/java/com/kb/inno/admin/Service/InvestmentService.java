@@ -30,14 +30,12 @@ public class InvestmentService {
     public int insert(InvestmentDTO investmentDTO, int loginId) {
         investmentDTO.setFrst_rgtr(loginId);
         investmentDTO.setLast_mdfr(loginId);
-
         return investmentDAO.insert(investmentDTO);
     }
 
     // 국내 프로그램 - 투자 그래프 수정
     public int update(InvestmentDTO investmentDTO, int loginId) {
         investmentDTO.setLast_mdfr(loginId);
-
         return investmentDAO.update(investmentDTO);
     }
 }

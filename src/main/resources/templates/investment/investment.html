@@ -88,15 +88,15 @@
                                             </tr>
                                             <tr>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph1_nocs" name="graph1_nocs" th:value="${investment?.graph1_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="number" class="form-control" id="graph1_nocs" name="graph1_nocs" th:value="${investment?.graph1_nocs}" placeholder=" ex) 560"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph2_nocs" name="graph2_nocs" th:value="${investment?.graph2_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="number" class="form-control" id="graph2_nocs" name="graph2_nocs" th:value="${investment?.graph2_nocs}" placeholder=" ex) 750"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph3_nocs" name="graph3_nocs" th:value="${investment?.graph3_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="number" class="form-control" id="graph3_nocs" name="graph3_nocs" th:value="${investment?.graph3_nocs}" placeholder=" ex) 1023"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph4_nocs" name="graph4_nocs" th:value="${investment?.graph4_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="number" class="form-control" id="graph4_nocs" name="graph4_nocs" th:value="${investment?.graph4_nocs}" placeholder=" ex) 1357"></td>
                                                 <th class="bg-light">누적 투자 금액</th>
-                                                <td><input type="number" class="form-control" id="graph5_nocs" name="graph5_nocs" th:value="${investment?.graph5_nocs}" placeholder=" ex) 123"></td>
+                                                <td><input type="number" class="form-control" id="graph5_nocs" name="graph5_nocs" th:value="${investment?.graph5_nocs}" placeholder=" ex) 2252"></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -290,8 +290,11 @@
                     $("input[name=graph_sn]").val(0);
                 }
                 // 폼 태그 서브밋 보내기
-                f=document.investment_form;
-                f.submit();
+                const form = document.forms['investment_form'];
+                form.action = '/investment/save'; // 전송할 URL
+                form.method = 'POST';            // 전송 방식
+                form.target = '_blank';          // 새 창에서 열기
+                form.submit();                   // 폼 제출
             }
         }
     </script>
