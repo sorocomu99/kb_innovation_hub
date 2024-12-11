@@ -18,7 +18,7 @@
                  FROM KB_COOPE_INFO COOPE
                     , KB_FILE_INFO FILES
                 WHERE COOPE.ATCH_FILE_ID = FILES.FILE_SN(+)
-                ORDER BY COOPE_SN DESC
+                ORDER BY COOPE_SN ASC
               ) COOPE_PAGE
           ORDER BY ROWNUMBER DESC
     </select>

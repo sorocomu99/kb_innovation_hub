@@ -5,10 +5,15 @@
     <!-- 육성공간 리스트 조회 -->
     <select id="selectList" resultType="com.kb.inno.admin.DTO.PlaceDTO">
         /* 육성공간 리스트 조회 */
-        SELECT PLC_SN
-             , PLC_NM
-          FROM KB_PLC_INFO
-         ORDER BY PLC_SN DESC
+        SELECT ROWNUM AS ROWNUMBER
+             , PLC_PAGE.*
+         FROM (
+               SELECT PLC_SN
+                    , PLC_NM
+                 FROM KB_PLC_INFO
+                ORDER BY PLC_SN ASC
+              ) PLC_PAGE
+        ORDER BY ROWNUMBER DESC
     </select>
     <!-- 육성공간 파일 추가 -->
     <insert id="insertFile" parameterType="com.kb.inno.admin.DTO.FileDTO">

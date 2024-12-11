@@ -51,7 +51,7 @@
                                             </td>
                                         </tr>
                                         <tr th:unless="${selectList == null or selectList.isEmpty()}" th:each="list : ${selectList}">
-                                            <td th:text="${list.plc_sn}"></td>
+                                            <td th:text="${list.rownumber}"></td>
                                             <td th:text="${list.plc_nm}"></td>
                                             <td>
                                                 <a th:onclick="updatePage([[${list.plc_sn}]], [[${menuId}]])" class="btn btn-outline-dark btn-sm">수정</a>
