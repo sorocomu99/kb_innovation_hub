@@ -27,6 +27,7 @@
                                     <div class="col">
                                         <form th:action="@{/faq/list/{menuId}(menuId=${menuId})}" method="get">
                                             <input type="hidden" name="menu_id" th:value="${menuId}"/>
+                                            <input type="hidden" name="ctgry" th:value="${ctgry}"/>
                                             <div class="d-flex align-items-center">
                                                 <div class="input-group">
                                                     <select class="form-select" aria-label="" name="type">

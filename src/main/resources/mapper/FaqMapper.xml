@@ -8,15 +8,19 @@
         SELECT COUNT(*)
           FROM KB_FAQ_INFO
          WHERE 1=1
-         <if test='keyword != null and keyword != ""'>
-           AND FAQ_QSTN LIKE '%'|| #{keyword} ||'%'
-         </if>
-         <if test='keyword != null and keyword != ""'>
-            OR FAQ_ANS  LIKE '%'|| #{keyword} ||'%'
-         </if>
-         <if test='ctgry != null and ctgry != ""'>
-           AND FAQ_CTGRY = #{ctgry}
-         </if>
+        <if test='keyword != null and keyword != ""'>
+        <choose>
+        <when test="type == 'all'">
+            AND (FAQ_QSTN LIKE '%'|| #{keyword} ||'%' OR FAQ_ANS   LIKE '%'|| #{keyword} ||'%')
+        </when>
+        <when test="type == 'title'">
+            AND FAQ_QSTN LIKE '%'|| #{keyword} ||'%'
+        </when>
+        <when test="type == 'content'">
+            AND FAQ_ANS   LIKE '%'|| #{keyword} ||'%'
+        </when>
+        </choose>
+        </if>
     </select>
     <!-- FAQ 리스트 조회 -->
     <select id="selectList" parameterType="com.kb.inno.admin.DTO.SearchDTO" resultType="com.kb.inno.admin.DTO.FaqDTO">
@@ -40,10 +44,17 @@
                          FROM KB_FAQ_INFO
                         WHERE 1=1
                         <if test='keyword != null and keyword != ""'>
-                          AND FAQ_QSTN LIKE '%'|| #{keyword} ||'%'
-                        </if>
-                        <if test='keyword != null and keyword != ""'>
-                           OR FAQ_ANS  LIKE '%'|| #{keyword} ||'%'
+                        <choose>
+                        <when test="type == 'all'">
+                            AND (FAQ_QSTN LIKE '%'|| #{keyword} ||'%' OR FAQ_ANS   LIKE '%'|| #{keyword} ||'%')
+                        </when>
+                        <when test="type == 'title'">
+                            AND FAQ_QSTN LIKE '%'|| #{keyword} ||'%'
+                        </when>
+                        <when test="type == 'content'">
+                            AND FAQ_ANS   LIKE '%'|| #{keyword} ||'%'
+                        </when>
+                        </choose>
                         </if>
                         <if test='ctgry != null and ctgry != ""'>
                           AND FAQ_CTGRY = #{ctgry}
