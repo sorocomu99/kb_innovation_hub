@@ -29,6 +29,16 @@ public class RecruitService {
 
     // 국내 프로그램 - 채용 지원 등록
     public int insert(RecruitDTO recruitDTO, int loginId) {
+        // , 제거
+        String employ_emp_nocs = recruitDTO.getEmploy_emp_nocs();
+        String employ_ent_nocs = recruitDTO.getEmploy_ent_nocs();
+
+        String emp = employ_emp_nocs.replaceAll(",", "");
+        String ent = employ_ent_nocs.replaceAll(",", "");
+
+        recruitDTO.setEmploy_emp_nocs(emp);
+        recruitDTO.setEmploy_ent_nocs(ent);
+
         // 로그인 한 아이디 대입
         recruitDTO.setFrst_rgtr(loginId);
         recruitDTO.setLast_mdfr(loginId);
@@ -38,6 +48,16 @@ public class RecruitService {
     
     // 국내 프로그램 - 채용 지원 수정
     public int update(RecruitDTO recruitDTO, int loginId) {
+        // , 제거
+        String employ_emp_nocs = recruitDTO.getEmploy_emp_nocs();
+        String employ_ent_nocs = recruitDTO.getEmploy_ent_nocs();
+
+        String emp = employ_emp_nocs.replaceAll(",", "");
+        String ent = employ_ent_nocs.replaceAll(",", "");
+
+        recruitDTO.setEmploy_emp_nocs(emp);
+        recruitDTO.setEmploy_ent_nocs(ent);
+
         // 로그인 한 아이디 대입
         recruitDTO.setLast_mdfr(loginId);
 
