@@ -40,7 +40,7 @@
                                     <tr>
                                         <th class="bg-light">기준년월</th>
                                         <td>
-                                            <input type="text" class="form-control w-auto" placeholder="ex) 2024.07" maxlength="7" name="ent_crtr_ymd" th:value="${#numbers.formatInteger(result?.ent_crtr_ymd, 3, 'COMMA')}">
+                                            <input type="text" class="form-control w-auto" placeholder="ex) 2024.07" maxlength="7" name="ent_crtr_ymd" th:value="${result?.ent_crtr_ymd}">
                                         </td>
                                     </tr>
                                     </tbody>
@@ -52,7 +52,7 @@
                                         <th class="bg-light" style="width:15%">투자 수</th>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <input type="text" class="form-control w-auto" placeholder="ex) 2,178" name="invest_nocs" th:value="${#numbers.formatInteger(result?.invest_nocs, 3, 'COMMA')}">
+                                                <input type="text" class="form-control w-auto" placeholder="ex) 2,178" name="invest_nocs" th:value="${result?.invest_nocs}">
                                                 <p class="my-0 ms-2">억원</p>
                                             </div>
                                         </td>
@@ -72,7 +72,7 @@
                                         <th class="bg-light" style="width:15%">제휴 건수</th>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <input type="text" class="form-control w-auto" placeholder="ex) 330" name="affiliate_nocs" th:value="${#numbers.formatInteger(result?.affiliate_nocs, 3, 'COMMA')}">
+                                                <input type="text" class="form-control w-auto" placeholder="ex) 330" name="affiliate_nocs" th:value="${result?.affiliate_nocs}">
                                                 <p class="my-0 ms-2">건</p>
                                             </div>
                                         </td>
@@ -109,6 +109,48 @@
 
     // 프리뷰 페이지로 이동
     function previewPage() {
+        // 육성기업 - 선발기업 수 입력 확인
+        var ent_nocs = $('input[name=ent_nocs]').val();
+        if(ent_nocs.trim() == "") {
+            alert("선발기업 수를 입력 해 주세요.");
+            return false;
+        }
+
+        // 육성기업 - 기준년월 입력 확인
+        var ent_crtr_ymd = $('input[name=ent_crtr_ymd]').val();
+        if(ent_crtr_ymd.trim() == "") {
+            alert("육성기업 기준년월을 입력 해 주세요.");
+            return false;
+        }
+
+        // 투자 - 투자 수 입력 확인
+        var invest_nocs = $('input[name=invest_nocs]').val();
+        if(invest_nocs.trim() == "") {
+            alert("투자 수를 입력 해 주세요.");
+            return false;
+        }
+
+        // 투자 - 기준년월 입력 확인
+        var invest_crtr_ymd = $('input[name=invest_crtr_ymd]').val();
+        if(invest_crtr_ymd.trim() == "") {
+            alert("투자 기준년월을 입력 해 주세요.");
+            return false;
+        }
+
+        // 계열사 제휴 - 제휴 건수 입력 확인
+        var affiliate_nocs = $('input[name=affiliate_nocs]').val();
+        if(affiliate_nocs.trim() == "") {
+            alert("제휴 건수를 입력 해 주세요.");
+            return false;
+        }
+
+        // 계열사 제휴 - 기준년월 입력 확인
+        var affiliate_crtr_ymd = $('input[name=affiliate_crtr_ymd]').val();
+        if(affiliate_crtr_ymd.trim() == "") {
+            alert("계열사 제휴 기준년월을 입력 해 주세요.");
+            return false;
+        }
+
         const form = document.forms['result_form'];
         form.action = '/result/preview'; // 전송할 URL
         form.method = 'POST';            // 전송 방식
@@ -170,8 +212,11 @@
                 $("input[name=rslt_sn]").val(0);
             }
             // 폼 태그 서브밋 보내기
-            f=document.result_form;
-            f.submit();
+            const form = document.forms['result_form'];
+            form.action = '/result/save'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
     }
 </script>
