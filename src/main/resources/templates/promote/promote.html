@@ -24,13 +24,13 @@
                         <div class="mt-4">
                             <form th:action="@{/promote/save}" method="post" name="promote_form">
                                 <input type="hidden" name="menu_id" th:value="${menuId}"/>
-                                <input type="hidden" th:value="${result?.graph_sn}" name="graph_sn"/>
+                                <input type="hidden" th:value="${promote?.graph_sn}" name="graph_sn"/>
                                 <table class="table table-bordered align-middle">
                                     <tbody>
                                     <tr>
                                         <th class="bg-light" style="width:18%">기준년월</th>
                                         <td>
-                                            <input type="text" class="form-control" name="crtr_ym" th:value="${result?.crtr_ym}" placeholder="ex) 2024년 7월 기준">
+                                            <input type="text" class="form-control" name="crtr_ym" th:value="${promote?.crtr_ym}" placeholder="ex) 2024년 7월 기준">
                                         </td>
                                     </tr>
                                     </tbody>
@@ -47,56 +47,56 @@
                                     <tr>
                                         <th class="bg-light" style="width:8%">연도</th>
                                         <td>
-<!--                                            <input type="number" class="form-control" name="graph1_yr" th:value="${result?.graph1_yr}" placeholder=" ex) 2024">-->
+<!--                                            <input type="number" class="form-control" name="graph1_yr" th:value="${promote?.graph1_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph1_yr" id="graph1_yr" onchange="graph_change(this.value, id)">
                                                 <option value="">-선택-</option>
-                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${result?.graph1_yr} == ${i}"></option>
+                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${promote?.graph1_yr} == ${i}"></option>
                                             </select>
                                         </td>
                                         <th class="bg-light" style="width:8%">연도</th>
                                         <td>
-<!--                                            <input type="number" class="form-control" name="graph2_yr" th:value="${result?.graph2_yr}" placeholder=" ex) 2024">-->
+<!--                                            <input type="number" class="form-control" name="graph2_yr" th:value="${promote?.graph2_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph2_yr" id="graph2_yr" onchange="graph_change(this.value, id)">
                                                 <option value="">-선택-</option>
-                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${result?.graph2_yr} == ${i}"></option>
+                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${promote?.graph2_yr} == ${i}"></option>
                                             </select>
                                         </td>
                                         <th class="bg-light" style="width:8%">연도</th>
                                         <td>
-<!--                                            <input type="number" class="form-control" name="graph3_yr" th:value="${result?.graph3_yr}" placeholder=" ex) 2024">-->
+<!--                                            <input type="number" class="form-control" name="graph3_yr" th:value="${promote?.graph3_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph3_yr" id="graph3_yr" onchange="graph_change(this.value, id)">
                                                 <option value="">-선택-</option>
-                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${result?.graph3_yr} == ${i}"></option>
+                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${promote?.graph3_yr} == ${i}"></option>
                                             </select>
                                         </td>
                                         <th class="bg-light" style="width:8%">연도</th>
                                         <td>
-<!--                                            <input type="number" class="form-control" name="graph4_yr" th:value="${result?.graph4_yr}" placeholder=" ex) 2024">-->
+<!--                                            <input type="number" class="form-control" name="graph4_yr" th:value="${promote?.graph4_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph4_yr" id="graph4_yr" onchange="graph_change(this.value, id)">
                                                 <option value="">-선택-</option>
-                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${result?.graph4_yr} == ${i}"></option>
+                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${promote?.graph4_yr} == ${i}"></option>
                                             </select>
                                         </td>
                                         <th class="bg-light" style="width:8%">연도</th>
                                         <td>
-<!--                                            <input type="number" class="form-control" name="graph5_yr" th:value="${result?.graph5_yr}" placeholder=" ex) 2024">-->
+<!--                                            <input type="number" class="form-control" name="graph5_yr" th:value="${promote?.graph5_yr}" placeholder=" ex) 2024">-->
                                             <select class="form-select" name="graph5_yr" id="graph5_yr" onchange="graph_change(this.value, id)">
                                                 <option value="">-선택-</option>
-                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${result?.graph5_yr} == ${i}"></option>
+                                                <option th:each="i : ${#numbers.sequence(#dates.year(#dates.createNow()) - 5, #dates.year(#dates.createNow()) + 5)}" th:value="${i}" th:text="${i}" th:selected="${promote?.graph5_yr} == ${i}"></option>
                                             </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" id="graph1_nocs" name="graph1_nocs" th:value="${result?.graph1_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="text" class="form-control" id="graph1_nocs" name="graph1_nocs" oninput="formatNumber(this)" th:value="${#numbers.formatInteger(promote?.graph1_nocs, 0, 'COMMA')}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" id="graph2_nocs" name="graph2_nocs" th:value="${result?.graph2_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="text" class="form-control" id="graph2_nocs" name="graph2_nocs" oninput="formatNumber(this)" th:value="${#numbers.formatInteger(promote?.graph2_nocs, 0, 'COMMA')}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" id="graph3_nocs" name="graph3_nocs" th:value="${result?.graph3_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="text" class="form-control" id="graph3_nocs" name="graph3_nocs" oninput="formatNumber(this)" th:value="${#numbers.formatInteger(promote?.graph3_nocs, 0, 'COMMA')}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" id="graph4_nocs" name="graph4_nocs" th:value="${result?.graph4_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="text" class="form-control" id="graph4_nocs" name="graph4_nocs" oninput="formatNumber(this)" th:value="${#numbers.formatInteger(promote?.graph4_nocs, 0, 'COMMA')}" placeholder="ex) 123"></td>
                                         <th class="bg-light">기업 수</th>
-                                        <td><input type="number" class="form-control" id="graph5_nocs" name="graph5_nocs" th:value="${result?.graph5_nocs}" placeholder="ex) 123"></td>
+                                        <td><input type="text" class="form-control" id="graph5_nocs" name="graph5_nocs" oninput="formatNumber(this)" th:value="${#numbers.formatInteger(promote?.graph5_nocs, 0, 'COMMA')}" placeholder="ex) 123"></td>
                                     </tr>
                                     <!-- <tr>
                                         <th class="bg-light" style="width:18%">선발 프로세스</th>
@@ -139,6 +139,12 @@
                 options[i].selected = true;
             }
         }
+    }
+
+    // , 붙히기(숫자)
+    function formatNumber(input) {
+        input.value = input.value.replace(/[^0-9]/g, '');
+        input.value = Number(input.value).toLocaleString('ko-KR');
     }
 
     // 그래프 연도 선택 겹치지 않게 방지
@@ -265,8 +271,11 @@
                 $("input[name=graph_sn]").val(0);
             }
             // 폼 태그 서브밋 보내기
-            f=document.promote_form;
-            f.submit();
+            const form = document.forms['promote_form'];
+            form.action = '/promote/save'; // 전송할 URL
+            form.method = 'POST';            // 전송 방식
+            form.target = '';          // 새 창에서 열기
+            form.submit();                   // 폼 제출
         }
     }
 </script>

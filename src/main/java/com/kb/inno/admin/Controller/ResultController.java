@@ -49,7 +49,7 @@ public class ResultController {
     // 육성 현황 미리보기
     @PostMapping("/preview")
     public String preview(ResultDTO resultDTO, Model model) {
-        model.addAttribute("result", resultDTO);
+        resultService.preview(resultDTO, model);
         return directory + "/result_preview";
     }
 

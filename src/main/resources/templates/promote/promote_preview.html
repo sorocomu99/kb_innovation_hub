@@ -141,11 +141,11 @@
 
         // data 데이터 배열에 담기
         var graph_nocs = [];
-        graph_nocs.push(data.graph1_nocs);
-        graph_nocs.push(data.graph2_nocs);
-        graph_nocs.push(data.graph3_nocs);
-        graph_nocs.push(data.graph4_nocs);
-        graph_nocs.push(data.graph5_nocs);
+        graph_nocs.push(Number(data.graph1_nocs));
+        graph_nocs.push(Number(data.graph2_nocs));
+        graph_nocs.push(Number(data.graph3_nocs));
+        graph_nocs.push(Number(data.graph4_nocs));
+        graph_nocs.push(Number(data.graph5_nocs));
 
         for(var i = 0; i < graph_nocs.length; i++) {
             if(graph_nocs[i] == 0) {
@@ -183,8 +183,8 @@
                     align: 'left',
                     margin: -70,
                     formatter: function (value, index) {
-                        if(index < 5) {
-                            if(index === 4) {
+                        if (index < graph_nocs.length - 1) {
+                            if (index === graph_nocs.length - 2) {
                                 return `{label|${value}}\n{value2|${dataValues[index].toLocaleString()}}`;
                             } else {
                                 return `{label|${value}}\n{value|${dataValues[index].toLocaleString()}}`;
@@ -193,22 +193,23 @@
                     },
                     rich: {
                         label: {
+                            padding: (handler.device === 'desktop') ? [0, 0, 0, 0] : [0, 0, 0, -5],
                             fontFamily: 'KBFG Text',
                             fontSize: (handler.device === 'desktop') ? 16 : 13,
                             fontWeight: 'medium',
                             color: '#333'
                         },
                         value: {
-                            padding: [16, 0, 0, 0],
+                            padding: (handler.device === 'desktop') ? [16, 0, 0, 0] : [16, 0, 0, -5],
                             fontFamily: 'KBFG Display',
-                            fontSize: (handler.device === 'desktop') ? 24 : 18,
+                            fontSize: (handler.device === 'desktop') ? 24 : 16,
                             fontWeight: 'bold',
                             color: '#252525'
                         },
                         value2: {
-                            padding: [16, 0, 0, 0],
+                            padding: (handler.device === 'desktop') ? [16, 0, 0, 0] : [16, 0, 0, -5],
                             fontFamily: 'KBFG Display',
-                            fontSize: (handler.device === 'desktop') ? 24 : 18,
+                            fontSize: (handler.device === 'desktop') ? 24 : 16,
                             fontWeight: 'bold',
                             color: '#FCAF17'
                         }

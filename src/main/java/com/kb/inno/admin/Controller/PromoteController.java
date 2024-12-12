@@ -41,8 +41,8 @@ public class PromoteController {
     // 국내 프로그램 - 육성 그래프 조회
     @GetMapping("/info/{menuId}")
     public String select(@PathVariable int menuId, Model model) {
-        PromoteDTO result = promoteService.select();
-        model.addAttribute("result", result);
+        PromoteDTO promote = promoteService.select();
+        model.addAttribute("promote", promote);
         model.addAttribute("menuId", menuId);
         return directory + "/promote";
     }
@@ -50,7 +50,7 @@ public class PromoteController {
     // 육성 현황 미리보기
     @PostMapping("/preview")
     public String preview(PromoteDTO promoteDTO, Model model) {
-        model.addAttribute("promote", promoteDTO);
+        promoteService.preview(promoteDTO, model);
         return directory + "/promote_preview";
     }
 
