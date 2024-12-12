@@ -49,7 +49,7 @@ public class InvestmentController {
     // 국내 프로그램 - 투자 그래프 미리보기
     @PostMapping("/preview")
     public String preview(InvestmentDTO investmentDTO, Model model) {
-        model.addAttribute("investment", investmentDTO);
+        investmentService.preview(investmentDTO, model);
         return directory + "/investment_preview";
     }
 

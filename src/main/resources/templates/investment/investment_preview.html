@@ -103,11 +103,11 @@
 
         // data 데이터 배열에 담기
         var graph_nocs = [];
-        graph_nocs.push(data.graph1_nocs);
-        graph_nocs.push(data.graph2_nocs);
-        graph_nocs.push(data.graph3_nocs);
-        graph_nocs.push(data.graph4_nocs);
-        graph_nocs.push(data.graph5_nocs);
+        graph_nocs.push(Number(data.graph1_nocs));
+        graph_nocs.push(Number(data.graph2_nocs));
+        graph_nocs.push(Number(data.graph3_nocs));
+        graph_nocs.push(Number(data.graph4_nocs));
+        graph_nocs.push(Number(data.graph5_nocs));
 
         var graph_nocs2 = [];
         for(var i = 0; i < graph_nocs.length; i++) {
